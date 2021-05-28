@@ -1,0 +1,16 @@
+.TaskManager {
+  text-align: center;
+  flex-basis: 50%;
+  flex-grow: 0;
+  /* border-style: solid; */
+  margin-left: 2%;
+  margin-right: 2%;
+  margin: 1rem;
+  padding: 1rem;
+  border-collapse: separate;
+  border-spacing: 50px;
+}
+
+.paddingBetweenCols th {
+  padding: 0 15px;
+}
