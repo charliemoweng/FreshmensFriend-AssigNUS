@@ -1,23 +1,25 @@
-import Header from "./components/Header/Header";
-import Calendar from "react-calendar";
-import TaskManager from "./components/TaskManager/TaskManager";
-
+import {
+  FirebaseAuthConsumer,
+  IfFirebaseAuthed,
+  IfFirebaseUnAuthed
+} from "@react-firebase/auth";
+import AppShell from "./components/AppShell/AppShell";
+import PageAssigNUS from "./pages/PageAssigNUS";
+import PageLogin from "./pages/PageLogin";
 import "./styles.css";
 
 export default function App() {
   return (
     <div className="App">
-      <Header />
-
-      <main>
-        <div style={{ display: "flex", flexFlow: "row nowrap" }}>
-          <div className="Calendar">
-            <h2>Calendar</h2>
-            <Calendar />
-          </div>
-          <TaskManager />
-        </div>
-      </main>
+      <AppShell />
+      <FirebaseAuthConsumer>
+        <IfFirebaseAuthed>
+          <PageAssigNUS />
+        </IfFirebaseAuthed>
+        <IfFirebaseUnAuthed>
+          <PageLogin />
+        </IfFirebaseUnAuthed>
+      </FirebaseAuthConsumer>
     </div>
   );
 }

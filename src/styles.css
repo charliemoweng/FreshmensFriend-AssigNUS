@@ -1,6 +1,6 @@
 .App {
   font-family: sans-serif;
-  text-align: left;
+  text-align: center;
   max-width: 64rem;
   margin: 0 auto;
   /* border-style: solid; */
@@ -13,7 +13,6 @@
   /* border-style: solid; */
   margin-left: 2%;
   margin-right: 2%;
-  max-width: 40%;
   height: 100px;
   background-color: rgba(136, 134, 30, 0.199);
 }
