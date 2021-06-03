@@ -9,13 +9,15 @@
   /* resize: both;
   overflow: auto; */
   width: 100%;
-
 }
 
+ {
+  /*
 .paddingBetweenCols th {
   padding: 0 15px;
 }
-
+*/
+}
 
 .Box {
   text-align: center;
@@ -25,4 +27,18 @@
   margin-left: 2%;
   margin-right: 2%;
   height: 100%;
+}
+
+.TMButtonParent {
+  display: flex;
+  height: 50px;
+  justify-content: space-around;
+}
+
+.TMButtonLeft {
+  width: 50%;
+}
+
+.TMButtonRight {
+  flex-grow: 1;
 }

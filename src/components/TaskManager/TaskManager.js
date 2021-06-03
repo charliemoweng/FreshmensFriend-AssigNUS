@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button, TextField, Checkbox } from "@material-ui/core";
+import { Button, Checkbox } from "@material-ui/core";
 
 import styles from "./TaskManager.module.css";
 import { Paper } from "@material-ui/core";
+
+import TaskList from "../TaskList/TaskList";
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
@@ -42,7 +44,7 @@ function TaskManager() {
       <Paper elevation={3}>
         <div className={styles.TaskManager}>
           <h2>Task Manager</h2>
-
+          {/*
           <h3>Add Tasks</h3>
           <form onSubmit={handleAddTask}>
             <TextField
@@ -56,19 +58,36 @@ function TaskManager() {
             </Button>
           </form>
 
+          <Button type="submit" variant="contained" color="primary">
+            Add Task
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Rank Tasks
+          </Button>
+
+*/}
+
+          <div className={styles.TMButtonParent}>
+            <div className={styles.TMButtonLeft}>
+              <Button type="submit" variant="contained" color="primary">
+                Add Task
+              </Button>
+            </div>
+            <div className={styles.TMButtonRight}>
+              <Button type="submit" variant="contained" color="primary">
+                Rank Tasks
+              </Button>
+            </div>
+          </div>
+
           <h3>Task List</h3>
-          <table
+          <TaskList />
+
+          {/*<table
             className={styles.paddingBetweenCols}
             style={{ margin: "0 auto", width: "100%" }}
           >
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Task</th>
-                <th>Completed</th>
-                <th>Add to Calendar</th>
-              </tr>
-            </thead>
+            
             <tbody className={styles.tableContent}>
               {tasks.map((task, index) => (
                 <tr key={task.description}>
@@ -91,6 +110,7 @@ function TaskManager() {
               ))}
             </tbody>
           </table>
+                    */}
         </div>
       </Paper>
     </div>
