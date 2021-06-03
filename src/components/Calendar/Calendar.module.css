@@ -1,0 +1,38 @@
+.Calendar {
+  text-align: center;
+  flex-basis: 50%;
+  flex-grow: 0;
+  /* order-style: dotted; */
+  padding: 1rem;
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 100%;
+}
+
+.MockCalendar img {
+  height: 300px;
+  width: auto;
+}
+
+.Box {
+  text-align: center;
+  flex-basis: 50%;
+  flex-grow: 0;
+  /* border-style: solid; */
+  margin-left: 2%;
+  margin-right: 2%;
+  height: 100%;
+}
+
+.TaskManager {
+  text-align: center;
+  flex-basis: 50%;
+  flex-grow: 0;
+  /* border-style: dotted; */
+  padding: 1rem;
+  border-collapse: separate;
+  border-spacing: 50px;
+  /* resize: both;
+  overflow: auto; */
+  width: 100%;
+}

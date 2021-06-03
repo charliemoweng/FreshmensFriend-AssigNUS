@@ -38,10 +38,11 @@ function TaskManager() {
   }
 
   return (
-    <>
+    <div className={styles.Box}>
       <Paper elevation={3}>
         <div className={styles.TaskManager}>
           <h2>Task Manager</h2>
+
           <h3>Add Tasks</h3>
           <form onSubmit={handleAddTask}>
             <TextField
@@ -51,7 +52,7 @@ function TaskManager() {
               onChange={(event) => setNewTaskText(event.target.value)}
             />
             <Button type="submit" variant="contained" color="primary">
-              Add
+              Add Task
             </Button>
           </form>
 
@@ -92,7 +93,7 @@ function TaskManager() {
           </table>
         </div>
       </Paper>
-    </>
+    </div>
   );
 }
 

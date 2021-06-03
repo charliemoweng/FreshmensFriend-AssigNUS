@@ -1,5 +1,5 @@
 import Header from "../components/Header/Header";
-import Calendar from "react-calendar";
+import Calendar from "../components/Calendar/Calendar";
 import TaskManager from "../components/TaskManager/TaskManager";
 
 function PageAssigNUS() {
@@ -8,10 +8,7 @@ function PageAssigNUS() {
       <Header />
       <main>
         <div style={{ display: "flex", flexFlow: "row nowrap" }}>
-          <div className="Calendar">
-            <h2>Calendar</h2>
-            <Calendar />
-          </div>
+          <Calendar />
           <TaskManager />
         </div>
       </main>

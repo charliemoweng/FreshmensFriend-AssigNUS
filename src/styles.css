@@ -1,18 +1,19 @@
 .App {
   font-family: sans-serif;
   text-align: center;
-  max-width: 64rem;
   margin: 0 auto;
   /* border-style: solid; */
+  height: 100%;
+  width: 100%;
 }
 
-.Calendar {
+.Box {
   text-align: center;
   flex-basis: 50%;
   flex-grow: 0;
-  /* border-style: solid; */
+  border-style: solid;
   margin-left: 2%;
+  height: 100%;
+
   margin-right: 2%;
-  height: 100px;
-  background-color: rgba(136, 134, 30, 0.199);
 }
