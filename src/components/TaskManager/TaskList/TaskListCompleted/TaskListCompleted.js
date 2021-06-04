@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Button, Checkbox } from "@material-ui/core";
 
-import styles from "./TaskTable.module.css";
+import styles from "./TaskListCompleted.module.css";
 
-function TaskTable() {
-  const [tasks, setTasks] = useState([]);
+{
+  /* checking the Completed box in TaskListToDo lead to this place */
+}
+
+function TaskListCompleted(props) {
+  const { tasks, setTasks } = props;
   const [newTaskText, setNewTaskText] = useState("");
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
@@ -58,4 +62,4 @@ function TaskTable() {
   );
 }
 
-export default TaskTable;
+export default TaskListCompleted;

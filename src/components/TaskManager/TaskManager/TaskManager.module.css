@@ -31,14 +31,20 @@
 
 .TMButtonParent {
   display: flex;
-  height: 50px;
-  justify-content: space-around;
+  height: 40px;
+  justify-content: space-evenly;
 }
 
 .TMButtonLeft {
+  flex-grow: 1;
   width: 50%;
 }
 
 .TMButtonRight {
   flex-grow: 1;
+  width: 50%;
+}
+
+.TaskList {
+  margin-top: 3rem;
 }

@@ -4,10 +4,13 @@ import { Button, Checkbox } from "@material-ui/core";
 import styles from "./TaskManager.module.css";
 import { Paper } from "@material-ui/core";
 
-import TaskList from "../TaskList/TaskList";
+import TaskList from "../TaskList/TaskList/TaskList";
+import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
+import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 
-function TaskManager() {
-  const [tasks, setTasks] = useState([]);
+function TaskManager(props) {
+  const { tasks, setTasks } = props;
+
   const [newTaskText, setNewTaskText] = useState("");
 
   function handleAddTask(event) {
@@ -69,21 +72,18 @@ function TaskManager() {
 
           <div className={styles.TMButtonParent}>
             <div className={styles.TMButtonLeft}>
-              <Button type="submit" variant="contained" color="primary">
-                Add Task
-              </Button>
+              <TaskManagerAddTask tasks={tasks} setTasks={setTasks} />
             </div>
             <div className={styles.TMButtonRight}>
-              <Button type="submit" variant="contained" color="primary">
-                Rank Tasks
-              </Button>
+              <TaskManagerRankTasks tasks={tasks} setTasks={setTasks} />
             </div>
           </div>
 
-          <h3>Task List</h3>
-          <TaskList />
+          <div className={styles.TaskList}>
+            <h3>Task List</h3>
+            <TaskList tasks={tasks} setTasks={setTasks} />
 
-          {/*<table
+            {/*<table
             className={styles.paddingBetweenCols}
             style={{ margin: "0 auto", width: "100%" }}
           >
@@ -111,6 +111,7 @@ function TaskManager() {
             </tbody>
           </table>
                     */}
+          </div>
         </div>
       </Paper>
     </div>

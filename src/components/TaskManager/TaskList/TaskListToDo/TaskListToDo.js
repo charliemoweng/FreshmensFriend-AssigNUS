@@ -8,8 +8,8 @@ import styles from "./TaskListToDo.module.css";
 and Tasks will only be added to the TaskListCompleted after their checkbox has been checked*/
 }
 
-function TaskListToDo() {
-  const [tasks, setTasks] = useState([]);
+function TaskListToDo(props) {
+  const { tasks, setTasks } = props;
   const [newTaskText, setNewTaskText] = useState("");
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
