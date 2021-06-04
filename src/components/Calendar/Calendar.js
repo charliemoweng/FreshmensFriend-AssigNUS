@@ -2,7 +2,9 @@ import React from "react";
 import styles from "./Calendar.module.css";
 import { Paper } from "@material-ui/core";
 
-function Calendar() {
+function Calendar(props) {
+  const { tasks } = props;
+
   return (
     <div className={styles.Box}>
       <Paper elevation={3}>
