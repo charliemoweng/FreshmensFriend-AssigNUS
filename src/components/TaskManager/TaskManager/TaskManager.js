@@ -5,6 +5,7 @@ import styles from "./TaskManager.module.css";
 import { Paper } from "@material-ui/core";
 
 import TaskList from "../TaskList/TaskList/TaskList";
+import TaskManagerAddMod from "../TaskManagerAddMod/TaskManagerAddMod";
 import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
 import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 
@@ -72,6 +73,9 @@ function TaskManager(props) {
 
           <div className={styles.TMButtonParent}>
             <div className={styles.TMButtonLeft}>
+              <TaskManagerAddMod tasks={tasks} setTasks={setTasks} />
+            </div>
+            <div>
               <TaskManagerAddTask tasks={tasks} setTasks={setTasks} />
             </div>
             <div className={styles.TMButtonRight}>

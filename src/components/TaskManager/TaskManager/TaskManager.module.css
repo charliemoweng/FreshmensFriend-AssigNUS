@@ -27,22 +27,31 @@
   margin-left: 2%;
   margin-right: 2%;
   height: 100%;
+  width: 50%;
 }
 
 .TMButtonParent {
   display: flex;
   height: 40px;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .TMButtonLeft {
   flex-grow: 1;
-  width: 50%;
+  width: 30%;
+  white-space: nowrap;
+}
+
+.TMButtonMiddle {
+  flex-grow: 1;
+  width: 30%;
+  white-space: nowrap;
 }
 
 .TMButtonRight {
   flex-grow: 1;
-  width: 50%;
+  width: 30%;
+  white-space: nowrap;
 }
 
 .TaskList {
