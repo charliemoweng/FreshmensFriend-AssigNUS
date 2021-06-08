@@ -19,7 +19,7 @@
 */
 }
 
-.Box {
+.BoxTM {
   text-align: center;
   flex-basis: 50%;
   flex-grow: 0;
@@ -27,7 +27,8 @@
   margin-left: 2%;
   margin-right: 2%;
   height: 100%;
-  width: 50%;
+  min-width: 30%;
+  max-width: 30%;
 }
 
 .TMButtonParent {
@@ -55,5 +56,9 @@
 }
 
 .TaskList {
+  margin-top: 3rem;
+}
+
+.MyModules {
   margin-top: 3rem;
 }

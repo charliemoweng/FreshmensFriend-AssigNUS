@@ -69,7 +69,7 @@ function TaskManagerAddTask(props) {
             color="primary"
             onClick={handleClickOpen}
           >
-            Add A Task
+            + Task
           </Button>
         </div>
       </div>

@@ -14,14 +14,16 @@
   width: auto;
 }
 
-.Box {
+.BoxCalendar {
   text-align: center;
   flex-basis: 50%;
   flex-grow: 0;
-  /* border-style: solid; */
+  border-style: solid;
   margin-left: 2%;
   margin-right: 2%;
   height: 100%;
+  max-width: 62%;
+  min-width: 62%;
 }
 
 .TaskManager {

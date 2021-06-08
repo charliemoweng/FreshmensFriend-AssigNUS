@@ -4,6 +4,7 @@ import { Button, Checkbox } from "@material-ui/core";
 import styles from "./TaskManager.module.css";
 import { Paper } from "@material-ui/core";
 
+import MyModules from "../MyModules/MyModules";
 import TaskList from "../TaskList/TaskList/TaskList";
 import TaskManagerAddMod from "../TaskManagerAddMod/TaskManagerAddMod";
 import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
@@ -44,7 +45,7 @@ function TaskManager(props) {
   }
 
   return (
-    <div className={styles.Box}>
+    <div className={styles.BoxTM}>
       <Paper elevation={3}>
         <div className={styles.TaskManager}>
           <h2>Task Manager</h2>
@@ -75,12 +76,17 @@ function TaskManager(props) {
             <div className={styles.TMButtonLeft}>
               <TaskManagerAddMod tasks={tasks} setTasks={setTasks} />
             </div>
-            <div>
+            <div className={styles.TMButtonMiddle}>
               <TaskManagerAddTask tasks={tasks} setTasks={setTasks} />
             </div>
             <div className={styles.TMButtonRight}>
               <TaskManagerRankTasks tasks={tasks} setTasks={setTasks} />
             </div>
+          </div>
+
+          <div className={styles.MyModules}>
+            <h3>My Modules</h3>
+            <MyModules />
           </div>
 
           <div className={styles.TaskList}>

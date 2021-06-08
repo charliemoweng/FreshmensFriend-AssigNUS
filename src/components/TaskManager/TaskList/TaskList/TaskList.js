@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SimpleAccordion(props) {
+export default function TaskList(props) {
   const { tasks, setTasks } = props;
 
   const classes = useStyles();

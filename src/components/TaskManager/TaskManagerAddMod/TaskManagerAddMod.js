@@ -62,14 +62,14 @@ function TaskManagerAddTask(props) {
   return (
     <div>
       <div className={styles.TMButtonParent}>
-        <div className={styles.TMButtonM}>
+        <div className={styles.TMButtonLeft}>
           <Button
             type="submit"
             variant="contained"
             color="primary"
             onClick={handleClickOpen}
           >
-            Add A Module
+            + Module
           </Button>
         </div>
       </div>
@@ -79,11 +79,10 @@ function TaskManagerAddTask(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Task Details</DialogTitle>
+        <DialogTitle id="form-dialog-title">Module Details</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Add a Task! This can also be done by dragging out an area on your
-            Calendar (upcoming feature)
+            Add a Module! Color Selection to be added in a future update.
           </DialogContentText>
           <TextField
             autoFocus
@@ -96,54 +95,9 @@ function TaskManagerAddTask(props) {
           <TextField
             autoFocus
             margin="dense"
-            id="taskName"
-            label="Name of Task"
-            type="taskName"
-            fullWidth
-          />
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              label="Due Date and Time"
-              onError={console.log}
-              minDate={new Date("2018-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
-              margin="dense"
-              fullWidth
-            />
-          </MuiPickersUtilsProvider>
-
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              label="Start at"
-              onError={console.log}
-              minDate={new Date("2018-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
-              margin="dense"
-            />
-          </MuiPickersUtilsProvider>
-
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
-              label="End at"
-              onError={console.log}
-              minDate={new Date("2018-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
-              margin="dense"
-            />
-          </MuiPickersUtilsProvider>
-
-          <TextField
-            autoFocus
-            margin="dense"
-            id="weitage"
-            label="Weightage (optional)"
-            type="email"
+            id="moduleColour"
+            label="Module Colour"
+            type="moduleColour"
             fullWidth
           />
         </DialogContent>
