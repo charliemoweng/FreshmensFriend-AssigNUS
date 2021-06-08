@@ -12,6 +12,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/pickers": "3.3.10",
     "@react-firebase/auth": "0.2.10",
+    "@remotelock/react-week-scheduler": "3.5.8",
     "date-fns": "2.22.1",
     "lodash": "4.17.21",
     "react": "17.0.2",
@@ -20,7 +21,8 @@
     "react-dom": "17.0.2",
     "react-scripts": "4.0.0",
     "react-swipeable": "6.1.2",
-    "react-swipeable-views": "0.14.0"
+    "react-swipeable-views": "0.14.0",
+    "resize-observer-polyfill": "1.5.1"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
