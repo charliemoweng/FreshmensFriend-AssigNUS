@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CalendarToolbar() {
+function CalendarToolbar() {
   const classes = useStyles();
 
   return (
@@ -37,11 +37,13 @@ export default function CalendarToolbar() {
           <Typography variant="h6" className={classes.title}>
             Calendar Settings
           </Typography>
-          <Button color="inherit">Date Display</Button>
-          <Button color="inherit">Time Format</Button>
-          <Button color="inherit">Horizontal / Vertical</Button>
+          <Button color="inherit">Date</Button>
+          <Button color="inherit">12hr-Time</Button>
+          <Button color="inherit">Vertical</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+export default CalendarToolbar;
