@@ -19,6 +19,7 @@ const defaultSchedule = rangeStrings.map((range) =>
 function BaseCalendar(props) {
   const { tasks } = props;
   const [schedule, setSchedule] = useState(() => defaultSchedule);
+  const currentDate = new Date(); // Defaults starting date of weekly view to the current day.
 
   return (
     <div
@@ -33,7 +34,7 @@ function BaseCalendar(props) {
       <TimeGridScheduler
         classes={classes}
         style={{ width: "100%", height: "100%" }}
-        originDate={new Date("2019-03-04")}
+        originDate={currentDate}
         schedule={schedule}
         onChange={setSchedule}
         visualGridVerticalPrecision={15}
