@@ -1,7 +1,8 @@
 import React from "react";
-
+import BaseCalendar from "../BaseCalendar/BaseCalendar";
 import styles from "./Calendar.module.css";
 import { Paper } from "@material-ui/core";
+import CalendarToolbar from "../CalendarToolbar/CalendarToolbar";
 
 function Calendar(props) {
   const { tasks } = props;
@@ -11,9 +12,8 @@ function Calendar(props) {
       <Paper elevation={3}>
         <div className={styles.Calendar}>
           <h2>Calendar</h2>
-          <div className={styles.MockCalendar}>
-            <img src="/images/mock_calendar.jpg" alt="" />
-          </div>
+          <CalendarToolbar />
+          <BaseCalendar />
         </div>
       </Paper>
     </div>
