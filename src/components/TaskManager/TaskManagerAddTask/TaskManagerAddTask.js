@@ -12,6 +12,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker
 } from "@material-ui/pickers";
+import AddIcon from "@material-ui/icons/Add";
 
 function TaskManagerAddTask(props) {
   const { tasks, setTasks } = props;
@@ -69,7 +70,7 @@ function TaskManagerAddTask(props) {
             color="primary"
             onClick={handleClickOpen}
           >
-            + Task
+            <AddIcon /> Task
           </Button>
         </div>
       </div>

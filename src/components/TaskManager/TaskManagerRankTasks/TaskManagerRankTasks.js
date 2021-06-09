@@ -156,7 +156,7 @@ function TaskManagerRankTasks(props) {
           </Button>
         </div>
       </div>
-      <Typography variant="subtitle1">Sorting by: {selectedValue}</Typography>
+      <Typography variant="subtitle1">By: {selectedValue}</Typography>
       <div />
       <SimpleDialog
         selectedValue={selectedValue}

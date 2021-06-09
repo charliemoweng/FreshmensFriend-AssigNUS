@@ -6,12 +6,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import styles from "../TaskManager/TaskManager.module.css";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDateTimePicker
-} from "@material-ui/pickers";
+import styles from "../TaskManagerAddMod/TaskManagerAddMod.module.css";
+import AddIcon from "@material-ui/icons/Add";
+import ColorPicker from "material-ui-color-picker";
 
 function TaskManagerAddTask(props) {
   const { tasks, setTasks } = props;
@@ -25,6 +22,16 @@ function TaskManagerAddTask(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const [scroll, setScroll] = React.useState("paper");
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
   const [newTaskText, setNewTaskText] = useState("");
 
@@ -69,7 +76,7 @@ function TaskManagerAddTask(props) {
             color="primary"
             onClick={handleClickOpen}
           >
-            + Module
+            <AddIcon /> Module
           </Button>
         </div>
       </div>
@@ -77,13 +84,19 @@ function TaskManagerAddTask(props) {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
       >
-        <DialogTitle id="form-dialog-title">Module Details</DialogTitle>
-        <DialogContent>
+        <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
+        <DialogContent
+          style={{ height: "400px" }}
+          dividers={scroll === "paper"}
+        >
           <DialogContentText>
             Add a Module! Color Selection to be added in a future update.
           </DialogContentText>
+
           <TextField
             autoFocus
             margin="dense"
@@ -92,13 +105,13 @@ function TaskManagerAddTask(props) {
             type="moduleNamee"
             fullWidth
           />
-          <TextField
-            autoFocus
+
+          <ColorPicker
+            name="colour"
             margin="dense"
-            id="moduleColour"
-            label="Module Colour"
-            type="moduleColour"
-            fullWidth
+            defaultValue="Selected Module Colour"
+            // value={this.state.color} - for controlled component
+            onChange={(color) => console.log(color)}
           />
         </DialogContent>
         <DialogActions>
