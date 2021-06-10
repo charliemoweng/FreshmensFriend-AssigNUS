@@ -6,6 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,6 +92,24 @@ function CalendarToolbar(props) {
             BaseCalendar (name tbc)
           </Typography>
           <div className={classes.buttons}>
+            {/* <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>
+            <b>To-do</b>
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className={styles.TaskTables}>
+            <Typography>
+              <TaskListToDo tasks={tasks} setTasks={setTasks} />
+            </Typography>
+          </div>
+        </AccordionDetails>
+      </Accordion> */}
             <Button onClick={handleClickDate} color="inherit">
               Date
             </Button>
