@@ -10,8 +10,26 @@ import styles from "../TaskManagerAddMod/TaskManagerAddMod.module.css";
 import AddIcon from "@material-ui/icons/Add";
 import ColorPicker from "material-ui-color-picker";
 
-function TaskManagerAddTask(props) {
-  const { tasks, setTasks } = props;
+function TaskManagerAddMod(props) {
+  const { modules, setModules } = props;
+
+  const [newModText, setNewModText] = useState("");
+
+  function handleAddMod(event) {
+    event.preventDefault();
+    addMod(newModText);
+  }
+
+  function addMod(description) {
+    const newMods = [
+      //...modules,
+      {
+        description: description
+      }
+    ];
+    //setModules(newMods);
+    console.log(newMods);
+  }
 
   const [open, setOpen] = React.useState(false);
 
@@ -22,8 +40,11 @@ function TaskManagerAddTask(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   const [scroll, setScroll] = React.useState("paper");
+
   const descriptionElementRef = React.useRef(null);
+
   React.useEffect(() => {
     if (open) {
       const { current: descriptionElement } = descriptionElementRef;
@@ -37,34 +58,16 @@ function TaskManagerAddTask(props) {
 
   const [selectedDate, handleDateChange] = useState(new Date());
 
-  function handleAddTask(event) {
-    event.preventDefault();
-    addTask(newTaskText);
-  }
-
-  function addTask(description) {
-    const newTasks = [
-      ...tasks,
-      {
-        description: description,
-        isComplete: false
-      }
-    ];
-    setTasks(newTasks);
-  }
-
-  function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-    const newTasks = [
-      ...tasks.slice(0, toToggleTaskIndex),
-      {
-        description: toToggleTask.description,
-        isComplete: !toToggleTask.isComplete
-      },
-      ...tasks.slice(toToggleTaskIndex + 1)
-    ];
-
-    setTasks(newTasks);
-  }
+  const actions = [
+    <Button label="Cancel" onClick={handleClose} color="primary" />,
+    <Button
+      label="Confirm"
+      onClick={handleClose}
+      color="primary"
+      type="submit"
+      form="modform"
+    />
+  ];
 
   return (
     <div>
@@ -87,44 +90,51 @@ function TaskManagerAddTask(props) {
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        actions={actions}
       >
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
-        <DialogContent
-          style={{ height: "400px" }}
-          dividers={scroll === "paper"}
-        >
-          <DialogContentText>
-            Add a Module! Color Selection to be added in a future update.
-          </DialogContentText>
+        <form id="modform" onSubmit={handleAddMod}>
+          <DialogContent
+            style={{ height: "400px" }}
+            dividers={scroll === "paper"}
+          >
+            <DialogContentText>
+              Add a Module! Color Selection to be added in a future update.
+            </DialogContentText>
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="moduleName"
-            label="Module"
-            type="moduleNamee"
-            fullWidth
-          />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="moduleName"
+              label="Module"
+              type="moduleName"
+              fullWidth
+            />
 
-          <ColorPicker
-            name="colour"
-            margin="dense"
-            defaultValue="Selected Module Colour"
-            // value={this.state.color} - for controlled component
-            onChange={(color) => console.log(color)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Confirm
-          </Button>
-        </DialogActions>
+            <ColorPicker
+              name="colour"
+              margin="dense"
+              defaultValue="Select Module Colour"
+              // value={this.state.color} - for controlled component
+              onChange={(color) => console.log(color)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              //onClick={handleClose}
+              color="primary"
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
 }
 
-export default TaskManagerAddTask;
+export default TaskManagerAddMod;

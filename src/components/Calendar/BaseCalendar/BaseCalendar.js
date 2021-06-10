@@ -9,6 +9,7 @@ import {
   classes
 } from "@remotelock/react-week-scheduler";
 import "@remotelock/react-week-scheduler/index.css";
+import { startOfWeek } from "date-fns";
 
 const rangeStrings = [];
 
@@ -19,8 +20,9 @@ const defaultSchedule = rangeStrings.map((range) =>
 function BaseCalendar(props) {
   const { tasks } = props;
   const [schedule, setSchedule] = useState(() => defaultSchedule);
-  const currentDate = new Date(); // Defaults starting date of weekly view to the current day.
 
+  // put into originDate to change which date to start with, let users input 'weekStartsOn' ?
+  const startOnMonday = startOfWeek(new Date(), { weekStartsOn: 1 });
   return (
     <div
       className="root"
@@ -34,7 +36,7 @@ function BaseCalendar(props) {
       <TimeGridScheduler
         classes={classes}
         style={{ width: "100%", height: "100%" }}
-        originDate={currentDate}
+        originDate={startOnMonday}
         schedule={schedule}
         onChange={setSchedule}
         visualGridVerticalPrecision={15}

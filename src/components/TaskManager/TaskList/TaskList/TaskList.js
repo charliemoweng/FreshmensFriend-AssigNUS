@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TaskList(props) {
-  const { tasks, setTasks } = props;
+  const { modules, setModules, tasks, setTasks } = props;
 
   const classes = useStyles();
 
@@ -39,7 +39,12 @@ export default function TaskList(props) {
         <AccordionDetails>
           <div className={styles.TaskTables}>
             <Typography>
-              <TaskListToDo tasks={tasks} setTasks={setTasks} />
+              <TaskListToDo
+                modules={modules}
+                setModuless={setModules}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
             </Typography>
           </div>
         </AccordionDetails>
@@ -57,7 +62,12 @@ export default function TaskList(props) {
         <AccordionDetails>
           <div className={styles.TaskTables}>
             <Typography>
-              <TaskListCompleted tasks={tasks} setTasks={setTasks} />
+              <TaskListCompleted
+                modules={modules}
+                setModuless={setModules}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
             </Typography>
           </div>
         </AccordionDetails>

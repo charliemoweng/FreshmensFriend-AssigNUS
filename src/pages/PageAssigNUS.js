@@ -5,7 +5,15 @@ import Calendar from "../components/Calendar/Calendar/Calendar";
 import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
 
 function PageAssigNUS() {
-  const [tasks, setTasks] = useState([]);
+  const [modules, setModulesState] = useState([]);
+  const [tasks, setTasksState] = useState([]);
+
+  function setModules(newModules) {
+    setModulesState(newModules);
+  }
+  function setTasks(newTasks) {
+    setTasksState(newTasks);
+  }
 
   return (
     <>

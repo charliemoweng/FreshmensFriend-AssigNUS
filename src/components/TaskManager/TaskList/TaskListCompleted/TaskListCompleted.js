@@ -8,7 +8,7 @@ import styles from "./TaskListCompleted.module.css";
 }
 
 function TaskListCompleted(props) {
-  const { tasks, setTasks } = props;
+  const { modules, setModules, tasks, setTasks } = props;
   const [newTaskText, setNewTaskText] = useState("");
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {

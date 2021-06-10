@@ -2,7 +2,7 @@ function Header() {
   return (
     <header>
       <div className={Header}>
-        <h1>Welcome to AssigNUS v0.7</h1>
+        <h1>Welcome to AssigNUS v0.8</h1>
       </div>
     </header>
   );

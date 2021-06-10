@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MyModules() {
+export default function MyModules(props) {
+  const { modules, setModules, tasks, setTasks } = props;
+
   const classes = useStyles();
 
   return (

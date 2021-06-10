@@ -15,7 +15,7 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 
 function TaskManagerAddTask(props) {
-  const { tasks, setTasks } = props;
+  const { modules, setModules, tasks, setTasks } = props;
 
   const [open, setOpen] = React.useState(false);
 

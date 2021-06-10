@@ -11,7 +11,7 @@ import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
 import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 
 function TaskManager(props) {
-  const { tasks, setTasks } = props;
+  const { modules, setModules, tasks, setTasks } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
 
@@ -74,24 +74,39 @@ function TaskManager(props) {
 
           <div className={styles.TMButtonParent}>
             <div className={styles.TMButtonLeft}>
-              <TaskManagerAddMod tasks={tasks} setTasks={setTasks} />
+              <TaskManagerAddMod modules={modules} setModuless={setModules} />
             </div>
             <div className={styles.TMButtonMiddle}>
-              <TaskManagerAddTask tasks={tasks} setTasks={setTasks} />
+              <TaskManagerAddTask
+                modules={modules}
+                setModuless={setModules}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
             </div>
             <div className={styles.TMButtonRight}>
-              <TaskManagerRankTasks tasks={tasks} setTasks={setTasks} />
+              <TaskManagerRankTasks
+                modules={modules}
+                setModuless={setModules}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
             </div>
           </div>
 
           <div className={styles.MyModules}>
             <h3>My Modules</h3>
-            <MyModules />
+            <MyModules modules={modules} setModuless={setModules} />
           </div>
 
           <div className={styles.TaskList}>
             <h3>Task List</h3>
-            <TaskList tasks={tasks} setTasks={setTasks} />
+            <TaskList
+              modules={modules}
+              setModuless={setModules}
+              tasks={tasks}
+              setTasks={setTasks}
+            />
 
             {/*<table
             className={styles.paddingBetweenCols}
