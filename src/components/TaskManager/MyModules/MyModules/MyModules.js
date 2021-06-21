@@ -5,6 +5,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import CurrentModules from "../CurrentModules/CurrentModules";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyModules(props) {
-  const { modules, setModules, tasks, setTasks } = props;
+  const { modules, setModules } = props;
 
   const classes = useStyles();
 
@@ -35,7 +36,10 @@ export default function MyModules(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Add your Module.</Typography>
+          <Typography>
+            Add your Module.
+            <CurrentModules modules={modules} setModules={setModules} />
+          </Typography>
         </AccordionDetails>
       </Accordion>
     </div>
