@@ -4,7 +4,7 @@ import { Button, Checkbox } from "@material-ui/core";
 import styles from "./TaskManager.module.css";
 import { Paper } from "@material-ui/core";
 
-import MyModules from "../MyModules/MyModules";
+import MyModules from "../MyModules/MyModules/MyModules";
 import TaskList from "../TaskList/TaskList/TaskList";
 import TaskManagerAddMod from "../TaskManagerAddMod/TaskManagerAddMod";
 import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
@@ -74,7 +74,7 @@ function TaskManager(props) {
 
           <div className={styles.TMButtonParent}>
             <div className={styles.TMButtonLeft}>
-              <TaskManagerAddMod modules={modules} setModuless={setModules} />
+              <TaskManagerAddMod modules={modules} setModules={setModules} />
             </div>
             <div className={styles.TMButtonMiddle}>
               <TaskManagerAddTask
@@ -96,7 +96,7 @@ function TaskManager(props) {
 
           <div className={styles.MyModules}>
             <h3>My Modules</h3>
-            <MyModules modules={modules} setModuless={setModules} />
+            <MyModules modules={modules} setModules={setModules} />
           </div>
 
           <div className={styles.TaskList}>

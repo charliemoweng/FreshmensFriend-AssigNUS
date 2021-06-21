@@ -20,9 +20,19 @@ function PageAssigNUS() {
       <Header />
       <main>
         <div style={{ display: "flex", flexFlow: "row nowrap" }}>
-          <Calendar tasks={tasks} />
+          <Calendar
+            tasks={tasks}
+            setTasks={setTasks}
+            modules={modules}
+            setModules={setModules}
+          />
 
-          <TaskManager tasks={tasks} setTasks={setTasks} />
+          <TaskManager
+            tasks={tasks}
+            setTasks={setTasks}
+            modules={modules}
+            setModules={setModules}
+          />
         </div>
       </main>
     </>

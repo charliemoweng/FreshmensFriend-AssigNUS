@@ -8,7 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "../TaskManagerAddMod/TaskManagerAddMod.module.css";
 import AddIcon from "@material-ui/icons/Add";
-import ColorPicker from "material-ui-color-picker";
+import SketchExample from "./ColorPicker";
 
 function TaskManagerAddMod(props) {
   const { modules, setModules } = props;
@@ -22,12 +22,12 @@ function TaskManagerAddMod(props) {
 
   function addMod(description) {
     const newMods = [
-      //...modules,
+      ...modules,
       {
         description: description
       }
     ];
-    //setModules(newMods);
+    setModules(newMods);
     console.log(newMods);
   }
 
@@ -57,7 +57,7 @@ function TaskManagerAddMod(props) {
   const [newTaskText, setNewTaskText] = useState("");
 
   const [selectedDate, handleDateChange] = useState(new Date());
-
+  /*
   const actions = [
     <Button label="Cancel" onClick={handleClose} color="primary" />,
     <Button
@@ -68,7 +68,7 @@ function TaskManagerAddMod(props) {
       form="modform"
     />
   ];
-
+*/
   return (
     <div>
       <div className={styles.TMButtonParent}>
@@ -90,7 +90,7 @@ function TaskManagerAddMod(props) {
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-        actions={actions}
+        //actions={actions}
       >
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
         <form id="modform" onSubmit={handleAddMod}>
@@ -109,25 +109,18 @@ function TaskManagerAddMod(props) {
               label="Module"
               type="moduleName"
               fullWidth
+              onChange={(event) => {
+                setNewModText(event.target.value);
+              }}
             />
 
-            <ColorPicker
-              name="colour"
-              margin="dense"
-              defaultValue="Select Module Colour"
-              // value={this.state.color} - for controlled component
-              onChange={(color) => console.log(color)}
-            />
+            <SketchExample />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="secondary">
               Cancel
             </Button>
-            <Button
-              type="submit"
-              //onClick={handleClose}
-              color="primary"
-            >
+            <Button type="submit" onClick={handleAddMod} color="primary">
               Confirm
             </Button>
           </DialogActions>
