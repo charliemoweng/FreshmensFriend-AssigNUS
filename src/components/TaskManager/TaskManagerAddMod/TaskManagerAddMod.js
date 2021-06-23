@@ -8,27 +8,73 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "../TaskManagerAddMod/TaskManagerAddMod.module.css";
 import AddIcon from "@material-ui/icons/Add";
-import SketchExample from "./ColorPicker";
+import ColorPicker from "./ColorPicker";
+import { firebase } from "@firebase/app";
 
 function TaskManagerAddMod(props) {
-  const { modules, setModules } = props;
+  const {
+    modules,
+    setModules,
+    moduleName,
+    setModuleName,
+    moduleColor,
+    setModuleColor,
+    moduleRank,
+    setModuleRank
+  } = props;
 
-  const [newModText, setNewModText] = useState("");
+  // const [newModName, setNewModName] = useState("");
+  // const [newModColor, setNewModColor] = useState();
+  const newModName = moduleName;
+  function setNewModName(name) {
+    setModuleName(name);
+  }
+  const newModColor = moduleColor;
+
+  //unused
+  // function setNewModColor(color) {
+  //   setModuleColor(color);
+  // }
+
+  const handleNameInput = (e) => {
+    console.log("handleName is called");
+    setNewModName(e.target.value);
+  };
+
+  //unused
+  // const handleColorInput = (event, color) => {
+  //   console.log("handleColor is called");
+  //   setModuleColor({
+  //     ...moduleColor,
+  //     color: {
+  //       hex: color.hex
+  //     }
+  //   });
+
+  //   // console.log(event.target.value);
+  // };
 
   function handleAddMod(event) {
     event.preventDefault();
-    addMod(newModText);
+    // console.log("handleAddMod Function:" + newModName + newModColor);
+    addMod(newModName, newModColor);
   }
 
-  function addMod(description) {
+  function addMod(modName, modColor) {
     const newMods = [
       ...modules,
       {
-        description: description
+        modName: modName,
+        modColor: modColor
       }
     ];
+
     setModules(newMods);
+    var pos = newMods.length - 1;
+    const stg = JSON.stringify(newMods[pos].modColor);
     console.log(newMods);
+    console.log("Name is:" + newMods[pos].modName);
+    console.log("Color is:" + stg);
   }
 
   const [open, setOpen] = React.useState(false);
@@ -109,12 +155,14 @@ function TaskManagerAddMod(props) {
               label="Module"
               type="moduleName"
               fullWidth
-              onChange={(event) => {
-                setNewModText(event.target.value);
-              }}
+              onChange={handleNameInput}
             />
 
-            <SketchExample />
+            <ColorPicker
+              moduleColor={moduleColor}
+              setModuleColor={setModuleColor}
+              // onChange={handleColorInput}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

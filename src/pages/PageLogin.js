@@ -10,7 +10,7 @@ function PageLogin() {
   return (
     <>
       <div className="PageLogin">
-        <h1>Login to AssigNUS v0.8.1</h1>
+        <h1>Login to AssigNUS v0.8.2</h1>
         <FirebaseAuthConsumer>
           {({ firebase }) => (
             <Button

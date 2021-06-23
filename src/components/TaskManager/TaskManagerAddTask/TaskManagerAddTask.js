@@ -13,6 +13,7 @@ import {
   KeyboardDateTimePicker
 } from "@material-ui/pickers";
 import AddIcon from "@material-ui/icons/Add";
+import { firebase } from "@firebase/app";
 
 function TaskManagerAddTask(props) {
   const { modules, setModules, tasks, setTasks } = props;
@@ -149,7 +150,7 @@ function TaskManagerAddTask(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">

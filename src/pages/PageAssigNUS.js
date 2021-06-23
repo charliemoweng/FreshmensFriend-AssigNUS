@@ -8,6 +8,21 @@ function PageAssigNUS() {
   const [modules, setModulesState] = useState([]);
   const [tasks, setTasksState] = useState([]);
 
+  // States of a Module: Name, Color, Rank
+
+  // Name
+  const [moduleName, setModuleName] = useState("");
+
+  // Color
+  const [moduleColor, setModuleColor] = useState({
+    color: {
+      hex: "#ffffff"
+    }
+  });
+
+  // Rank
+  const [moduleRank, setModuleRank] = useState("");
+
   function setModules(newModules) {
     setModulesState(newModules);
   }
@@ -18,6 +33,7 @@ function PageAssigNUS() {
   return (
     <>
       <Header />
+
       <main>
         <div style={{ display: "flex", flexFlow: "row nowrap" }}>
           <Calendar
@@ -32,6 +48,12 @@ function PageAssigNUS() {
             setTasks={setTasks}
             modules={modules}
             setModules={setModules}
+            moduleName={moduleName}
+            setModuleName={setModuleName}
+            moduleColor={moduleColor}
+            setModuleColor={setModuleColor}
+            moduleRank={moduleRank}
+            setModuleRank={setModuleRank}
           />
         </div>
       </main>

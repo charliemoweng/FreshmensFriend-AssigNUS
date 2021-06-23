@@ -3,10 +3,6 @@ import { Button, Checkbox } from "@material-ui/core";
 
 import styles from "./CurrentModules.module.css";
 
-{
-  /* checking the Completed box in TaskListToDo lead to this place */
-}
-
 function CurrentModules(props) {
   const { modules, setModules } = props;
 

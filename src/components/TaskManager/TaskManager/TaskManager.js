@@ -11,7 +11,18 @@ import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
 import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 
 function TaskManager(props) {
-  const { modules, setModules, tasks, setTasks } = props;
+  const {
+    modules,
+    setModules,
+    tasks,
+    setTasks,
+    moduleName,
+    setModuleName,
+    moduleColor,
+    setModuleColor,
+    moduleRank,
+    setModuleRank
+  } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
 
@@ -74,7 +85,16 @@ function TaskManager(props) {
 
           <div className={styles.TMButtonParent}>
             <div className={styles.TMButtonLeft}>
-              <TaskManagerAddMod modules={modules} setModules={setModules} />
+              <TaskManagerAddMod
+                modules={modules}
+                setModules={setModules}
+                moduleName={moduleName}
+                setModuleName={setModuleName}
+                moduleColor={moduleColor}
+                setModuleColor={setModuleColor}
+                moduleRank={moduleRank}
+                setModuleRank={setModuleRank}
+              />
             </div>
             <div className={styles.TMButtonMiddle}>
               <TaskManagerAddTask
@@ -96,7 +116,16 @@ function TaskManager(props) {
 
           <div className={styles.MyModules}>
             <h3>My Modules</h3>
-            <MyModules modules={modules} setModules={setModules} />
+            <MyModules
+              modules={modules}
+              setModules={setModules}
+              moduleName={moduleName}
+              setModuleName={setModuleName}
+              moduleColor={moduleColor}
+              setModuleColor={setModuleColor}
+              moduleRank={moduleRank}
+              setModuleRank={setModuleRank}
+            />
           </div>
 
           <div className={styles.TaskList}>
