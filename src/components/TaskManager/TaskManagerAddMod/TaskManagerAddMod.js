@@ -31,18 +31,13 @@ function TaskManagerAddMod(props) {
   }
   const newModColor = moduleColor;
 
-  const newModRank = moduleRank;
-  function setNewModRank(rank) {
-    setModuleRank(rank);
-  }
-
   //unused
   // function setNewModColor(color) {
   //   setModuleColor(color);
   // }
 
   const handleNameInput = (e) => {
-    console.log("handleName is called");
+    // console.log("handleName is called");
     setNewModName(e.target.value);
   };
 
@@ -62,10 +57,17 @@ function TaskManagerAddMod(props) {
   function handleAddMod(event) {
     event.preventDefault();
     // console.log("handleAddMod Function:" + newModName + newModColor);
-    var rank = modules.length + 1;
-    setNewModRank(rank);
 
-    addMod(newModName, newModColor, newModRank);
+    // console.log("Length of modules Array is: " + arrLength);
+    // if (modules.length === -1) {
+    //   console.log("Base Case occured: Length of modules Array is 0");
+    //   setModuleRank(1);
+    // } else {
+    //   setModuleRank(arrLength + 2);
+    // }
+    setModuleRank(modules.length + 2);
+    addMod(newModName, newModColor, moduleRank);
+
     setOpen(false);
   }
 
@@ -80,12 +82,12 @@ function TaskManagerAddMod(props) {
     ];
 
     setModules(newMods);
-    var pos = newMods.length - 1;
+    // var pos = newMods.length - 1;
     // const stg = JSON.stringify(newMods[pos].modColor);
     console.log(newMods);
-    console.log("Name is: " + newMods[pos].modName);
-    console.log("Color is: " + newMods[pos].modColor);
-    console.log("Rank is: " + newMods[pos].modRank);
+    // console.log("Name is: " + newMods[pos].modName);
+    // console.log("Color is: " + newMods[pos].modColor);
+    // console.log("Rank is: " + newMods[pos].modRank);
   }
 
   useEffect(() => {

@@ -1,10 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { firebase } from "@firebase/app";
 
 import styles from "./CurrentModules.module.css";
 
 function CurrentModules(props) {
   const { modules, setModules } = props;
+
+  const handleDelete = (index) => {
+    var array = modules; // creates local copy
+
+    array.splice(index, 1);
+    setModules(array);
+    console.log(modules);
+  };
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    const db = firebase.firestore();
+    const docRef = db.collection("/modules").doc(uid);
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        setModules(doc.data().modules);
+      } else {
+        setModules([]);
+      }
+    });
+  }, []);
 
   return (
     <table
@@ -29,6 +54,16 @@ function CurrentModules(props) {
             <td>{module.modName}</td>
             <td>{module.modRank}</td>
             <td>{module.modColor}</td>
+            <IconButton aria-label="delete">
+              <DeleteIcon
+                fontSize="small"
+                onClick={() => {
+                  alert("clicked");
+                  handleDelete(index);
+                  console.log(modules);
+                }}
+              />
+            </IconButton>
           </tr>
         ))}
       </tbody>

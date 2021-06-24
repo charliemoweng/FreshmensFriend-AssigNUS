@@ -7,6 +7,7 @@ function ColorPickerFunc(props) {
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [color, setColor] = useState({ r: "241", g: "112", b: "19", a: "1" });
+  // const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setDisplayColorPicker(!displayColorPicker);
@@ -33,6 +34,7 @@ function ColorPickerFunc(props) {
     setModuleColor(color.hex);
     // console.log("Color.rgb is: " + color.rgb);
     console.log("Color.hex is: " + color.hex);
+    handleClose();
   };
 
   const styles = reactCSS({
