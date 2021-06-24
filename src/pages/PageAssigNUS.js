@@ -15,13 +15,11 @@ function PageAssigNUS() {
 
   // Color
   const [moduleColor, setModuleColor] = useState({
-    color: {
-      hex: "#ffffff"
-    }
+    color: "#ffffff"
   });
 
   // Rank
-  const [moduleRank, setModuleRank] = useState("");
+  const [moduleRank, setModuleRank] = useState(0);
 
   function setModules(newModules) {
     setModulesState(newModules);

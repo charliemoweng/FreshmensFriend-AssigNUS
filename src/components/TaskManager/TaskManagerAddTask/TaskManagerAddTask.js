@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -47,6 +47,12 @@ function TaskManagerAddTask(props) {
     ];
     setTasks(newTasks);
   }
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    const db = firebase.firestore();
+    db.collection("/tasks").doc(uid).set({ tasks: tasks });
+  }, [tasks]);
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
     const newTasks = [

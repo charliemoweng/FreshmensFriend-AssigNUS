@@ -15,11 +15,23 @@ function CurrentModules(props) {
         <tr>
           <th>No.</th>
           <th>Task</th>
-          <th>Completed</th>
-          <th>Add to Calendar</th>
+          <th>Rank</th>
+          <th>Color</th>
         </tr>
       </thead>
-      <tbody className={styles.tableContent}></tbody>
+      <tbody className={styles.tableContent}>
+        {modules.map((module, index) => (
+          // We should specify key here to help react identify
+          // what has updated
+          // https://reactjs.org/docs/lists-and-keys.html#keys
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td>{module.modName}</td>
+            <td>{module.modRank}</td>
+            <td>{module.modColor}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }

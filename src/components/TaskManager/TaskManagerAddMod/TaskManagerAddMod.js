@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -31,6 +31,11 @@ function TaskManagerAddMod(props) {
   }
   const newModColor = moduleColor;
 
+  const newModRank = moduleRank;
+  function setNewModRank(rank) {
+    setModuleRank(rank);
+  }
+
   //unused
   // function setNewModColor(color) {
   //   setModuleColor(color);
@@ -57,25 +62,37 @@ function TaskManagerAddMod(props) {
   function handleAddMod(event) {
     event.preventDefault();
     // console.log("handleAddMod Function:" + newModName + newModColor);
-    addMod(newModName, newModColor);
+    var rank = modules.length + 1;
+    setNewModRank(rank);
+
+    addMod(newModName, newModColor, newModRank);
+    setOpen(false);
   }
 
-  function addMod(modName, modColor) {
+  function addMod(modName, modColor, modRank) {
     const newMods = [
       ...modules,
       {
         modName: modName,
-        modColor: modColor
+        modColor: modColor,
+        modRank: modRank
       }
     ];
 
     setModules(newMods);
     var pos = newMods.length - 1;
-    const stg = JSON.stringify(newMods[pos].modColor);
+    // const stg = JSON.stringify(newMods[pos].modColor);
     console.log(newMods);
-    console.log("Name is:" + newMods[pos].modName);
-    console.log("Color is:" + stg);
+    console.log("Name is: " + newMods[pos].modName);
+    console.log("Color is: " + newMods[pos].modColor);
+    console.log("Rank is: " + newMods[pos].modRank);
   }
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    const db = firebase.firestore();
+    db.collection("/modules").doc(uid).set({ modules: modules });
+  }, [modules]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -100,9 +117,9 @@ function TaskManagerAddMod(props) {
     }
   }, [open]);
 
-  const [newTaskText, setNewTaskText] = useState("");
+  //const [newTaskText, setNewTaskText] = useState("");
 
-  const [selectedDate, handleDateChange] = useState(new Date());
+  //const [selectedDate, handleDateChange] = useState(new Date());
   /*
   const actions = [
     <Button label="Cancel" onClick={handleClose} color="primary" />,
@@ -145,24 +162,26 @@ function TaskManagerAddMod(props) {
             dividers={scroll === "paper"}
           >
             <DialogContentText>
-              Add a Module! Color Selection to be added in a future update.
+              Add a Module and select a Color for it!
             </DialogContentText>
-
-            <TextField
-              autoFocus
-              margin="dense"
-              id="moduleName"
-              label="Module"
-              type="moduleName"
-              fullWidth
-              onChange={handleNameInput}
-            />
-
-            <ColorPicker
-              moduleColor={moduleColor}
-              setModuleColor={setModuleColor}
-              // onChange={handleColorInput}
-            />
+            <div className={styles.rowA}>
+              <div className={styles.objA}>
+                <ColorPicker
+                  moduleColor={moduleColor}
+                  setModuleColor={setModuleColor}
+                  // onChange={handleColorInput}
+                />
+              </div>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="moduleName"
+                label="Module"
+                type="moduleName"
+                fullWidth
+                onChange={handleNameInput}
+              />
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">
