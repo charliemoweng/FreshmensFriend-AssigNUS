@@ -3,33 +3,37 @@ import { Button, Checkbox } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { firebase } from "@firebase/app";
+import ColorPicker from "../../TaskManagerAddMod/ColorPicker";
 
 import styles from "./CurrentModules.module.css";
 
 function CurrentModules(props) {
-  const { modules, setModules } = props;
-
-  const handleDelete = (index) => {
-    var array = modules; // creates local copy
-
-    array.splice(index, 1);
-    setModules(array);
-    console.log(modules);
-  };
+  const {
+    modules,
+    setModules,
+    moduleName,
+    setModuleName,
+    moduleColor,
+    setModuleColor,
+    moduleRank,
+    setModuleRank
+  } = props;
 
   useEffect(() => {
-    const uid = firebase.auth().currentUser?.uid;
-    const db = firebase.firestore();
-    const docRef = db.collection("/modules").doc(uid);
+    // action on update of modules
+    // console.log("modules array changed");
+    // console.log("modules: " + modules + "length: " + modules.length);
+  }, [modules]);
 
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        setModules(doc.data().modules);
-      } else {
-        setModules([]);
-      }
-    });
-  }, []);
+  function handleDelete() {
+    // var array = modules; // creates local copy
+    // // array.splice(index, 1);
+    // setModules(array.splice(index, 1));
+    // console.log(modules);
+
+    // currently only supports Delete ALL
+    setModules([]);
+  }
 
   return (
     <table
@@ -39,7 +43,10 @@ function CurrentModules(props) {
       <thead>
         <tr>
           <th>No.</th>
-          <th>Task</th>
+          <th>Mod</th>
+          {
+            //<th>ID</th> uncomment only for debugging
+          }
           <th>Rank</th>
           <th>Color</th>
         </tr>
@@ -52,15 +59,24 @@ function CurrentModules(props) {
           <tr key={index}>
             <td>{index + 1}</td>
             <td>{module.modName}</td>
+            {
+              //<td>{module.modId}</td> ID hidden from user
+            }
             <td>{module.modRank}</td>
-            <td>{module.modColor}</td>
+            <td>
+              {
+                <ColorPicker
+                  color={module.modColor}
+                  moduleColor={moduleColor}
+                  setModuleColor={setModuleColor}
+                />
+              }
+            </td>
             <IconButton aria-label="delete">
               <DeleteIcon
                 fontSize="small"
                 onClick={() => {
-                  alert("clicked");
-                  handleDelete(index);
-                  console.log(modules);
+                  handleDelete();
                 }}
               />
             </IconButton>

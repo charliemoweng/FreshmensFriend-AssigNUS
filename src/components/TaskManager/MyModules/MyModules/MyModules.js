@@ -48,7 +48,16 @@ export default function MyModules(props) {
         <AccordionDetails>
           <div className={styles.ModTables}>
             <Typography>
-              <CurrentModules modules={modules} setModules={setModules} />
+              <CurrentModules
+                modules={modules}
+                setModules={setModules}
+                moduleName={moduleName}
+                setModuleName={setModuleName}
+                moduleColor={moduleColor}
+                setModuleColor={setModuleColor}
+                moduleRank={moduleRank}
+                setModuleRank={setModuleRank}
+              />
             </Typography>
           </div>
         </AccordionDetails>

@@ -16,6 +16,8 @@ function TaskManager(props) {
     setModules,
     tasks,
     setTasks,
+    moduleId,
+    setModuleId,
     moduleName,
     setModuleName,
     moduleColor,
@@ -88,6 +90,8 @@ function TaskManager(props) {
               <TaskManagerAddMod
                 modules={modules}
                 setModules={setModules}
+                moduleId={moduleId}
+                setModuleId={setModuleId}
                 moduleName={moduleName}
                 setModuleName={setModuleName}
                 moduleColor={moduleColor}

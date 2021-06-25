@@ -15,6 +15,8 @@ function TaskManagerAddMod(props) {
   const {
     modules,
     setModules,
+    moduleId,
+    setModuleId,
     moduleName,
     setModuleName,
     moduleColor,
@@ -25,56 +27,39 @@ function TaskManagerAddMod(props) {
 
   // const [newModName, setNewModName] = useState("");
   // const [newModColor, setNewModColor] = useState();
+  const newModId = moduleId;
+
   const newModName = moduleName;
   function setNewModName(name) {
     setModuleName(name);
   }
   const newModColor = moduleColor;
-
-  //unused
-  // function setNewModColor(color) {
-  //   setModuleColor(color);
-  // }
+  const newModRank = moduleRank;
 
   const handleNameInput = (e) => {
     // console.log("handleName is called");
     setNewModName(e.target.value);
   };
 
-  //unused
-  // const handleColorInput = (event, color) => {
-  //   console.log("handleColor is called");
-  //   setModuleColor({
-  //     ...moduleColor,
-  //     color: {
-  //       hex: color.hex
-  //     }
-  //   });
-
-  //   // console.log(event.target.value);
-  // };
+  useEffect(() => {
+    // action on update of modules
+    // console.log("modules: " + modules + "length: " + modules.length);
+    var arrayLength = modules.length;
+    setModuleId(arrayLength);
+    setModuleRank(arrayLength + 1);
+  }, [modules]);
 
   function handleAddMod(event) {
     event.preventDefault();
-    // console.log("handleAddMod Function:" + newModName + newModColor);
-
-    // console.log("Length of modules Array is: " + arrLength);
-    // if (modules.length === -1) {
-    //   console.log("Base Case occured: Length of modules Array is 0");
-    //   setModuleRank(1);
-    // } else {
-    //   setModuleRank(arrLength + 2);
-    // }
-    setModuleRank(modules.length + 2);
-    addMod(newModName, newModColor, moduleRank);
-
+    addMod(newModId, newModName, newModColor, newModRank, firebase);
     setOpen(false);
   }
 
-  function addMod(modName, modColor, modRank) {
+  function addMod(modId, modName, modColor, modRank) {
     const newMods = [
       ...modules,
       {
+        modId: modId,
         modName: modName,
         modColor: modColor,
         modRank: modRank
@@ -84,7 +69,7 @@ function TaskManagerAddMod(props) {
     setModules(newMods);
     // var pos = newMods.length - 1;
     // const stg = JSON.stringify(newMods[pos].modColor);
-    console.log(newMods);
+    // console.log("modules is now: " + modules);
     // console.log("Name is: " + newMods[pos].modName);
     // console.log("Color is: " + newMods[pos].modColor);
     // console.log("Rank is: " + newMods[pos].modRank);
@@ -94,6 +79,7 @@ function TaskManagerAddMod(props) {
     const uid = firebase.auth().currentUser?.uid;
     const db = firebase.firestore();
     db.collection("/modules").doc(uid).set({ modules: modules });
+    console.log("Task manager overriding modules");
   }, [modules]);
 
   const [open, setOpen] = React.useState(false);
