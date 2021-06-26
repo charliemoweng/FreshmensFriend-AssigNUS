@@ -16,6 +16,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { firebase } from "@firebase/app";
 
 function TaskManagerAddTask(props) {
+  console.log("AddTask called");
   const { modules, setModules, tasks, setTasks } = props;
 
   const [open, setOpen] = React.useState(false);

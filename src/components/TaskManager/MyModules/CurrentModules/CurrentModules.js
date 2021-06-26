@@ -8,6 +8,7 @@ import ColorPicker from "../../TaskManagerAddMod/ColorPicker";
 import styles from "./CurrentModules.module.css";
 
 function CurrentModules(props) {
+  console.log("current modules called");
   const {
     modules,
     setModules,
@@ -25,14 +26,59 @@ function CurrentModules(props) {
     // console.log("modules: " + modules + "length: " + modules.length);
   }, [modules]);
 
-  function handleDelete() {
-    // var array = modules; // creates local copy
-    // // array.splice(index, 1);
-    // setModules(array.splice(index, 1));
-    // console.log(modules);
+  function handleDelete(mod) {
+    // Delete ALL for quick debugging
+    // setModules([]);
 
-    // currently only supports Delete ALL
-    setModules([]);
+    // local copy for updating ranks
+    const arrayToUpdateRanks = modules;
+
+    // Saving rank of item being deleted in order to compare with and rerank other modules in the array
+    const deletedRank = mod.modRank;
+    console.log("deletedRank is : " + deletedRank);
+
+    // Logic for updating ranks of other items in the modules array upon the deletion of one item
+    // Idea: upon deletion, check the modRank of all other items and update them one by one
+
+    /* 3 possible cases: Deleted item is first in array, last in array, or somewhere in the middle
+
+    In order to compare with other ranks, we need to save the rank of that module before deleting it (done)
+    
+    Case 1: deleted first in array (only ranks lower than it, lower meaning larger int value)
+    Not too difficult, all other items' modRank will be subtracted by 1.
+
+    Case 2: deleted last in array (only ranks higher than it, higher meaning smaller int value)
+    Perfect! This is the most straightforward case, all other ranks are already correct so no need to update anything.
+
+    Case 3: deleted middle in array
+    All items with ranks lower than it (larger int value) will have their ranks subtracted by 1.
+    All items with ranks higher than it (smaller int value) will already have the correct rank.   
+    */
+
+    // Case 1 (actually handled in case 3?)
+
+    // Case 2 (nothing needed)
+    // The mitochondria is the powerhouse of the cell.
+
+    // Case 3 (handles case 1 as well!)
+    // Helper to change rank
+    function updateRankOnDeletion(modChecked) {
+      if (modChecked.modRank > deletedRank) {
+        // console.log("Need to update rank");
+        modChecked.modRank--;
+      }
+    }
+
+    arrayToUpdateRanks.forEach((element) => {
+      updateRankOnDeletion(element);
+    });
+
+    // Good practice to keep original modules array immutable so create local copy
+    const newArray = arrayToUpdateRanks.filter(
+      (module) => module.modId !== mod.modId
+    );
+    // updates the modules array using the updated local copy
+    setModules(newArray);
   }
 
   return (
@@ -76,7 +122,7 @@ function CurrentModules(props) {
               <DeleteIcon
                 fontSize="small"
                 onClick={() => {
-                  handleDelete();
+                  handleDelete(module);
                 }}
               />
             </IconButton>

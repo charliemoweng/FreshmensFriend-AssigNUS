@@ -18,6 +18,7 @@ import { red, blue, green, yellow } from "@material-ui/core/colors";
 import styles from "../TaskManager/TaskManager.module.css";
 
 function TaskManagerRankTasks(props) {
+  console.log("RankTasks called");
   const { modules, setModules, tasks, setTasks } = props;
 
   const categories = ["Due Date", "Name", "Importance"];

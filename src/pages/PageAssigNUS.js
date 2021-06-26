@@ -5,6 +5,7 @@ import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
 import { firebase } from "@firebase/app";
 
 function PageAssigNUS() {
+  console.log("page assignus called");
   const [modules, setModulesState] = useState([]);
 
   useEffect(() => {

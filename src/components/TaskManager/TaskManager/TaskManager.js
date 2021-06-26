@@ -11,6 +11,7 @@ import TaskManagerAddTask from "../TaskManagerAddTask/TaskManagerAddTask";
 import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 
 function TaskManager(props) {
+  console.log("task manager called");
   const {
     modules,
     setModules,

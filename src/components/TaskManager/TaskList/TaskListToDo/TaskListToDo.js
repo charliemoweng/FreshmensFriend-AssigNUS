@@ -9,6 +9,7 @@ and Tasks will only be added to the TaskListCompleted after their checkbox has b
 }
 
 function TaskListToDo(props) {
+  console.log("task list todo called");
   const { modules, setModules, tasks, setTasks } = props;
   const [newTaskText, setNewTaskText] = useState("");
 

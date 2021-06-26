@@ -8,6 +8,7 @@ import styles from "./TaskListCompleted.module.css";
 }
 
 function TaskListCompleted(props) {
+  console.log("task list completed called");
   const { modules, setModules, tasks, setTasks } = props;
   const [newTaskText, setNewTaskText] = useState("");
 

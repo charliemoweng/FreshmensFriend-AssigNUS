@@ -12,6 +12,7 @@ import ColorPicker from "./ColorPicker";
 import { firebase } from "@firebase/app";
 
 function TaskManagerAddMod(props) {
+  console.log("AddMod called");
   const {
     modules,
     setModules,
@@ -46,7 +47,7 @@ function TaskManagerAddMod(props) {
     // console.log("modules: " + modules + "length: " + modules.length);
     var arrayLength = modules.length;
     setModuleId(arrayLength);
-    setModuleRank(arrayLength + 1);
+    setModuleRank(arrayLength + 1); // this is a default rank assigned upon creation of the module, to be updated
   }, [modules]);
 
   function handleAddMod(event) {
@@ -78,8 +79,18 @@ function TaskManagerAddMod(props) {
   useEffect(() => {
     const uid = firebase.auth().currentUser?.uid;
     const db = firebase.firestore();
-    db.collection("/modules").doc(uid).set({ modules: modules });
-    console.log("Task manager overriding modules");
+    const doc = db.collection("/modules").doc(uid);
+    // if (doc == null) {
+    //   doc.set({ modules: modules }, { merge: true });
+    // } else {
+
+    // }
+    db.collection("/modules")
+      .doc(uid)
+      .set({ modules: modules }, { merge: true });
+
+    console.log("useEffect in AddMod called");
+    // console.log("Task manager overriding modules");
   }, [modules]);
 
   const [open, setOpen] = React.useState(false);

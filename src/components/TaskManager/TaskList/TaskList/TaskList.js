@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TaskList(props) {
+  console.log("task list called");
   const { modules, setModules, tasks, setTasks } = props;
 
   const classes = useStyles();
