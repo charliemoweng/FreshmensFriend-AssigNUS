@@ -8,22 +8,22 @@ function PageAssigNUS() {
   console.log("page assignus called");
   const [modules, setModulesState] = useState([]);
 
-  useEffect(() => {
-    const uid = firebase.auth().currentUser?.uid;
-    const db = firebase.firestore();
-    const docRef = db.collection("/modules").doc(uid);
+  // useEffect(() => {
+  //   const uid = firebase.auth().currentUser?.uid;
+  //   const db = firebase.firestore();
+  //   const docRef = db.collection("/modules").doc(uid);
 
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-        setModulesState(doc.data().modules);
-        console.log("old user data retrieved");
-        // Need to call this before Taskmanager Fires
-      } else {
-        setModulesState([]);
-        console.log("new user");
-      }
-    });
-  }, []);
+  //   docRef.get().then((doc) => {
+  //     if (doc.exists) {
+  //       setModulesState(doc.data().modules);
+  //       console.log("old user data retrieved");
+  //       // Need to call this before Taskmanager Fires
+  //     } else {
+  //       setModulesState([]);
+  //       console.log("new user");
+  //     }
+  //   });
+  // }, []);
 
   // States of a Module: ID, Name, Color, Rank
 
