@@ -76,22 +76,22 @@ function TaskManagerAddMod(props) {
     // console.log("Rank is: " + newMods[pos].modRank);
   }
 
-  useEffect(() => {
-    const uid = firebase.auth().currentUser?.uid;
-    const db = firebase.firestore();
-    const doc = db.collection("/modules").doc(uid);
-    // if (doc == null) {
-    //   doc.set({ modules: modules }, { merge: true });
-    // } else {
+  // useEffect(() => {
+  //   const uid = firebase.auth().currentUser?.uid;
+  //   const db = firebase.firestore();
+  //   const doc = db.collection("/modules").doc(uid);
+  //   // if (doc == null) {
+  //   //   doc.set({ modules: modules }, { merge: true });
+  //   // } else {
 
-    // }
-    db.collection("/modules")
-      .doc(uid)
-      .set({ modules: modules }, { merge: true });
+  //   // }
+  //   db.collection("/modules")
+  //     .doc(uid)
+  //     .set({ modules: modules }, { merge: true });
 
-    console.log("useEffect in AddMod called");
-    // console.log("Task manager overriding modules");
-  }, [modules]);
+  //   console.log("useEffect in AddMod called");
+  //   // console.log("Task manager overriding modules");
+  // }, [modules]);
 
   const [open, setOpen] = React.useState(false);
 

@@ -42,12 +42,12 @@ function PageAssigNUS() {
 
   function setModules(newModules) {
     setModulesState(newModules);
-    //window.localStorage.setItem("modules", JSON.stringify(newModules));
+    window.localStorage.setItem("modules", JSON.stringify(newModules));
   }
-  // useEffect(() => {
-  //   const savedModules = JSON.parse(window.localStorage.getItem("modules"));
-  //   setModulesState(savedModules ?? []);
-  // }, []);
+  useEffect(() => {
+    const savedModules = JSON.parse(window.localStorage.getItem("modules"));
+    setModulesState(savedModules ?? []);
+  }, []);
 
   function setTasks(newTasks) {
     setTasksState(newTasks);
