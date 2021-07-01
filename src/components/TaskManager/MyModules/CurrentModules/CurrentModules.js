@@ -24,7 +24,7 @@ function CurrentModules(props) {
     // action on update of modules
     // console.log("modules array changed");
     // console.log("modules: " + modules + "length: " + modules.length);
-  }, [modules]);
+  }, []); // need modules here?
 
   function handleDelete(mod) {
     // Delete ALL for quick debugging
@@ -112,8 +112,10 @@ function CurrentModules(props) {
             <td>
               {
                 <ColorPicker
-                  color={module.modColor}
-                  moduleColor={moduleColor}
+                  // key uses the unique identifier for module, modId
+                  key={module.modId}
+                  modules={modules}
+                  moduleColor={module.modColor}
                   setModuleColor={setModuleColor}
                 />
               }

@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import reactCSS from "reactcss";
 import { TwitterPicker } from "react-color";
 
-function ColorPickerFunc(props) {
-  const { moduleColor, setModuleColor } = props;
+function ColorPicker(props) {
+  const { key, modules, moduleColor, setModuleColor } = props;
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [color, setColor] = useState({ r: "241", g: "112", b: "19", a: "1" });
+  // const [color, setColor] = useState({ r: "241", g: "112", b: "19", a: "1" });
+  // const [color, setColor] = useState(hexToRgbA(moduleColor));
   // const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -29,11 +30,110 @@ function ColorPickerFunc(props) {
   //   });
   // };
 
+  useEffect(() => {
+    // action on update of modules
+    console.log("modules array changed");
+    // console.log("modules: " + modules + "length: " + modules.length);
+    // handleChange;
+  }, [modules]); // need modules?
+
+  function hexToRgbA(hex) {
+    var c, r, g, b;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      c = hex.substring(1).split("");
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c = "0x" + c.join("");
+      r = [(c >> 16) & 255];
+      g = [(c >> 8) & 255];
+      b = [c & 255];
+
+      return (
+        // "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",1)"
+        "{ r: " + r + ", g: " + g + ", b: " + b + ', a: "1" }'
+      );
+    }
+    throw new Error("Bad Hex");
+  }
+
+  function hexToR(hex) {
+    var c, r, g, b;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      c = hex.substring(1).split("");
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c = "0x" + c.join("");
+      r = [(c >> 16) & 255];
+      g = [(c >> 8) & 255];
+      b = [c & 255];
+
+      return r;
+    }
+    throw new Error("Bad Hex");
+  }
+
+  function hexToG(hex) {
+    var c, r, g, b;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      c = hex.substring(1).split("");
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c = "0x" + c.join("");
+      r = [(c >> 16) & 255];
+      g = [(c >> 8) & 255];
+      b = [c & 255];
+
+      return g;
+    }
+    throw new Error("Bad Hex");
+  }
+
+  function hexToB(hex) {
+    var c, r, g, b;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      c = hex.substring(1).split("");
+      if (c.length == 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c = "0x" + c.join("");
+      r = [(c >> 16) & 255];
+      g = [(c >> 8) & 255];
+      b = [c & 255];
+
+      return b;
+    }
+    throw new Error("Bad Hex");
+  }
+
+  // hexToRgbA('#fbafff')
+
+  /*  returned value: (String)
+    rgba(251,175,255,1)
+  */
+  const moduleColorRgbA = hexToRgbA(moduleColor);
+  // console.log("hex: " + moduleColor + " converted to rgba: " + moduleColorRgbA);
+  // const [color, setColor] = useState({ r: "247", g: "112", b: "19", a: "1" });
+  const [color, setColor] = useState({
+    r: hexToR(moduleColor),
+    g: hexToG(moduleColor),
+    b: hexToB(moduleColor),
+    a: "1"
+  });
+  // console.log("hexToR: " + hexToR(moduleColor));
+
+  const reRender = () => {
+    setColor(color.rgb);
+  };
+
   const handleChange = (color, event) => {
     setColor(color.rgb);
+    // console.log("color.rgb is: " + color.rgb);
     setModuleColor(color.hex);
     // console.log("Color.rgb is: " + color.rgb);
-    console.log("Color.hex is: " + color.hex);
+    // console.log("Color.hex is: " + color.hex);
     handleClose();
   };
 
@@ -82,7 +182,7 @@ function ColorPickerFunc(props) {
   );
 }
 
-export default ColorPickerFunc;
+export default ColorPicker;
 
 // export default ColorPicker;
 
