@@ -1,5 +1,43 @@
-.paddingBetweenCols th {
-  padding: 0 5%;
-  margin-left: auto;
-  margin-right: auto;
+.cmTable {
+  padding: 0 1%;
+  /* margin: auto; */
+  /* border-style: solid; */
+  justify-content: space-between;
+}
+
+.tableContent {
+  border-style: solid;
+  margin: auto;
+}
+
+.rowA {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.objA {
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.functionButtons {
+  display: flex;
+  margin: auto;
+  /* border-style: dotted; */
+  justify-content: space-evenly;
+}
+
+.functionButtonChild {
+}
+
+.rankCol {
+  display: flex;
+  /* border-style: dotted; */
+}
+
+.rankColObj {
+  margin: auto;
+  /* border-style: dotted; */
 }

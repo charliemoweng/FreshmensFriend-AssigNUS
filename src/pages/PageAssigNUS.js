@@ -6,6 +6,8 @@ import { firebase } from "@firebase/app";
 
 function PageAssigNUS() {
   console.log("page assignus called");
+
+  // Modules Array
   const [modules, setModulesState] = useState([]);
 
   // useEffect(() => {
@@ -31,14 +33,10 @@ function PageAssigNUS() {
   const [moduleId, setModuleId] = useState(0);
   // Name
   const [moduleName, setModuleName] = useState("");
-
   // Color
   const [moduleColor, setModuleColor] = useState("#ff6900");
-
   // Rank
   const [moduleRank, setModuleRank] = useState(1);
-
-  const [tasks, setTasksState] = useState([]);
 
   function setModules(newModules) {
     setModulesState(newModules);
@@ -49,9 +47,35 @@ function PageAssigNUS() {
     setModulesState(savedModules ?? []);
   }, []);
 
+  // Tasks Array
+  const [tasks, setTasksState] = useState([]);
+
+  // ID
+  const [taskId, setTaskId] = useState(0);
+  // Mod
+  const [taskMod, setTaskMod] = useState("default taskMod placeholder");
+  // Name
+  const [taskName, setTaskName] = useState("default taskname placeholder");
+  // Due
+  const [taskDue, setTaskDue] = useState("2021-01-01T00:00");
+  // Start
+  const [taskStart, setTaskStart] = useState("2021-01-01T00:00");
+  // End
+  const [taskEnd, setTaskEnd] = useState("2021-01-01T00:00");
+  // Weightage
+  const [taskWeight, setTaskWeight] = useState(0);
+  // Completion
+  const [taskComplete, setTaskComplete] = useState(false);
+
   function setTasks(newTasks) {
     setTasksState(newTasks);
+    window.localStorage.setItem("tasks", JSON.stringify(newTasks));
   }
+
+  useEffect(() => {
+    const savedTasks = JSON.parse(window.localStorage.getItem("tasks"));
+    setTasksState(savedTasks ?? []);
+  }, []);
 
   return (
     <>
@@ -67,8 +91,6 @@ function PageAssigNUS() {
           />
 
           <TaskManager
-            tasks={tasks}
-            setTasks={setTasks}
             modules={modules}
             setModules={setModules}
             moduleId={moduleId}
@@ -79,6 +101,24 @@ function PageAssigNUS() {
             setModuleColor={setModuleColor}
             moduleRank={moduleRank}
             setModuleRank={setModuleRank}
+            tasks={tasks}
+            setTasks={setTasks}
+            taskId={taskId}
+            setTaskId={setTaskId}
+            taskMod={taskMod}
+            setTaskMod={setTaskMod}
+            taskName={taskName}
+            setTaskName={setTaskName}
+            taskDue={taskDue}
+            setTaskDue={setTaskDue}
+            taskStart={taskStart}
+            setTaskStart={setTaskStart}
+            taskEnd={taskEnd}
+            setTaskEnd={setTaskEnd}
+            taskWeight={taskWeight}
+            setTaskWeight={setTaskWeight}
+            taskComplete={taskComplete}
+            setTaskComplete={setTaskComplete}
           />
         </div>
       </main>

@@ -2,9 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CreateIcon from "@material-ui/icons/Create";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import { firebase } from "@firebase/app";
 import ColorPicker from "../../TaskManagerAddMod/ColorPicker";
-
+import ModuleRenamer from "./ModuleRenamer";
+import ModuleReranker from "./ModuleReranker";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "./CurrentModules.module.css";
 
 function CurrentModules(props) {
@@ -31,11 +41,11 @@ function CurrentModules(props) {
     // setModules([]);
 
     // local copy for updating ranks
-    const arrayToUpdateRanks = modules;
+    const arrayToUpdateRanks = [...modules];
 
     // Saving rank of item being deleted in order to compare with and rerank other modules in the array
     const deletedRank = mod.modRank;
-    console.log("deletedRank is : " + deletedRank);
+    // console.log("deletedRank is : " + deletedRank);
 
     // Logic for updating ranks of other items in the modules array upon the deletion of one item
     // Idea: upon deletion, check the modRank of all other items and update them one by one
@@ -81,57 +91,164 @@ function CurrentModules(props) {
     setModules(newArray);
   }
 
+  const [newModName, setNewModName] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [scroll, setScroll] = React.useState("paper");
+
+  const handleRenameInput = (e) => {
+    // console.log("handleName is called");
+    setNewModName(e.target.value);
+  };
+
+  function handleRename(event, modId) {
+    // local copy of modules array for renaming module with modId
+    event.preventDefault();
+    const arrayForRenaming = [...modules];
+    const copyForRenaming = { ...arrayForRenaming[modId] };
+    console.log("local copy of array is : " + arrayForRenaming);
+    copyForRenaming.modName = newModName;
+    arrayForRenaming[modId] = copyForRenaming;
+    // updates the modules array using the updated local copy
+    setModules(arrayForRenaming);
+    setOpen(false);
+  }
+
   return (
-    <table
-      className={styles.paddingBetweenCols}
-      style={{ margin: "0 auto", width: "100%" }}
-    >
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>Mod</th>
-          {
-            //<th>ID</th> uncomment only for debugging
-          }
-          <th>Rank</th>
-          <th>Color</th>
-        </tr>
-      </thead>
-      <tbody className={styles.tableContent}>
-        {modules.map((module, index) => (
-          // We should specify key here to help react identify
-          // what has updated
-          // https://reactjs.org/docs/lists-and-keys.html#keys
-          <tr key={index}>
-            <td>{index + 1}</td>
-            <td>{module.modName}</td>
-            {
-              //<td>{module.modId}</td> ID hidden from user
-            }
-            <td>{module.modRank}</td>
-            <td>
-              {
-                <ColorPicker
-                  // key uses the unique identifier for module, modId
-                  key={module.modId}
+    <div>
+      <table
+        className={styles.cmTable}
+        style={{ margin: "0 auto", width: "100%" }}
+      >
+        {/* <thead> */}
+        {/* <tr> */}
+        {/* <th>No.</th> */}
+        {/* <th>Rank</th> */}
+        {/* <th>Module</th> */}
+        {
+          // <th>ID</th> uncomment only for debugging
+        }
+        {/* <th>Color</th> */}
+        {/* </tr> */}
+        {/* </thead> */}
+
+        <tbody className={styles.tableContent}>
+          {modules.map((module, index) => (
+            // We should specify key here to help react identify
+            // what has updated
+            // https://reactjs.org/docs/lists-and-keys.html#keys
+            <tr key={index}>
+              {/* <td>{index + 1}</td> */}
+              <td className={styles.rankCol}>
+                <div className={styles.rankColObj}>{module.modRank}</div>
+                <ModuleReranker
+                  modId={module.modId}
                   modules={modules}
-                  moduleColor={module.modColor}
-                  setModuleColor={setModuleColor}
+                  setModules={setModules}
                 />
+              </td>
+              <td>{module.modName}</td>
+              {
+                // <td>{module.modId}</td> ID hidden from user
               }
-            </td>
-            <IconButton aria-label="delete">
-              <DeleteIcon
-                fontSize="small"
-                onClick={() => {
-                  handleDelete(module);
-                }}
-              />
-            </IconButton>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+
+              <td>
+                {
+                  <ColorPicker
+                    // key uses the unique identifier for module, modId
+                    key={module.modId}
+                    modules={modules}
+                    moduleColor={module.modColor}
+                    setModuleColor={setModuleColor}
+                  />
+                }
+              </td>
+              <td className={styles.functionButtons}>
+                {/* <IconButton aria-label="uprank">
+                  <KeyboardArrowUpIcon fontSize="small" />
+                </IconButton>
+                <IconButton aria-label="downrank">
+                  <KeyboardArrowDownIcon fontSize="small" />
+                </IconButton> */}
+                <ModuleRenamer
+                  modId={module.modId}
+                  modules={modules}
+                  setModules={setModules}
+                />
+                {/* <IconButton aria-label="rename">
+                <CreateIcon
+                  fontSize="small"
+                  onClick={() => {
+                    handleRenameOpen(module);
+                  }}
+                />
+              </IconButton> */}
+                <IconButton aria-label="delete">
+                  <DeleteIcon
+                    fontSize="small"
+                    onClick={() => {
+                      handleDelete(module);
+                    }}
+                  />
+                </IconButton>
+              </td>
+              <Dialog
+                key={module.modId}
+                open={open}
+                onClose={handleClose}
+                scroll={scroll}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+                //actions={actions}
+              >
+                <DialogTitle id="scroll-dialog-title">
+                  Rename Module
+                </DialogTitle>
+                <form
+                  key={module.modId}
+                  id="modRenameForm"
+                  onSubmit={(event) => handleRename(event, module.modId)}
+                >
+                  <DialogContent
+                    style={{ height: "400px" }}
+                    dividers={scroll === "paper"}
+                  >
+                    <DialogContentText>Rename Your Module!</DialogContentText>
+                    <div className={styles.rowA}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="moduleName"
+                        label="New Module Name"
+                        type="moduleName"
+                        fullWidth
+                        onChange={handleRenameInput}
+                      />
+                    </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="secondary">
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      onClick={(event) => handleRename(event, module.modId)}
+                      color="primary"
+                    >
+                      Confirm
+                    </Button>
+                  </DialogActions>
+                </form>
+              </Dialog>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

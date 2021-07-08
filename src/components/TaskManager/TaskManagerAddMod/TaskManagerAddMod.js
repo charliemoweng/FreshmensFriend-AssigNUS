@@ -38,7 +38,7 @@ function TaskManagerAddMod(props) {
   const newModRank = moduleRank;
 
   const handleNameInput = (e) => {
-    // console.log("handleName is called");
+    //console.log("handleName is called");
     setNewModName(e.target.value);
   };
 
@@ -51,6 +51,11 @@ function TaskManagerAddMod(props) {
   }, [modules]);
 
   function handleAddMod(event) {
+    // if (newModName == null) {
+    //   event.preventDefault();
+    //   alert("Module name cannot be empty.");
+    //   setOpen(false);
+    // }
     event.preventDefault();
     addMod(newModId, newModName, newModColor, newModRank, firebase);
     setOpen(false);
@@ -155,7 +160,12 @@ function TaskManagerAddMod(props) {
         //actions={actions}
       >
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
-        <form id="modform" onSubmit={handleAddMod}>
+
+        <form
+          //id="modForm"
+          onSubmit={handleAddMod}
+          autoComplete="off"
+        >
           <DialogContent
             style={{ height: "400px" }}
             dividers={scroll === "paper"}

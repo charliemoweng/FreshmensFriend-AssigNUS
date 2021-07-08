@@ -15,8 +15,6 @@ function TaskManager(props) {
   const {
     modules,
     setModules,
-    tasks,
-    setTasks,
     moduleId,
     setModuleId,
     moduleName,
@@ -24,7 +22,25 @@ function TaskManager(props) {
     moduleColor,
     setModuleColor,
     moduleRank,
-    setModuleRank
+    setModuleRank,
+    tasks,
+    setTasks,
+    taskId,
+    setTaskId,
+    taskMod,
+    setTaskMod,
+    taskName,
+    setTaskName,
+    taskDue,
+    setTaskDue,
+    taskStart,
+    setTaskStart,
+    taskEnd,
+    setTaskEnd,
+    taskWeight,
+    setTaskWeight,
+    taskComplete,
+    setTaskComplete
   } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
@@ -107,6 +123,22 @@ function TaskManager(props) {
                 setModuless={setModules}
                 tasks={tasks}
                 setTasks={setTasks}
+                taskId={taskId}
+                setTaskId={setTaskId}
+                taskMod={taskMod}
+                setTaskMod={setTaskMod}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDue={taskDue}
+                setTaskDue={setTaskDue}
+                taskStart={taskStart}
+                setTaskStart={setTaskStart}
+                taskEnd={taskEnd}
+                setTaskEnd={setTaskEnd}
+                taskWeight={taskWeight}
+                setTaskWeight={setTaskWeight}
+                taskComplete={taskComplete}
+                setTaskComplete={setTaskComplete}
               />
             </div>
             <div className={styles.TMButtonRight}>
@@ -115,6 +147,22 @@ function TaskManager(props) {
                 setModuless={setModules}
                 tasks={tasks}
                 setTasks={setTasks}
+                taskId={taskId}
+                setTaskId={setTaskId}
+                taskMod={taskMod}
+                setTaskMod={setTaskMod}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDue={taskDue}
+                setTaskDue={setTaskDue}
+                taskStart={taskStart}
+                setTaskStart={setTaskStart}
+                taskEnd={taskEnd}
+                setTaskEnd={setTaskEnd}
+                taskWeight={taskWeight}
+                setTaskWeight={setTaskWeight}
+                taskComplete={taskComplete}
+                setTaskComplete={setTaskComplete}
               />
             </div>
           </div>
