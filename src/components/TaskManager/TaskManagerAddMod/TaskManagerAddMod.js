@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import styles from "../TaskManagerAddMod/TaskManagerAddMod.module.css";
 import AddIcon from "@material-ui/icons/Add";
-import ColorPicker from "./ColorPicker";
 import { firebase } from "@firebase/app";
+import FormMod from "./FormMod";
 
 function TaskManagerAddMod(props) {
   console.log("AddMod called");
@@ -37,9 +32,59 @@ function TaskManagerAddMod(props) {
   const newModColor = moduleColor;
   const newModRank = moduleRank;
 
+  const modNameValidate = (modName) => {
+    if (!modName) {
+      return "Module name is required";
+    }
+    // module naming convention:
+    // 2/3/4 capitalised letters + 4 numerals + 0/1/2/3/4 capitalised letters
+    // if (/[A-Z]{2,4}[0-9]{4}[A-Z]{0,4}/.test(modName)) {
+    //   return null;
+    // }
+    if (/[a-zA-Z0-9]/.test(modName)) {
+      return null;
+    }
+    if (modules.some((mod) => mod.moduleName === modName)) {
+      return "Module is already present";
+    }
+    return "Not a valid Module name";
+  };
+
+  const validate = {
+    modName: modNameValidate
+  };
+
+  const initialValue = {
+    modName: ""
+  };
+
+  const [values, setValues] = React.useState(initialValue);
+
+  const [errors, setErrors] = React.useState({});
+
+  const [touched, setTouched] = React.useState({});
+
+  // handleChange
   const handleNameInput = (e) => {
     //console.log("handleName is called");
     setNewModName(e.target.value);
+
+    const { name, value: newValue, type } = e.target;
+
+    // keep number fields as numbers
+    const value = type === "number" ? +newValue : newValue;
+
+    // save field values
+    setValues({
+      ...values,
+      [name]: value
+    });
+
+    // was the field modified
+    setTouched({
+      ...touched,
+      [name]: true
+    });
   };
 
   useEffect(() => {
@@ -50,6 +95,7 @@ function TaskManagerAddMod(props) {
     setModuleRank(arrayLength + 1); // this is a default rank assigned upon creation of the module, to be updated
   }, [modules]);
 
+  // handleSubmit
   function handleAddMod(event) {
     // if (newModName == null) {
     //   event.preventDefault();
@@ -57,8 +103,41 @@ function TaskManagerAddMod(props) {
     //   setOpen(false);
     // }
     event.preventDefault();
-    addMod(newModId, newModName, newModColor, newModRank, firebase);
-    setOpen(false);
+
+    // validate the form
+    const formValidation = Object.keys(values).reduce(
+      (acc, key) => {
+        const newError = validate[key](values[key]);
+        const newTouched = { [key]: true };
+        return {
+          errors: {
+            ...acc.errors,
+            ...(newError && { [key]: newError })
+          },
+          touched: {
+            ...acc.touched,
+            ...newTouched
+          }
+        };
+      },
+      {
+        errors: { ...errors },
+        touched: { ...touched }
+      }
+    );
+    setErrors(formValidation.errors);
+    setTouched(formValidation.touched);
+
+    if (
+      !Object.values(formValidation.errors).length && // errors object is empty
+      Object.values(formValidation.touched).length ===
+        Object.values(values).length && // all fields were touched
+      Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+    ) {
+      //alert(JSON.stringify(values, null, 2));
+      addMod(newModId, newModName, newModColor, newModRank, firebase);
+      setOpen(false);
+    }
   }
 
   function addMod(modId, modName, modColor, modRank) {
@@ -80,6 +159,22 @@ function TaskManagerAddMod(props) {
     // console.log("Color is: " + newMods[pos].modColor);
     // console.log("Rank is: " + newMods[pos].modRank);
   }
+
+  const handleBlur = (evt) => {
+    const { name, value } = evt.target;
+
+    // remove whatever error was there previously
+    const { [name]: removedError, ...rest } = errors;
+
+    // check for a new error
+    const error = validate[name](value);
+
+    // // validate the field if the value has been touched
+    setErrors({
+      ...rest,
+      ...(error && { [name]: touched[name] && error })
+    });
+  };
 
   // useEffect(() => {
   //   const uid = firebase.auth().currentUser?.uid;
@@ -136,10 +231,11 @@ function TaskManagerAddMod(props) {
     />
   ];
 */
+
   return (
     <div>
-      <div className={styles.TMButtonParent}>
-        <div className={styles.TMButtonLeft}>
+      <div>
+        <div>
           <Button
             type="submit"
             variant="contained"
@@ -161,46 +257,18 @@ function TaskManagerAddMod(props) {
       >
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
 
-        <form
-          //id="modForm"
-          onSubmit={handleAddMod}
-          autoComplete="off"
-        >
-          <DialogContent
-            style={{ height: "400px" }}
-            dividers={scroll === "paper"}
-          >
-            <DialogContentText>
-              Add a Module and select a Color for it!
-            </DialogContentText>
-            <div className={styles.rowA}>
-              <div className={styles.objA}>
-                <ColorPicker
-                  moduleColor={moduleColor}
-                  setModuleColor={setModuleColor}
-                  // onChange={handleColorInput}
-                />
-              </div>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="moduleName"
-                label="Module"
-                type="moduleName"
-                fullWidth
-                onChange={handleNameInput}
-              />
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button type="submit" onClick={handleAddMod} color="primary">
-              Confirm
-            </Button>
-          </DialogActions>
-        </form>
+        <FormMod
+          moduleColor={moduleColor}
+          setModuleColor={setModuleColor}
+          handleAddMod={handleAddMod} //handleSubmit
+          handleNameInput={handleNameInput} //handleChange
+          handleClose={handleClose}
+          scroll={scroll}
+          errors={errors}
+          handleBlur={handleBlur}
+          touched={touched}
+          values={values}
+        />
       </Dialog>
     </div>
   );

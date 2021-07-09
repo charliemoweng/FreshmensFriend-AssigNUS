@@ -1,0 +1,11 @@
+.rowA {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.objA {
+  margin-right: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
