@@ -9,7 +9,38 @@ import styles from "./TaskListCompleted.module.css";
 
 function TaskListCompleted(props) {
   console.log("task list completed called");
-  const { modules, setModules, tasks, setTasks } = props;
+  const {
+    modules,
+    setModules,
+    moduleId,
+    setModuleId,
+    moduleName,
+    setModuleName,
+    moduleColor,
+    setModuleColor,
+    moduleRank,
+    setModuleRank,
+    tasks,
+    setTasks,
+    taskId,
+    setTaskId,
+    taskMod,
+    setTaskMod,
+    taskName,
+    setTaskName,
+    taskDue,
+    setTaskDue,
+    taskStart,
+    setTaskStart,
+    taskEnd,
+    setTaskEnd,
+    taskWeight,
+    setTaskWeight,
+    taskComplete,
+    setTaskComplete,
+    taskRank,
+    setTaskRank
+  } = props;
   const [newTaskText, setNewTaskText] = useState("");
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {

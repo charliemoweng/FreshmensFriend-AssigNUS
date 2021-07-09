@@ -50,7 +50,7 @@ function ModuleRenamer(props) {
     }
     const currMod = arrayForRenaming.find((element) => element.modId === modId);
     //const copyForRenaming = { ...arrayForRenaming[modId] };
-    console.log("modId: " + modId + "local copy: " + arrayForRenaming);
+    //console.log("modId: " + modId + "local copy: " + arrayForRenaming);
     currMod.modName = newModName;
     //arrayForRenaming[modId] = copyForRenaming;
     // updates the modules array using the updated local copy
@@ -61,12 +61,7 @@ function ModuleRenamer(props) {
   return (
     <div>
       <IconButton aria-label="rename">
-        <CreateIcon
-          fontSize="small"
-          onClick={() => {
-            handleRenameOpen(module);
-          }}
-        />
+        <CreateIcon fontSize="small" onClick={handleRenameOpen} />
       </IconButton>
 
       <Dialog

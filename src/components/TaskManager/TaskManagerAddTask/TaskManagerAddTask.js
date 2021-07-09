@@ -39,8 +39,19 @@ function TaskManagerAddTask(props) {
     taskWeight,
     setTaskWeight,
     taskComplete,
-    setTaskComplete
+    setTaskComplete,
+    taskRank,
+    setTaskRank
   } = props;
+
+  const newTaskId = taskId;
+  const newTaskRank = taskRank;
+  const newTaskMod = taskMod;
+  const newTaskName = taskName;
+  const newTaskDue = taskDue;
+  const newTaskStart = taskStart;
+  const newTaskEnd = taskEnd;
+  const newTaskWeight = taskWeight;
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,10 +64,29 @@ function TaskManagerAddTask(props) {
   const classes = useStyles();
 
   const modArray = Array.from(modules);
+  const modArrayHardcode = [
+    { modId: 0, modName: "m1" },
+    { modId: 1, modName: "m2" },
+    { modId: 2, modName: "Module 3" }
+  ];
+  useEffect(() => {}, [modArray]);
+  useEffect(() => {
+    var arrayLength = tasks.length;
+    setTaskId(arrayLength);
+    setTaskRank(arrayLength + 1);
+  });
+  // Handlers
 
   const handleTaskModChange = (event) => {
-    setTaskMod(event.target.moduleName);
-    console.log(event.target.moduleName);
+    setTaskMod(event.target.value);
+  };
+
+  const handleTaskNameChange = (event) => {
+    setTaskName(event.target.value);
+  };
+
+  const handleTaskWeightChange = (event) => {
+    setTaskWeight(event.target.value);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -75,20 +105,44 @@ function TaskManagerAddTask(props) {
 
   function handleAddTask(event) {
     event.preventDefault();
-    addTask(newTaskText);
+    console.log(
+      "New Task(id,mod,name): " + newTaskId + newTaskMod + newTaskName
+    );
+    addTask(
+      newTaskId,
+      newTaskRank,
+      newTaskMod,
+      newTaskName,
+      newTaskDue,
+      newTaskStart,
+      newTaskEnd,
+      newTaskWeight,
+      firebase
+    );
+    setOpen(false);
   }
 
-  function addTask(description) {
+  function addTask(
+    taskId,
+    taskRank,
+    taskMod,
+    taskName,
+    taskDue,
+    taskStart,
+    taskEnd,
+    taskWeight
+  ) {
     const newTasks = [
       ...tasks,
       {
-        taskId: 0,
-        taskMod: 0,
-        taskName: 0,
-        taskDue: 0,
-        taskStart: 0,
-        taskEnd: 0,
-        taskWeight: 0
+        taskId: taskId,
+        taskRank: taskRank,
+        taskMod: taskMod,
+        taskName: taskName,
+        taskDue: taskDue,
+        taskStart: taskStart,
+        taskEnd: taskEnd,
+        taskWeight: taskWeight
       }
     ];
     setTasks(newTasks);
@@ -146,67 +200,58 @@ function TaskManagerAddTask(props) {
               label="Select Module"
               value={taskMod}
               onChange={handleTaskModChange}
-              helperText="Please select the module for this task"
               variant="outlined"
             >
               {modArray.map((option) => (
-                <MenuItem key={option.modId} value={option.modId}>
+                <MenuItem key={option.modId} value={option.modName}>
                   {option.modName}
                 </MenuItem>
               ))}
             </TextField>
           </div>
-
-          <TextField
-            autoFocus
-            margin="dense"
-            id="moduleName"
-            label="Module"
-            type="moduleName"
-            fullWidth
-          />
           <TextField
             autoFocus
             margin="dense"
             id="taskName"
             label="Name of Task"
             type="taskName"
+            onChange={handleTaskNameChange}
             fullWidth
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={taskDue}
               label="Due Date and Time"
               onError={console.log}
               minDate={new Date("2018-01-01T00:00")}
               format="yyyy/MM/dd hh:mm a"
               margin="dense"
+              onChange={setTaskDue}
               fullWidth
             />
           </MuiPickersUtilsProvider>
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={taskStart}
               label="Start at"
               onError={console.log}
               minDate={new Date("2021-01-01T00:00")}
               format="yyyy/MM/dd hh:mm a"
               margin="dense"
+              onChange={setTaskStart}
             />
           </MuiPickersUtilsProvider>
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={taskEnd}
               label="End at"
               onError={console.log}
               minDate={new Date("2021-01-01T00:00")}
               format="yyyy/MM/dd hh:mm a"
               margin="dense"
+              onChange={setTaskEnd}
             />
           </MuiPickersUtilsProvider>
 
@@ -215,15 +260,15 @@ function TaskManagerAddTask(props) {
             margin="dense"
             id="weitage"
             label="Weightage (optional)"
-            type="email"
             fullWidth
+            onChange={handleTaskWeightChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleAddTask} color="primary">
             Confirm
           </Button>
         </DialogActions>

@@ -21,7 +21,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TaskList(props) {
   console.log("task list called");
-  const { modules, setModules, tasks, setTasks } = props;
+  const {
+    modules,
+    setModules,
+    moduleId,
+    setModuleId,
+    moduleName,
+    setModuleName,
+    moduleColor,
+    setModuleColor,
+    moduleRank,
+    setModuleRank,
+    tasks,
+    setTasks,
+    taskId,
+    setTaskId,
+    taskMod,
+    setTaskMod,
+    taskName,
+    setTaskName,
+    taskDue,
+    setTaskDue,
+    taskStart,
+    setTaskStart,
+    taskEnd,
+    setTaskEnd,
+    taskWeight,
+    setTaskWeight,
+    taskComplete,
+    setTaskComplete,
+    taskRank,
+    setTaskRank
+  } = props;
 
   const classes = useStyles();
 
@@ -45,6 +76,24 @@ export default function TaskList(props) {
                 setModuless={setModules}
                 tasks={tasks}
                 setTasks={setTasks}
+                taskId={taskId}
+                setTaskId={setTaskId}
+                taskMod={taskMod}
+                setTaskMod={setTaskMod}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDue={taskDue}
+                setTaskDue={setTaskDue}
+                taskStart={taskStart}
+                setTaskStart={setTaskStart}
+                taskEnd={taskEnd}
+                setTaskEnd={setTaskEnd}
+                taskWeight={taskWeight}
+                setTaskWeight={setTaskWeight}
+                taskComplete={taskComplete}
+                setTaskComplete={setTaskComplete}
+                taskRank={taskRank}
+                setTaskRank={setTaskRank}
               />
             </Typography>
           </div>
@@ -68,6 +117,24 @@ export default function TaskList(props) {
                 setModuless={setModules}
                 tasks={tasks}
                 setTasks={setTasks}
+                taskId={taskId}
+                setTaskId={setTaskId}
+                taskMod={taskMod}
+                setTaskMod={setTaskMod}
+                taskName={taskName}
+                setTaskName={setTaskName}
+                taskDue={taskDue}
+                setTaskDue={setTaskDue}
+                taskStart={taskStart}
+                setTaskStart={setTaskStart}
+                taskEnd={taskEnd}
+                setTaskEnd={setTaskEnd}
+                taskWeight={taskWeight}
+                setTaskWeight={setTaskWeight}
+                taskComplete={taskComplete}
+                setTaskComplete={setTaskComplete}
+                taskRank={taskRank}
+                setTaskRank={setTaskRank}
               />
             </Typography>
           </div>

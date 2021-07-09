@@ -53,19 +53,21 @@ function PageAssigNUS() {
   // ID
   const [taskId, setTaskId] = useState(0);
   // Mod
-  const [taskMod, setTaskMod] = useState("default taskMod placeholder");
+  const [taskMod, setTaskMod] = useState("");
   // Name
-  const [taskName, setTaskName] = useState("default taskname placeholder");
+  const [taskName, setTaskName] = useState("");
   // Due
-  const [taskDue, setTaskDue] = useState("2021-01-01T00:00");
+  const [taskDue, setTaskDue] = useState(new Date());
   // Start
-  const [taskStart, setTaskStart] = useState("2021-01-01T00:00");
+  const [taskStart, setTaskStart] = useState(new Date());
   // End
-  const [taskEnd, setTaskEnd] = useState("2021-01-01T00:00");
+  const [taskEnd, setTaskEnd] = useState(new Date());
   // Weightage
   const [taskWeight, setTaskWeight] = useState(0);
   // Completion
   const [taskComplete, setTaskComplete] = useState(false);
+  // Rank
+  const [taskRank, setTaskRank] = useState(1);
 
   function setTasks(newTasks) {
     setTasksState(newTasks);
@@ -119,6 +121,8 @@ function PageAssigNUS() {
             setTaskWeight={setTaskWeight}
             taskComplete={taskComplete}
             setTaskComplete={setTaskComplete}
+            taskRank={taskRank}
+            setTaskRank={setTaskRank}
           />
         </div>
       </main>

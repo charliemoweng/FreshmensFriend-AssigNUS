@@ -40,7 +40,9 @@ function TaskManager(props) {
     taskWeight,
     setTaskWeight,
     taskComplete,
-    setTaskComplete
+    setTaskComplete,
+    taskRank,
+    setTaskRank
   } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
@@ -139,6 +141,8 @@ function TaskManager(props) {
                 setTaskWeight={setTaskWeight}
                 taskComplete={taskComplete}
                 setTaskComplete={setTaskComplete}
+                taskRank={taskRank}
+                setTaskRank={setTaskRank}
               />
             </div>
             <div className={styles.TMButtonRight}>
@@ -163,6 +167,8 @@ function TaskManager(props) {
                 setTaskWeight={setTaskWeight}
                 taskComplete={taskComplete}
                 setTaskComplete={setTaskComplete}
+                taskRank={taskRank}
+                setTaskRank={setTaskRank}
               />
             </div>
           </div>
@@ -188,6 +194,24 @@ function TaskManager(props) {
               setModuless={setModules}
               tasks={tasks}
               setTasks={setTasks}
+              taskId={taskId}
+              setTaskId={setTaskId}
+              taskMod={taskMod}
+              setTaskMod={setTaskMod}
+              taskName={taskName}
+              setTaskName={setTaskName}
+              taskDue={taskDue}
+              setTaskDue={setTaskDue}
+              taskStart={taskStart}
+              setTaskStart={setTaskStart}
+              taskEnd={taskEnd}
+              setTaskEnd={setTaskEnd}
+              taskWeight={taskWeight}
+              setTaskWeight={setTaskWeight}
+              taskComplete={taskComplete}
+              setTaskComplete={setTaskComplete}
+              taskRank={taskRank}
+              setTaskRank={setTaskRank}
             />
 
             {/*<table
