@@ -155,38 +155,27 @@ function CurrentModules(props) {
               {
                 // <td>{module.modId}</td> ID hidden from user
               }
-
               <td>
-                {
-                  <ColorPicker
-                    // key uses the unique identifier for module, modId
-                    key={module.modId}
-                    modules={modules}
-                    moduleColor={module.modColor}
-                    setModuleColor={setModuleColor}
-                  />
-                }
-              </td>
-              <td className={styles.functionButtons}>
-                {/* <IconButton aria-label="uprank">
-                  <KeyboardArrowUpIcon fontSize="small" />
-                </IconButton>
-                <IconButton aria-label="downrank">
-                  <KeyboardArrowDownIcon fontSize="small" />
-                </IconButton> */}
                 <ModuleRenamer
                   modId={module.modId}
                   modules={modules}
                   setModules={setModules}
                 />
-                {/* <IconButton aria-label="rename">
-                <CreateIcon
-                  fontSize="small"
-                  onClick={() => {
-                    handleRenameOpen(module);
-                  }}
-                />
-              </IconButton> */}
+              </td>
+              <td>
+                {
+                  <ColorPicker
+                    // key uses the unique identifier for module, modId
+                    key={module.modId}
+                    modId={module.modId}
+                    modules={modules}
+                    setModules={setModules}
+                    moduleColor={module.modColor}
+                    setModuleColor={setModuleColor}
+                  />
+                }
+              </td>
+              <td>
                 <IconButton aria-label="delete">
                   <DeleteIcon
                     fontSize="small"
@@ -196,54 +185,6 @@ function CurrentModules(props) {
                   />
                 </IconButton>
               </td>
-              <Dialog
-                key={module.modId}
-                open={open}
-                onClose={handleClose}
-                scroll={scroll}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-                //actions={actions}
-              >
-                <DialogTitle id="scroll-dialog-title">
-                  Rename Module
-                </DialogTitle>
-                <form
-                  key={module.modId}
-                  id="modRenameForm"
-                  onSubmit={(event) => handleRename(event, module.modId)}
-                >
-                  <DialogContent
-                    style={{ height: "400px" }}
-                    dividers={scroll === "paper"}
-                  >
-                    <DialogContentText>Rename Your Module!</DialogContentText>
-                    <div className={styles.rowA}>
-                      <TextField
-                        autoFocus
-                        margin="dense"
-                        id="moduleName"
-                        label="New Module Name"
-                        type="moduleName"
-                        fullWidth
-                        onChange={handleRenameInput}
-                      />
-                    </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      onClick={(event) => handleRename(event, module.modId)}
-                      color="primary"
-                    >
-                      Confirm
-                    </Button>
-                  </DialogActions>
-                </form>
-              </Dialog>
             </tr>
           ))}
         </tbody>

@@ -9,6 +9,8 @@ import ColorPicker from "./ColorPicker";
 
 function FormMod(props) {
   const {
+    modules,
+    setModules,
     moduleColor,
     setModuleColor,
     handleAddMod,
@@ -38,6 +40,8 @@ function FormMod(props) {
           <div className={styles.rowA}>
             <div className={styles.objA}>
               <ColorPicker
+                modules={modules}
+                setModules={setModules}
                 moduleColor={moduleColor}
                 setModuleColor={setModuleColor}
                 required

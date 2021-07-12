@@ -36,6 +36,11 @@ function TaskManagerAddMod(props) {
     if (!modName) {
       return "Module name is required";
     }
+    if (
+      modules.some((module) => modName.valueOf() === module.modName.valueOf())
+    ) {
+      return "Module is already present";
+    }
     // module naming convention:
     // 2/3/4 capitalised letters + 4 numerals + 0/1/2/3/4 capitalised letters
     // if (/[A-Z]{2,4}[0-9]{4}[A-Z]{0,4}/.test(modName)) {
@@ -43,9 +48,6 @@ function TaskManagerAddMod(props) {
     // }
     if (/[a-zA-Z0-9]/.test(modName)) {
       return null;
-    }
-    if (modules.some((mod) => mod.moduleName === modName)) {
-      return "Module is already present";
     }
     return "Not a valid Module name";
   };
@@ -258,6 +260,8 @@ function TaskManagerAddMod(props) {
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
 
         <FormMod
+          modules={modules}
+          setModules={setModules}
           moduleColor={moduleColor}
           setModuleColor={setModuleColor}
           handleAddMod={handleAddMod} //handleSubmit

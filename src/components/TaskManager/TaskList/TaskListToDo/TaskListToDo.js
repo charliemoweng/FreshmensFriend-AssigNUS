@@ -7,6 +7,11 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import { firebase } from "@firebase/app";
 import TaskRenamer from "./TaskRenamer";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker
+} from "@material-ui/pickers";
 import styles from "./TaskListToDo.module.css";
 
 {
@@ -50,7 +55,9 @@ function TaskListToDo(props) {
   } = props;
 
   useEffect(() => {}, [tasks]);
-  //console.log("Tasks array is: " + JSON.stringify(tasks));
+  console.log("Tasks array is: " + JSON.stringify(tasks));
+
+  const [newTaskDue, setNewTaskDue] = useState(new Date());
 
   function handleDelete(task) {
     // Delete ALL for quick debugging
@@ -63,9 +70,9 @@ function TaskListToDo(props) {
     const deletedRank = task.taskRank;
 
     function updateRankOnDeletion(taskChecked) {
-      if (taskChecked.modRank > deletedRank) {
+      if (taskChecked.taskRank > deletedRank) {
         // console.log("Need to update rank");
-        taskChecked.modRank--;
+        taskChecked.taskRank--;
       }
     }
 
@@ -92,6 +99,30 @@ function TaskListToDo(props) {
     ];
 
     setTasks(newTasks);
+  }
+  function handleChange() {
+    console.log("onChange clicked");
+  }
+
+  function handleOnAccept() {
+    console.log("onAccept clicked");
+  }
+
+  function handleTaskDueChange(event, taskId) {
+    // event.preventDefault();
+
+    const arrayForDueChange = [...tasks];
+    if (arrayForDueChange.find((element) => element.taskId === undefined)) {
+      alert("Error: taskId not found");
+    }
+
+    const currTask = arrayForDueChange.find(
+      (element) => element.taskId === taskId
+    );
+    console.log("currTask is: " + JSON.stringify(currTask));
+    console.log("event is:" + JSON.stringify(event));
+    currTask.taskDue = event;
+    setTasks(arrayForDueChange);
   }
 
   return (
@@ -131,6 +162,19 @@ function TaskListToDo(props) {
                 tasks={tasks}
                 setTasks={setTasks}
               />
+            </td>
+            <td>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDateTimePicker
+                  key={task.taskId}
+                  value={task.taskDue}
+                  label="Due Date and Time"
+                  onError={console.log}
+                  format="MM/dd hh:mm a"
+                  margin="dense"
+                  onChange={(event) => handleTaskDueChange(event, task.taskId)}
+                />
+              </MuiPickersUtilsProvider>
             </td>
             <td>
               <IconButton aria-label="delete">

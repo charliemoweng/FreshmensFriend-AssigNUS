@@ -3,7 +3,14 @@ import reactCSS from "reactcss";
 import { TwitterPicker } from "react-color";
 
 function ColorPicker(props) {
-  const { key, modules, moduleColor, setModuleColor } = props;
+  const {
+    key,
+    modId,
+    modules,
+    setModules,
+    moduleColor,
+    setModuleColor
+  } = props;
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   // const [color, setColor] = useState({ r: "241", g: "112", b: "19", a: "1" });
@@ -130,10 +137,21 @@ function ColorPicker(props) {
 
   const handleChange = (color, event) => {
     setColor(color.rgb);
-    // console.log("color.rgb is: " + color.rgb);
     setModuleColor(color.hex);
     // console.log("Color.rgb is: " + color.rgb);
     // console.log("Color.hex is: " + color.hex);
+    console.log("modId is: " + modId);
+    const arrayForRecoloring = [...modules];
+
+    // only executes when editing color of already existing mod
+    if (arrayForRecoloring.find((element) => element.modId === modId)) {
+      console.log(JSON.stringify(arrayForRecoloring));
+      const currMod = arrayForRecoloring.find(
+        (element) => element.modId === modId
+      );
+      currMod.modColor = color.hex; // change modColor to be new color
+      setModules(arrayForRecoloring);
+    }
     handleClose();
   };
 
@@ -175,7 +193,7 @@ function ColorPicker(props) {
       {displayColorPicker ? (
         <div style={styles.popover}>
           <div style={styles.cover} onClick={handleClose} />
-          <TwitterPicker color={color} onChangeComplete={handleChange} />
+          <TwitterPicker color={color} onChange={handleChange} />
         </div>
       ) : null}
     </div>

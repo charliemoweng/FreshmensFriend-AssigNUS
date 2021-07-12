@@ -41,3 +41,8 @@
   margin: auto;
   /* border-style: dotted; */
 }
+
+.modNameCol {
+  display: flex;
+  flex-direction: row;
+}

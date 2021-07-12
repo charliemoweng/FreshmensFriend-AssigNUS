@@ -64,11 +64,7 @@ function TaskManagerAddTask(props) {
   const classes = useStyles();
 
   const modArray = Array.from(modules);
-  const modArrayHardcode = [
-    { modId: 0, modName: "m1" },
-    { modId: 1, modName: "m2" },
-    { modId: 2, modName: "Module 3" }
-  ];
+
   useEffect(() => {}, [modArray]);
   useEffect(() => {
     var arrayLength = tasks.length;
@@ -148,11 +144,11 @@ function TaskManagerAddTask(props) {
     setTasks(newTasks);
   }
 
-  useEffect(() => {
-    const uid = firebase.auth().currentUser?.uid;
-    const db = firebase.firestore();
-    db.collection("/tasks").doc(uid).set({ tasks: tasks });
-  }, [tasks]);
+  // useEffect(() => {
+  //   const uid = firebase.auth().currentUser?.uid;
+  //   const db = firebase.firestore();
+  //   db.collection("/tasks").doc(uid).set({ tasks: tasks });
+  // }, [tasks]);
 
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
     const newTasks = [
@@ -188,90 +184,95 @@ function TaskManagerAddTask(props) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Task Details</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Add a Task! This can also be done by dragging out an area on your
-            Calendar (upcoming feature)
-          </DialogContentText>
-          <div className={classes.root}>
+
+        <form onSubmit={handleAddTask} autoComplete="off">
+          <DialogContent>
+            <DialogContentText>
+              Add a Task! This can also be done by dragging out an area on your
+              Calendar (upcoming feature)
+            </DialogContentText>
+
+            <div className={classes.root}>
+              <TextField
+                id="standard-select-module"
+                select
+                label="Select Module"
+                value={taskMod}
+                onChange={handleTaskModChange}
+                variant="outlined"
+              >
+                {modArray.map((option) => (
+                  <MenuItem key={option.modId} value={option.modName}>
+                    {option.modName}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+
             <TextField
-              id="standard-select-module"
-              select
-              label="Select Module"
-              value={taskMod}
-              onChange={handleTaskModChange}
-              variant="outlined"
-            >
-              {modArray.map((option) => (
-                <MenuItem key={option.modId} value={option.modName}>
-                  {option.modName}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="taskName"
-            label="Name of Task"
-            type="taskName"
-            onChange={handleTaskNameChange}
-            fullWidth
-          />
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={taskDue}
-              label="Due Date and Time"
-              onError={console.log}
-              minDate={new Date("2018-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
+              autoFocus
               margin="dense"
-              onChange={setTaskDue}
+              id="taskName"
+              label="Name of Task"
+              type="taskName"
+              onChange={handleTaskNameChange}
               fullWidth
             />
-          </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                value={taskDue}
+                label="Due Date and Time"
+                onError={console.log}
+                minDate={new Date("2021-01-01T00:00")}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setTaskDue}
+                fullWidth
+              />
+            </MuiPickersUtilsProvider>
 
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={taskStart}
-              label="Start at"
-              onError={console.log}
-              minDate={new Date("2021-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                value={taskStart}
+                label="Start at"
+                onError={console.log}
+                minDate={new Date("2021-01-01T00:00")}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setTaskStart}
+              />
+            </MuiPickersUtilsProvider>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                value={taskEnd}
+                label="End at"
+                onError={console.log}
+                minDate={new Date("2021-01-01T00:00")}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setTaskEnd}
+              />
+            </MuiPickersUtilsProvider>
+
+            <TextField
+              autoFocus
               margin="dense"
-              onChange={setTaskStart}
+              id="weitage"
+              label="Weightage (optional)"
+              fullWidth
+              onChange={handleTaskWeightChange}
             />
-          </MuiPickersUtilsProvider>
-
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDateTimePicker
-              value={taskEnd}
-              label="End at"
-              onError={console.log}
-              minDate={new Date("2021-01-01T00:00")}
-              format="yyyy/MM/dd hh:mm a"
-              margin="dense"
-              onChange={setTaskEnd}
-            />
-          </MuiPickersUtilsProvider>
-
-          <TextField
-            autoFocus
-            margin="dense"
-            id="weitage"
-            label="Weightage (optional)"
-            fullWidth
-            onChange={handleTaskWeightChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleAddTask} color="primary">
-            Confirm
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="secondary">
+              Cancel
+            </Button>
+            <Button onClick={handleAddTask} color="primary">
+              Confirm
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );
