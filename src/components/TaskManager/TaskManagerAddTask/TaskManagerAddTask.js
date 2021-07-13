@@ -18,7 +18,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { firebase } from "@firebase/app";
 
 function TaskManagerAddTask(props) {
-  console.log("AddTask called");
+  //console.log("AddTask called");
   const {
     modules,
     setModules,
@@ -36,22 +36,19 @@ function TaskManagerAddTask(props) {
     setTaskStart,
     taskEnd,
     setTaskEnd,
-    taskWeight,
-    setTaskWeight,
     taskComplete,
     setTaskComplete,
     taskRank,
     setTaskRank
   } = props;
 
-  const newTaskId = taskId;
+  var newTaskId = taskId;
   const newTaskRank = taskRank;
   const newTaskMod = taskMod;
   const newTaskName = taskName;
   const newTaskDue = taskDue;
   const newTaskStart = taskStart;
   const newTaskEnd = taskEnd;
-  const newTaskWeight = taskWeight;
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,24 +63,117 @@ function TaskManagerAddTask(props) {
   const modArray = Array.from(modules);
 
   useEffect(() => {}, [modArray]);
-  useEffect(() => {
-    var arrayLength = tasks.length;
-    setTaskId(arrayLength);
-    setTaskRank(arrayLength + 1);
-  });
-  // Handlers
 
+  const taskModValidate = (taskMod) => {
+    if (!taskMod) {
+      return "Please select a module for this task";
+    }
+    return null;
+  };
+
+  const taskNameValidate = (taskName) => {
+    if (!taskName) {
+      return "Task name is required";
+    }
+    if (
+      tasks.some(
+        (task) => task.taskMod === newTaskMod && task.taskName === taskName
+      )
+    ) {
+      return "This Task is already present";
+    }
+    if (/^\d$/.test(taskName)) {
+      return "Invalid Task name";
+    }
+    return null;
+  };
+
+  const validate = {
+    taskMod: taskModValidate,
+    taskName: taskNameValidate
+  };
+
+  const initialValues = {
+    taskMod: "",
+    taskName: ""
+  };
+
+  const [values, setValues] = React.useState(initialValues);
+
+  const [errors, setErrors] = React.useState({});
+
+  const [touched, setTouched] = React.useState({});
+
+  // Handlers (handle change)
   const handleTaskModChange = (event) => {
     setTaskMod(event.target.value);
+
+    const { name, value: newValue, type } = event.target;
+
+    // keep number fields as numbers
+    const value = type === "number" ? +newValue : newValue;
+
+    // save field values
+    setValues({
+      ...values,
+      [name]: value
+    });
+
+    // was the field modified
+    setTouched({
+      ...touched,
+      [name]: true
+    });
   };
 
   const handleTaskNameChange = (event) => {
     setTaskName(event.target.value);
+
+    const { name, value: newValue, type } = event.target;
+
+    // keep number fields as numbers
+    const value = type === "number" ? +newValue : newValue;
+
+    // save field values
+    setValues({
+      ...values,
+      [name]: value
+    });
+
+    // was the field modified
+    setTouched({
+      ...touched,
+      [name]: true
+    });
   };
 
-  const handleTaskWeightChange = (event) => {
-    setTaskWeight(event.target.value);
-  };
+  function hashCode(str) {
+    var hash = 0,
+      i,
+      chr;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  var arrayLength = tasks.length;
+  const result = newTaskMod.concat(newTaskName);
+  newTaskId = hashCode(result);
+
+  while (true) {
+    if (tasks.find((element) => element.taskId === newTaskId)) {
+      newTaskId++;
+    } else {
+      break;
+    }
+  }
+  setTaskId(newTaskId);
+  setTaskRank(arrayLength + 1);
+  useEffect(() => {}, [tasks]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -99,23 +189,57 @@ function TaskManagerAddTask(props) {
 
   const [selectedDate, handleDateChange] = useState(new Date());
 
+  //handle submit
   function handleAddTask(event) {
     event.preventDefault();
     console.log(
       "New Task(id,mod,name): " + newTaskId + newTaskMod + newTaskName
     );
-    addTask(
-      newTaskId,
-      newTaskRank,
-      newTaskMod,
-      newTaskName,
-      newTaskDue,
-      newTaskStart,
-      newTaskEnd,
-      newTaskWeight,
-      firebase
+
+    // validate the form
+    const formValidation = Object.keys(values).reduce(
+      (acc, key) => {
+        const newError = validate[key](values[key]);
+        const newTouched = { [key]: true };
+        return {
+          errors: {
+            ...acc.errors,
+            ...(newError && { [key]: newError })
+          },
+          touched: {
+            ...acc.touched,
+            ...newTouched
+          }
+        };
+      },
+      {
+        errors: { ...errors },
+        touched: { ...touched }
+      }
     );
-    setOpen(false);
+    setErrors(formValidation.errors);
+    setTouched(formValidation.touched);
+
+    if (
+      !Object.values(formValidation.errors).length && // errors object is empty
+      Object.values(formValidation.touched).length ===
+        Object.values(values).length && // all fields were touched
+      Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+    ) {
+      //alert(JSON.stringify(values, null, 2));
+      addTask(
+        newTaskId,
+        newTaskRank,
+        newTaskMod,
+        newTaskName,
+        newTaskDue,
+        newTaskStart,
+        newTaskEnd,
+        taskComplete,
+        firebase
+      );
+      setOpen(false);
+    }
   }
 
   function addTask(
@@ -126,7 +250,7 @@ function TaskManagerAddTask(props) {
     taskDue,
     taskStart,
     taskEnd,
-    taskWeight
+    taskComplete
   ) {
     const newTasks = [
       ...tasks,
@@ -138,11 +262,27 @@ function TaskManagerAddTask(props) {
         taskDue: taskDue,
         taskStart: taskStart,
         taskEnd: taskEnd,
-        taskWeight: taskWeight
+        taskComplete: taskComplete
       }
     ];
     setTasks(newTasks);
   }
+
+  const handleBlur = (evt) => {
+    const { name, value } = evt.target;
+
+    // remove whatever error was there previously
+    const { [name]: removedError, ...rest } = errors;
+
+    // check for a new error
+    const error = validate[name](value);
+
+    // // validate the field if the value has been touched
+    setErrors({
+      ...rest,
+      ...(error && { [name]: touched[name] && error })
+    });
+  };
 
   // useEffect(() => {
   //   const uid = firebase.auth().currentUser?.uid;
@@ -150,18 +290,18 @@ function TaskManagerAddTask(props) {
   //   db.collection("/tasks").doc(uid).set({ tasks: tasks });
   // }, [tasks]);
 
-  function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-    const newTasks = [
-      ...tasks.slice(0, toToggleTaskIndex),
-      {
-        description: toToggleTask.description,
-        isComplete: !toToggleTask.isComplete
-      },
-      ...tasks.slice(toToggleTaskIndex + 1)
-    ];
+  // function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
+  //   const newTasks = [
+  //     ...tasks.slice(0, toToggleTaskIndex),
+  //     {
+  //       description: toToggleTask.description,
+  //       isComplete: !toToggleTask.isComplete
+  //     },
+  //     ...tasks.slice(toToggleTaskIndex + 1)
+  //   ];
 
-    setTasks(newTasks);
-  }
+  //   setTasks(newTasks);
+  // }
 
   return (
     <div>
@@ -197,9 +337,12 @@ function TaskManagerAddTask(props) {
                 id="standard-select-module"
                 select
                 label="Select Module"
-                value={taskMod}
+                value={values.taskMod}
                 onChange={handleTaskModChange}
                 variant="outlined"
+                name="taskMod"
+                onBlur={handleBlur}
+                required
               >
                 {modArray.map((option) => (
                   <MenuItem key={option.modId} value={option.modName}>
@@ -207,6 +350,9 @@ function TaskManagerAddTask(props) {
                   </MenuItem>
                 ))}
               </TextField>
+            </div>
+            <div style={{ color: "red" }}>
+              {touched.taskMod && errors.taskMod}
             </div>
 
             <TextField
@@ -217,7 +363,15 @@ function TaskManagerAddTask(props) {
               type="taskName"
               onChange={handleTaskNameChange}
               fullWidth
+              name="taskName"
+              onBlur={handleBlur}
+              value={values.taskName}
+              required
             />
+            <div style={{ color: "red" }}>
+              {touched.taskName && errors.taskName}
+            </div>
+
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDateTimePicker
                 value={taskDue}
@@ -254,15 +408,6 @@ function TaskManagerAddTask(props) {
                 onChange={setTaskEnd}
               />
             </MuiPickersUtilsProvider>
-
-            <TextField
-              autoFocus
-              margin="dense"
-              id="weitage"
-              label="Weightage (optional)"
-              fullWidth
-              onChange={handleTaskWeightChange}
-            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

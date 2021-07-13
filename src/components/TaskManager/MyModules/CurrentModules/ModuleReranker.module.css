@@ -1,0 +1,4 @@
+.rerankButtons {
+  display: flex;
+  flex-direction: column;
+}
