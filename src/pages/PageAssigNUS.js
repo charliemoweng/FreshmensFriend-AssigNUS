@@ -5,7 +5,7 @@ import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
 import { firebase } from "@firebase/app";
 
 function PageAssigNUS() {
-  console.log("page assignus called");
+  //console.log("page assignus called");
 
   // Modules Array
   const [modules, setModulesState] = useState([]);

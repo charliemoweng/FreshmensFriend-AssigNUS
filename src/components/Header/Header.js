@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { firebase } from "@firebase/app";
 
 function Header(props) {
-  console.log("header called");
+  //console.log("header called");
   // const { modules, setModulesState } = props;
 
   // useEffect(() => {
@@ -25,7 +25,7 @@ function Header(props) {
   return (
     <header>
       <div className={Header}>
-        <h1>Welcome to AssigNUS v0.8.9</h1>
+        <h1>Welcome to AssigNUS v0.9.0</h1>
       </div>
     </header>
   );

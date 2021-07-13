@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Button, Checkbox } from "@material-ui/core";
-
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker
+} from "@material-ui/pickers";
 import styles from "./TaskListCompleted.module.css";
 
 {
@@ -8,7 +14,7 @@ import styles from "./TaskListCompleted.module.css";
 }
 
 function TaskListCompleted(props) {
-  console.log("task list completed called");
+  //console.log("task list completed called");
   const {
     modules,
     setModules,
@@ -43,6 +49,35 @@ function TaskListCompleted(props) {
   } = props;
   const [newTaskText, setNewTaskText] = useState("");
 
+  function handleDelete(task) {
+    // Delete ALL for quick debugging
+    // setTasks([]);
+
+    // local copy for updating ranks
+    const arrayToUpdateRanks = [...tasks];
+
+    // Saving rank of item being deleted in order to compare with and rerank other tasks in the array
+    const deletedRank = task.taskRank;
+
+    function updateRankOnDeletion(taskChecked) {
+      if (taskChecked.taskRank > deletedRank) {
+        // console.log("Need to update rank");
+        taskChecked.taskRank--;
+      }
+    }
+
+    arrayToUpdateRanks.forEach((element) => {
+      updateRankOnDeletion(element);
+    });
+
+    // Good practice to keep original modules array immutable so create local copy
+    const newArray = arrayToUpdateRanks.filter(
+      (element) => element.taskId !== task.taskId
+    );
+    // updates the modules array using the updated local copy
+    setTasks(newArray);
+  }
+
   function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
     const newTasks = [
       ...tasks.slice(0, toToggleTaskIndex),
@@ -61,14 +96,14 @@ function TaskListCompleted(props) {
       className={styles.paddingBetweenCols}
       style={{ margin: "0 auto", width: "100%" }}
     >
-      <thead>
+      {/* <thead>
         <tr>
           <th>No.</th>
           <th>Task</th>
           <th>Completed</th>
           <th>Add to Calendar</th>
         </tr>
-      </thead>
+      </thead> */}
       <tbody className={styles.tableContent}>
         {tasks.map((task, index) => (
           <tr key={task.description}>
@@ -84,8 +119,21 @@ function TaskListCompleted(props) {
                 }}
               />
             </td>
+            <td className={styles.rankCol}>
+              <div className={styles.rankColObj}>{task.taskRank}</div>
+            </td>
+            <td>{task.taskMod}</td>
+            <td>{task.taskName}</td>
+
             <td>
-              <input type="submit" value="Drag me!" />
+              <IconButton aria-label="delete">
+                <DeleteIcon
+                  fontSize="small"
+                  onClick={() => {
+                    handleDelete(task);
+                  }}
+                />
+              </IconButton>
             </td>
           </tr>
         ))}

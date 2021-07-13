@@ -18,7 +18,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "./CurrentModules.module.css";
 
 function CurrentModules(props) {
-  console.log("current modules called");
+  // console.log("current modules called");
   const {
     modules,
     setModules,
@@ -30,12 +30,8 @@ function CurrentModules(props) {
     setModuleRank
   } = props;
 
-  useEffect(() => {
-    // action on update of modules
-    // console.log("modules array changed");
-    // console.log("modules: " + modules + "length: " + modules.length);
-  }, []); // need modules here?
-
+  useEffect(() => {}, []); // need modules here?
+  console.log("modules array is: " + JSON.stringify(modules));
   function handleDelete(mod) {
     // Delete ALL for quick debugging
     // setModules([]);
@@ -110,7 +106,7 @@ function CurrentModules(props) {
     event.preventDefault();
     const arrayForRenaming = [...modules];
     const copyForRenaming = { ...arrayForRenaming[modId] };
-    console.log("local copy of array is : " + arrayForRenaming);
+    // console.log("local copy of array is : " + arrayForRenaming);
     copyForRenaming.modName = newModName;
     arrayForRenaming[modId] = copyForRenaming;
     // updates the modules array using the updated local copy
@@ -143,8 +139,8 @@ function CurrentModules(props) {
             // https://reactjs.org/docs/lists-and-keys.html#keys
             <tr key={index}>
               {/* <td>{index + 1}</td> */}
-              <td className={styles.rankCol}>
-                <div className={styles.rankColObj}>{module.modRank}</div>
+              <td>{module.modRank}</td>
+              <td>
                 <ModuleReranker
                   modId={module.modId}
                   modules={modules}

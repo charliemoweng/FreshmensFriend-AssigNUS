@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TaskList(props) {
-  console.log("task list called");
+  //console.log("task list called");
   const {
     modules,
     setModules,
@@ -46,8 +46,6 @@ export default function TaskList(props) {
     setTaskStart,
     taskEnd,
     setTaskEnd,
-    taskWeight,
-    setTaskWeight,
     taskComplete,
     setTaskComplete,
     taskRank,
@@ -88,8 +86,6 @@ export default function TaskList(props) {
                 setTaskStart={setTaskStart}
                 taskEnd={taskEnd}
                 setTaskEnd={setTaskEnd}
-                taskWeight={taskWeight}
-                setTaskWeight={setTaskWeight}
                 taskComplete={taskComplete}
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
@@ -129,8 +125,6 @@ export default function TaskList(props) {
                 setTaskStart={setTaskStart}
                 taskEnd={taskEnd}
                 setTaskEnd={setTaskEnd}
-                taskWeight={taskWeight}
-                setTaskWeight={setTaskWeight}
                 taskComplete={taskComplete}
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}

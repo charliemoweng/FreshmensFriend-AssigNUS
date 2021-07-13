@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
 
 function PageLogin() {
-  console.log("page login called");
+  //console.log("page login called");
   const handleGoogleSignIn = (firebase) => {
     const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(googleAuthProvider);
@@ -11,7 +11,7 @@ function PageLogin() {
   return (
     <>
       <div className="PageLogin">
-        <h1>Login to AssigNUS v0.8.9</h1>
+        <h1>Login to AssigNUS v0.9.0</h1>
         <FirebaseAuthConsumer>
           {({ firebase }) => (
             <Button

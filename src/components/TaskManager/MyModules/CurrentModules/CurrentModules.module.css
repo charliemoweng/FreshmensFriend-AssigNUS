@@ -32,16 +32,6 @@
 .functionButtonChild {
 }
 
-.rankCol {
-  display: flex;
-  /* border-style: dotted; */
-}
-
-.rankColObj {
-  margin: auto;
-  /* border-style: dotted; */
-}
-
 .modNameCol {
   display: flex;
   flex-direction: row;

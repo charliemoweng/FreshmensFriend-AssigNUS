@@ -3,3 +3,18 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.rankCol {
+  display: flex;
+  /* border-style: dotted; */
+}
+
+.rankColObj {
+  margin: auto;
+  /* border-style: dotted; */
+}
+
+.tableContent {
+  border-style: solid;
+  margin: auto;
+}

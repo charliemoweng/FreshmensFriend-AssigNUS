@@ -3,6 +3,7 @@ import { Button, Checkbox } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import styles from "./ModuleReranker.module.css";
 
 function ModuleReranker(props) {
   const {
@@ -27,7 +28,7 @@ function ModuleReranker(props) {
    * @param {Current Module being reranked} currMod
    * @param {Other Module being swapped} swappedMod
    */
-  function swapRank(currMod, swappedMod) {
+  function swapRankMod(currMod, swappedMod) {
     const currRank = currMod.modRank;
     const swappedRank = swappedMod.modRank;
     currMod.modRank = swappedRank;
@@ -37,7 +38,7 @@ function ModuleReranker(props) {
     arrayForReranking.sort((a, b) => (a.modRank > b.modRank ? 1 : -1));
   }
 
-  function handleUprank(modId) {
+  function handleUprankMod(modId) {
     // if undefined, throw error
     if (arrayForReranking.find((element) => element.modId === undefined)) {
       alert("Error: modId not found");
@@ -52,14 +53,14 @@ function ModuleReranker(props) {
       const currRank = currMod.modRank;
       arrayForReranking.forEach((element) => {
         if (element.modRank === currRank - 1) {
-          swapRank(currMod, element);
+          swapRankMod(currMod, element);
           setModules(arrayForReranking);
         }
       });
     }
   }
 
-  function handleDownrank(modId) {
+  function handleDownrankMod(modId) {
     // if undefined, throw error
     if (arrayForReranking.find((element) => element.modId === undefined)) {
       alert("Error: modId not found");
@@ -74,7 +75,7 @@ function ModuleReranker(props) {
       const currRank = currMod.modRank;
       arrayForReranking.forEach((element) => {
         if (element.modRank === currRank + 1) {
-          swapRank(currMod, element);
+          swapRankMod(currMod, element);
           setModules(arrayForReranking);
         }
       });
@@ -82,24 +83,27 @@ function ModuleReranker(props) {
   }
 
   return (
-    <div>
-      <IconButton aria-label="uprank">
-        <KeyboardArrowUpIcon
-          fontSize="small"
-          onClick={() => {
-            handleUprank(modId);
-          }}
-        />
-      </IconButton>
-
-      <IconButton aria-label="downrank">
-        <KeyboardArrowDownIcon
-          fontSize="small"
-          onClick={() => {
-            handleDownrank(modId);
-          }}
-        />
-      </IconButton>
+    <div className={styles.rerankButtons}>
+      <div>
+        <IconButton aria-label="uprankMod">
+          <KeyboardArrowUpIcon
+            fontSize="small"
+            onClick={() => {
+              handleUprankMod(modId);
+            }}
+          />
+        </IconButton>
+      </div>
+      <div>
+        <IconButton aria-label="downrankMod">
+          <KeyboardArrowDownIcon
+            fontSize="small"
+            onClick={() => {
+              handleDownrankMod(modId);
+            }}
+          />
+        </IconButton>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Paper } from "@material-ui/core";
 import CalendarToolbar from "../CalendarToolbar/CalendarToolbar";
 
 function Calendar(props) {
-  console.log("calendar called");
+  //console.log("calendar called");
   const { tasks } = props;
   const [dateStyle, setDateStyle] = useState(0);
   const [timeStyle, setTimeStyle] = useState(0);

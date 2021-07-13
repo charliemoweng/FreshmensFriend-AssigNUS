@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MyModules(props) {
-  console.log("my modules called");
+  //console.log("my modules called");
   const {
     modules,
     setModules,

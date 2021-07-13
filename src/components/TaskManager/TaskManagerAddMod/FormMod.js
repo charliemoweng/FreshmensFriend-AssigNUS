@@ -62,7 +62,9 @@ function FormMod(props) {
               value={values.moduleName}
             />
           </div>
-          {touched.modName && errors.modName}
+          <div style={{ color: "red" }}>
+            {touched.modName && errors.modName}
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">

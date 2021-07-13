@@ -39,7 +39,7 @@ function ColorPicker(props) {
 
   useEffect(() => {
     // action on update of modules
-    console.log("modules array changed");
+    // console.log("modules array changed");
     // console.log("modules: " + modules + "length: " + modules.length);
     // handleChange;
   }, [modules]); // need modules?

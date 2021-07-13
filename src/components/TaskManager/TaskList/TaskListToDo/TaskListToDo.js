@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import { firebase } from "@firebase/app";
 import TaskRenamer from "./TaskRenamer";
+import TaskReranker from "./TaskReranker";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -20,7 +21,7 @@ and Tasks will only be added to the TaskListCompleted after their checkbox has b
 }
 
 function TaskListToDo(props) {
-  console.log("task list todo called");
+  //console.log("task list todo called");
   const {
     modules,
     setModules,
@@ -55,7 +56,32 @@ function TaskListToDo(props) {
   } = props;
 
   useEffect(() => {}, [tasks]);
-  console.log("Tasks array is: " + JSON.stringify(tasks));
+  console.log("tasks array is: " + JSON.stringify(tasks));
+
+  const tasksHardcode = [
+    {
+      taskId: 0,
+      taskRank: 1,
+      taskMod: "m1",
+      taskName: "t1",
+      taskDue: "2021-01-01T00:00"
+    },
+    {
+      taskId: 1,
+      taskRank: 2,
+      taskMod: "m1",
+      taskName: "t2",
+      taskDue: "2021-01-01T00:00"
+    },
+    {
+      taskId: 2,
+      taskRank: 3,
+      taskMod: "m2",
+      taskName: "t1",
+      taskDue: "2021-01-01T00:00"
+    }
+  ];
+  // useEffect(() => {}, [tasksHardcode]);
 
   const [newTaskDue, setNewTaskDue] = useState(new Date());
 
@@ -100,12 +126,21 @@ function TaskListToDo(props) {
 
     setTasks(newTasks);
   }
-  function handleChange() {
-    console.log("onChange clicked");
-  }
 
-  function handleOnAccept() {
-    console.log("onAccept clicked");
+  function handleTaskComplete(event, taskId) {
+    // event.preventDefault();
+
+    const arrayForTaskComplete = [...tasks];
+    if (arrayForTaskComplete.find((element) => element.taskId === undefined)) {
+      alert("Error: taskId not found");
+    }
+
+    const currTask = arrayForTaskComplete.find(
+      (element) => element.taskId === taskId
+    );
+    // console.log("currTask is: " + JSON.stringify(currTask));
+    currTask.taskComplete = event.target.checked;
+    setTasks(arrayForTaskComplete);
   }
 
   function handleTaskDueChange(event, taskId) {
@@ -119,8 +154,8 @@ function TaskListToDo(props) {
     const currTask = arrayForDueChange.find(
       (element) => element.taskId === taskId
     );
-    console.log("currTask is: " + JSON.stringify(currTask));
-    console.log("event is:" + JSON.stringify(event));
+    //console.log("currTask is: " + JSON.stringify(currTask));
+    //console.log("event is:" + JSON.stringify(event));
     currTask.taskDue = event;
     setTasks(arrayForDueChange);
   }
@@ -146,13 +181,22 @@ function TaskListToDo(props) {
               <Checkbox
                 color="primary"
                 checked={task.isComplete}
+                onChange={(event) => handleTaskComplete(event, task.taskId)}
                 inputProps={{
                   "aria-label": `checkbox that determines if task ${index} is done`
                 }}
               />
             </td>
             {/* <td>{index + 1}</td> */}
-            <td>{task.taskRank}</td>
+            <td className={styles.rankCol}>
+              <div className={styles.rankColObj}>{task.taskRank}</div>
+              <TaskReranker
+                className={styles.rankColObj}
+                taskId={task.taskId}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
+            </td>
             <td>{task.taskMod}</td>
             <td>{task.taskName}</td>
 
@@ -168,7 +212,7 @@ function TaskListToDo(props) {
                 <KeyboardDateTimePicker
                   key={task.taskId}
                   value={task.taskDue}
-                  label="Due Date and Time"
+                  label="Due at"
                   onError={console.log}
                   format="MM/dd hh:mm a"
                   margin="dense"

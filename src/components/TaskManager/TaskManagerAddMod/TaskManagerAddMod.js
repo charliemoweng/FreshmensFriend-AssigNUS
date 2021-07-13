@@ -7,7 +7,7 @@ import { firebase } from "@firebase/app";
 import FormMod from "./FormMod";
 
 function TaskManagerAddMod(props) {
-  console.log("AddMod called");
+  //console.log("AddMod called");
   const {
     modules,
     setModules,
@@ -23,7 +23,7 @@ function TaskManagerAddMod(props) {
 
   // const [newModName, setNewModName] = useState("");
   // const [newModColor, setNewModColor] = useState();
-  const newModId = moduleId;
+  var newModId = moduleId;
 
   const newModName = moduleName;
   function setNewModName(name) {
@@ -36,10 +36,8 @@ function TaskManagerAddMod(props) {
     if (!modName) {
       return "Module name is required";
     }
-    if (
-      modules.some((module) => modName.valueOf() === module.modName.valueOf())
-    ) {
-      return "Module is already present";
+    if (modules.some((module) => modName === module.modName)) {
+      return "This Module is already present";
     }
     // module naming convention:
     // 2/3/4 capitalised letters + 4 numerals + 0/1/2/3/4 capitalised letters
@@ -89,12 +87,34 @@ function TaskManagerAddMod(props) {
     });
   };
 
+  function hashCode(str) {
+    var hash = 0,
+      i,
+      chr;
+    if (str.length === 0) return hash;
+    for (i = 0; i < str.length; i++) {
+      chr = str.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  var arrayLength = modules.length;
+  newModId = hashCode(newModName);
+
+  while (true) {
+    if (modules.find((element) => element.modId === newModId)) {
+      newModId++;
+    } else {
+      break;
+    }
+  }
+  setModuleId(newModId);
+  setModuleRank(arrayLength + 1); // this is a default rank assigned upon creation of the module, to be updated
   useEffect(() => {
     // action on update of modules
     // console.log("modules: " + modules + "length: " + modules.length);
-    var arrayLength = modules.length;
-    setModuleId(arrayLength);
-    setModuleRank(arrayLength + 1); // this is a default rank assigned upon creation of the module, to be updated
   }, [modules]);
 
   // handleSubmit
