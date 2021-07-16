@@ -37,6 +37,7 @@ function FormMod(props) {
           <DialogContentText>
             Add a Module and select a Color for it!
           </DialogContentText>
+
           <div className={styles.rowA}>
             <div className={styles.objA}>
               <ColorPicker

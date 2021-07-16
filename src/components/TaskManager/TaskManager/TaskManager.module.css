@@ -21,11 +21,11 @@
 
 .BoxTM {
   text-align: center;
-  flex-basis: 50%;
+  flex-basis: 100%;
   flex-grow: 0;
-  /* border-style: solid; */
-  margin-left: 2%;
-  margin-right: 2%;
+  border-style: solid;
+  margin-left: 1%;
+  margin-right: 1%;
   height: 100%;
   min-width: 30%;
   max-width: 30%;
@@ -61,4 +61,10 @@
 
 .MyModules {
   margin-top: 3rem;
+}
+
+.reverseButton {
+  min-width: 5%;
+  max-width: 5%;
+  white-space: nowrap;
 }

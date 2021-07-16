@@ -184,6 +184,8 @@ function TaskManager(props) {
               setModuleColor={setModuleColor}
               moduleRank={moduleRank}
               setModuleRank={setModuleRank}
+              tasks={tasks}
+              setTasks={setTasks}
             />
           </div>
 

@@ -29,7 +29,9 @@ export default function MyModules(props) {
     moduleColor,
     setModuleColor,
     moduleRank,
-    setModuleRank
+    setModuleRank,
+    tasks,
+    setTasks
   } = props;
 
   const classes = useStyles();
@@ -58,6 +60,8 @@ export default function MyModules(props) {
                 setModuleColor={setModuleColor}
                 moduleRank={moduleRank}
                 setModuleRank={setModuleRank}
+                tasks={tasks}
+                setTasks={setTasks}
               />
             </Typography>
           </div>

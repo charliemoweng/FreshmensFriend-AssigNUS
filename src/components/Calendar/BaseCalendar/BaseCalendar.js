@@ -1,47 +1,21 @@
-import React, { useState } from "react";
-import {
-  Cell,
-  DefaultEventRootComponent,
-  EventContent,
-  RangeBox,
-  Schedule,
-  TimeGridScheduler,
-  classes
-} from "@remotelock/react-week-scheduler";
-import "@remotelock/react-week-scheduler/index.css";
-import { startOfWeek } from "date-fns";
-
-const rangeStrings = [];
-
-const defaultSchedule = rangeStrings.map((range) =>
-  range.map((dateString) => new Date(dateString))
-);
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import CalendarGrid from "./CalendarGrid";
+import styles from "./BaseCalendar.module.css";
 
 function BaseCalendar(props) {
-  const { tasks } = props;
-  const [schedule, setSchedule] = useState(() => defaultSchedule);
+  const { tasks, setTasks, modules, setModules } = props;
 
-  // put into originDate to change which date to start with, let users input 'weekStartsOn' ?
-  const startOnMonday = startOfWeek(new Date(), { weekStartsOn: 1 });
   return (
-    <div
-      className="root"
-      style={{
-        width: "100%",
-        height: "600px",
-        "--cell-height": "20px",
-        "--cell-width": "50px"
-      }}
-    >
-      <TimeGridScheduler
-        classes={classes}
-        style={{ width: "100%", height: "100%" }}
-        originDate={startOnMonday}
-        schedule={schedule}
-        onChange={setSchedule}
-        visualGridVerticalPrecision={15}
-        verticalPrecision={15}
-        cellClickPrecision={60}
+    <div className={styles.baseCalendar}>
+      <CalendarGrid
+        tasks={tasks}
+        setTasks={setTasks}
+        modules={modules}
+        setModules={setModules}
+        alignItems="stretch"
       />
     </div>
   );

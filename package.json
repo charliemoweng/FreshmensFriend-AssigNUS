@@ -29,7 +29,8 @@
     "react-scripts": "4.0.0",
     "react-swipeable": "6.1.2",
     "react-swipeable-views": "0.14.0",
-    "resize-observer-polyfill": "1.5.1"
+    "resize-observer-polyfill": "1.5.1",
+    "use-state-with-callback": "2.0.3"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",

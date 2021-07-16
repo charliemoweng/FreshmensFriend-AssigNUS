@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 import Header from "../components/Header/Header";
 import Calendar from "../components/Calendar/Calendar/Calendar";
 import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
@@ -53,7 +54,7 @@ function PageAssigNUS() {
   // ID
   const [taskId, setTaskId] = useState(0);
   // Mod
-  const [taskMod, setTaskMod] = useState("");
+  const [taskMod, setTaskMod] = useStateWithCallbackLazy("");
   // Name
   const [taskName, setTaskName] = useState("");
   // Due

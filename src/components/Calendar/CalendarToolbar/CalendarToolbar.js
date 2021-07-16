@@ -10,6 +10,10 @@ import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,8 +92,25 @@ function CalendarToolbar(props) {
           >
             <MenuIcon />
           </IconButton>
+          <IconButton
+            edge="start"
+            className={classes.leftButton}
+            color="inherit"
+            aria-label="left"
+          >
+            <NavigateBeforeIcon fontSize="large" />
+          </IconButton>
+          <Typography variant="h6">16/7 - 22/7</Typography>
+          <IconButton
+            edge="start"
+            className={classes.rightButton}
+            color="inherit"
+            aria-label="right"
+          >
+            <NavigateNextIcon fontSize="large" />
+          </IconButton>
           <Typography variant="h6" className={classes.title}>
-            BaseCalendar (name tbc)
+            July 2021 (Month - Year)
           </Typography>
           <div className={classes.buttons}>
             {/* <Accordion>

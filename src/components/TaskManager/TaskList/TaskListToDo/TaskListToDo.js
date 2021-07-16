@@ -56,7 +56,7 @@ function TaskListToDo(props) {
   } = props;
 
   useEffect(() => {}, [tasks]);
-  console.log("tasks array is: " + JSON.stringify(tasks));
+  // console.log("tasks array is: " + JSON.stringify(tasks));
 
   const tasksHardcode = [
     {
@@ -114,19 +114,6 @@ function TaskListToDo(props) {
     setTasks(newArray);
   }
 
-  function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-    const newTasks = [
-      ...tasks.slice(0, toToggleTaskIndex),
-      {
-        description: toToggleTask.description,
-        isComplete: !toToggleTask.isComplete
-      },
-      ...tasks.slice(toToggleTaskIndex + 1)
-    ];
-
-    setTasks(newTasks);
-  }
-
   function handleTaskComplete(event, taskId) {
     // event.preventDefault();
 
@@ -140,6 +127,27 @@ function TaskListToDo(props) {
     );
     // console.log("currTask is: " + JSON.stringify(currTask));
     currTask.taskComplete = event.target.checked;
+
+    // update ranks for all other tasks, completed tasks always flushed to the bottom
+    const newArray = [];
+    // first add all incomplete items to new array
+    arrayForTaskComplete.forEach((element) => {
+      if (!element.taskComplete) {
+        newArray.push(element);
+      }
+    });
+    // then add all completed items
+    arrayForTaskComplete.forEach((element) => {
+      if (element.taskComplete) {
+        newArray.push(element);
+      }
+    });
+    // next, rerank according to position in array
+    for (var i = 0; i < newArray.length; i++) {
+      newArray[i].taskRank = i + 1;
+    }
+    // finally, update ranks of new array
+    newArray.sort((a, b) => (a.taskRank > b.taskRank ? 1 : -1));
     setTasks(arrayForTaskComplete);
   }
 
@@ -175,63 +183,71 @@ function TaskListToDo(props) {
         </tr>
       </thead> */}
       <tbody className={styles.tableContent}>
-        {tasks.map((task, index) => (
-          <tr key={index}>
-            <td>
-              <Checkbox
-                color="primary"
-                checked={task.isComplete}
-                onChange={(event) => handleTaskComplete(event, task.taskId)}
-                inputProps={{
-                  "aria-label": `checkbox that determines if task ${index} is done`
-                }}
-              />
-            </td>
-            {/* <td>{index + 1}</td> */}
-            <td className={styles.rankCol}>
-              <div className={styles.rankColObj}>{task.taskRank}</div>
-              <TaskReranker
-                className={styles.rankColObj}
-                taskId={task.taskId}
-                tasks={tasks}
-                setTasks={setTasks}
-              />
-            </td>
-            <td>{task.taskMod}</td>
-            <td>{task.taskName}</td>
-
-            <td>
-              <TaskRenamer
-                taskId={task.taskId}
-                tasks={tasks}
-                setTasks={setTasks}
-              />
-            </td>
-            <td>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDateTimePicker
-                  key={task.taskId}
-                  value={task.taskDue}
-                  label="Due at"
-                  onError={console.log}
-                  format="MM/dd hh:mm a"
-                  margin="dense"
-                  onChange={(event) => handleTaskDueChange(event, task.taskId)}
-                />
-              </MuiPickersUtilsProvider>
-            </td>
-            <td>
-              <IconButton aria-label="delete">
-                <DeleteIcon
-                  fontSize="small"
-                  onClick={() => {
-                    handleDelete(task);
+        {tasks.map((task, index) =>
+          !task.taskComplete ? (
+            <tr key={index}>
+              <td>
+                <Checkbox
+                  color="primary"
+                  checked={task.taskComplete}
+                  onChange={(event) => handleTaskComplete(event, task.taskId)}
+                  inputProps={{
+                    "aria-label": `checkbox that determines if task ${index} is done`
                   }}
                 />
-              </IconButton>
-            </td>
-          </tr>
-        ))}
+              </td>
+              {/* <td>{index + 1}</td> */}
+              <td className={styles.rankCol}>
+                <div className={styles.rankColObj}>{task.taskRank}</div>
+                <TaskReranker
+                  className={styles.rankColObj}
+                  taskId={task.taskId}
+                  tasks={tasks}
+                  setTasks={setTasks}
+                />
+              </td>
+              <td>{task.taskMod}</td>
+              <td>{task.taskName}</td>
+
+              <td>
+                <TaskRenamer
+                  taskId={task.taskId}
+                  taskName={task.taskName}
+                  taskMod={task.taskMod}
+                  tasks={tasks}
+                  setTasks={setTasks}
+                  modules={modules}
+                  setModules={setModules}
+                />
+              </td>
+              <td>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDateTimePicker
+                    key={task.taskId}
+                    value={task.taskDue}
+                    label="Due at"
+                    onError={console.log}
+                    format="MM/dd hh:mm a"
+                    margin="dense"
+                    onChange={(event) =>
+                      handleTaskDueChange(event, task.taskId)
+                    }
+                  />
+                </MuiPickersUtilsProvider>
+              </td>
+              <td>
+                <IconButton aria-label="delete">
+                  <DeleteIcon
+                    fontSize="small"
+                    onClick={() => {
+                      handleDelete(task);
+                    }}
+                  />
+                </IconButton>
+              </td>
+            </tr>
+          ) : null
+        )}
       </tbody>
     </table>
   );

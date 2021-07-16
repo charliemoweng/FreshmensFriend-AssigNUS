@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -47,7 +47,13 @@ function TaskListCompleted(props) {
     taskRank,
     setTaskRank
   } = props;
+
   const [newTaskText, setNewTaskText] = useState("");
+
+  // logic for showing and hiding tasks in completed and todo lists
+  const [showTask, setShowTask] = useState(true);
+
+  useEffect(() => {}, [tasks]);
 
   function handleDelete(task) {
     // Delete ALL for quick debugging
@@ -78,17 +84,55 @@ function TaskListCompleted(props) {
     setTasks(newArray);
   }
 
-  function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-    const newTasks = [
-      ...tasks.slice(0, toToggleTaskIndex),
-      {
-        description: toToggleTask.description,
-        isComplete: !toToggleTask.isComplete
-      },
-      ...tasks.slice(toToggleTaskIndex + 1)
-    ];
+  // function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
+  //   const newTasks = [
+  //     ...tasks.slice(0, toToggleTaskIndex),
+  //     {
+  //       description: toToggleTask.description,
+  //       isComplete: !toToggleTask.isComplete
+  //     },
+  //     ...tasks.slice(toToggleTaskIndex + 1)
+  //   ];
 
-    setTasks(newTasks);
+  //   setTasks(newTasks);
+  // }
+
+  function handleTaskComplete(event, taskId) {
+    // event.preventDefault();
+
+    const arrayForTaskComplete = [...tasks];
+    if (arrayForTaskComplete.find((element) => element.taskId === undefined)) {
+      alert("Error: taskId not found");
+    }
+
+    const currTask = arrayForTaskComplete.find(
+      (element) => element.taskId === taskId
+    );
+    // console.log("currTask is: " + JSON.stringify(currTask));
+    currTask.taskComplete = event.target.checked;
+
+    // update ranks for all other tasks, completed tasks always flushed to the bottom
+    const newArray = [];
+    // first add all incomplete items to new array
+    arrayForTaskComplete.forEach((element) => {
+      if (!element.taskComplete) {
+        newArray.push(element);
+      }
+    });
+    // then add all completed items
+    arrayForTaskComplete.forEach((element) => {
+      if (element.taskComplete) {
+        newArray.push(element);
+      }
+    });
+    // next, rerank according to position in array
+    for (var i = 0; i < newArray.length; i++) {
+      newArray[i].taskRank = i + 1;
+    }
+    // finally, update ranks of new array
+    newArray.sort((a, b) => (a.taskRank > b.taskRank ? 1 : -1));
+
+    setTasks(arrayForTaskComplete);
   }
 
   return (
@@ -105,38 +149,37 @@ function TaskListCompleted(props) {
         </tr>
       </thead> */}
       <tbody className={styles.tableContent}>
-        {tasks.map((task, index) => (
-          <tr key={task.description}>
-            <td>{index + 1}</td>
-            <td>{task.description}</td>
-            <td>
-              <Checkbox
-                color="primary"
-                checked={task.isComplete}
-                onChange={() => handleTaskCompletionToggled(task, index)}
-                inputProps={{
-                  "aria-label": `checkbox that determines if task ${index} is done`
-                }}
-              />
-            </td>
-            <td className={styles.rankCol}>
-              <div className={styles.rankColObj}>{task.taskRank}</div>
-            </td>
-            <td>{task.taskMod}</td>
-            <td>{task.taskName}</td>
-
-            <td>
-              <IconButton aria-label="delete">
-                <DeleteIcon
-                  fontSize="small"
-                  onClick={() => {
-                    handleDelete(task);
+        {tasks.map((task, index) =>
+          task.taskComplete ? (
+            <tr key={index}>
+              {/* <td>{index + 1}</td> */}
+              <td>
+                <Checkbox
+                  color="primary"
+                  checked={task.taskComplete}
+                  onChange={(event) => handleTaskComplete(event, task.taskId)}
+                  inputProps={{
+                    "aria-label": `checkbox that determines if task ${index} is done`
                   }}
                 />
-              </IconButton>
-            </td>
-          </tr>
-        ))}
+              </td>
+              {/* <td>{task.taskRank}</td> */}
+              <td>{task.taskMod}</td>
+              <td>{task.taskName}</td>
+
+              <td>
+                <IconButton aria-label="delete">
+                  <DeleteIcon
+                    fontSize="small"
+                    onClick={() => {
+                      handleDelete(task);
+                    }}
+                  />
+                </IconButton>
+              </td>
+            </tr>
+          ) : null
+        )}
       </tbody>
     </table>
   );

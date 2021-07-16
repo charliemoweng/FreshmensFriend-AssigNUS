@@ -62,12 +62,14 @@ function TaskManagerAddTask(props) {
 
   const modArray = Array.from(modules);
 
-  useEffect(() => {}, [modArray]);
-
   const taskModValidate = (taskMod) => {
+    if (modules.length === 0) {
+      return "Please create a Module";
+    }
     if (!taskMod) {
       return "Please select a module for this task";
     }
+
     return null;
   };
 
@@ -106,8 +108,13 @@ function TaskManagerAddTask(props) {
 
   // Handlers (handle change)
   const handleTaskModChange = (event) => {
-    setTaskMod(event.target.value);
+    // this.setState functional second form from stackoverflow #34687091
+    setTaskMod(event.target.value, () => {
+      handleTaskModChangeCallback(event);
+    });
+  };
 
+  function handleTaskModChangeCallback(event) {
     const { name, value: newValue, type } = event.target;
 
     // keep number fields as numbers
@@ -124,7 +131,7 @@ function TaskManagerAddTask(props) {
       ...touched,
       [name]: true
     });
-  };
+  }
 
   const handleTaskNameChange = (event) => {
     setTaskName(event.target.value);

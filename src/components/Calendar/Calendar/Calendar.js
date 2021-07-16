@@ -6,7 +6,7 @@ import CalendarToolbar from "../CalendarToolbar/CalendarToolbar";
 
 function Calendar(props) {
   //console.log("calendar called");
-  const { tasks } = props;
+  const { tasks, setTasks, modules, setModules } = props;
   const [dateStyle, setDateStyle] = useState(0);
   const [timeStyle, setTimeStyle] = useState(0);
   const [modeStyle, setModeStyle] = useState(0);
@@ -24,7 +24,12 @@ function Calendar(props) {
             modeStyle={modeStyle}
             setModeStyle={setModeStyle}
           />
-          <BaseCalendar />
+          <BaseCalendar
+            tasks={tasks}
+            setTasks={setTasks}
+            modules={modules}
+            setModules={setModules}
+          />
         </div>
       </Paper>
     </div>
