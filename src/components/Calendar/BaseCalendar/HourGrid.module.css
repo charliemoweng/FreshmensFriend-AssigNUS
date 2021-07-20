@@ -1,0 +1,6 @@
+.hourGrid {
+  display: flex;
+  flex-grow: 1;
+  border-style: dotted;
+  background: #add8e5;
+}

@@ -49,7 +49,21 @@ export default function TaskList(props) {
     taskComplete,
     setTaskComplete,
     taskRank,
-    setTaskRank
+    setTaskRank,
+    taskGrids,
+    setTaskGrids,
+    taskGridId,
+    setTaskGridId,
+    taskGridName,
+    setTaskGridName,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    color,
+    setColor,
+    isDisplayed,
+    setIsDisplayed
   } = props;
 
   const classes = useStyles();
@@ -90,6 +104,20 @@ export default function TaskList(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                taskGrids={taskGrids}
+                setTaskGrids={setTaskGrids}
+                taskGridId={taskGridId}
+                setTaskGridId={setTaskGridId}
+                taskGridName={taskGridName}
+                setTaskGridName={setTaskGridName}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                endTime={endTime}
+                setEndTime={setEndTime}
+                color={color}
+                setColor={setColor}
+                isDisplayed={isDisplayed}
+                setIsDisplayed={setIsDisplayed}
               />
             </Typography>
           </div>
@@ -129,6 +157,20 @@ export default function TaskList(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                taskGrids={taskGrids}
+                setTaskGrids={setTaskGrids}
+                taskGridId={taskGridId}
+                setTaskGridId={setTaskGridId}
+                taskGridName={taskGridName}
+                setTaskGridName={setTaskGridName}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                endTime={endTime}
+                setEndTime={setEndTime}
+                color={color}
+                setColor={setColor}
+                isDisplayed={isDisplayed}
+                setIsDisplayed={setIsDisplayed}
               />
             </Typography>
           </div>

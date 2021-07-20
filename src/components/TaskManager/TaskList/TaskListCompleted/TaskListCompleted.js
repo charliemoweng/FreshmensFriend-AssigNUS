@@ -28,6 +28,8 @@ function TaskListCompleted(props) {
     setModuleRank,
     tasks,
     setTasks,
+    taskGrids,
+    setTaskGrids,
     taskId,
     setTaskId,
     taskMod,
@@ -45,7 +47,19 @@ function TaskListCompleted(props) {
     taskComplete,
     setTaskComplete,
     taskRank,
-    setTaskRank
+    setTaskRank,
+    taskGridId,
+    setTaskGridId,
+    taskGridName,
+    setTaskGridName,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    color,
+    setColor,
+    isDisplayed,
+    setIsDisplayed
   } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
@@ -61,7 +75,7 @@ function TaskListCompleted(props) {
 
     // local copy for updating ranks
     const arrayToUpdateRanks = [...tasks];
-
+    const gridsArrayToUpdateRanks = [...taskGrids];
     // Saving rank of item being deleted in order to compare with and rerank other tasks in the array
     const deletedRank = task.taskRank;
 
@@ -76,12 +90,21 @@ function TaskListCompleted(props) {
       updateRankOnDeletion(element);
     });
 
+    gridsArrayToUpdateRanks.forEach((element) => {
+      updateRankOnDeletion(element);
+    });
+
     // Good practice to keep original modules array immutable so create local copy
     const newArray = arrayToUpdateRanks.filter(
       (element) => element.taskId !== task.taskId
     );
     // updates the modules array using the updated local copy
     setTasks(newArray);
+
+    const newGridsArray = gridsArrayToUpdateRanks.filter(
+      (element) => element.taskGridId !== task.taskId
+    );
+    setTaskGrids(newGridsArray);
   }
 
   // function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {

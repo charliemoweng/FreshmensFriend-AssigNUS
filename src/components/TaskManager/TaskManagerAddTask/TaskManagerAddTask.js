@@ -16,10 +16,13 @@ import {
 } from "@material-ui/pickers";
 import AddIcon from "@material-ui/icons/Add";
 import { firebase } from "@firebase/app";
+import TaskGrid from "../../Calendar/BaseCalendar/TaskGrid";
 
 function TaskManagerAddTask(props) {
   //console.log("AddTask called");
   const {
+    calendarStart,
+    setCalendarStart,
     modules,
     setModules,
     tasks,
@@ -39,7 +42,19 @@ function TaskManagerAddTask(props) {
     taskComplete,
     setTaskComplete,
     taskRank,
-    setTaskRank
+    setTaskRank,
+    taskGrids,
+    setTaskGrids,
+    taskGridName,
+    setTaskGridName,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    color,
+    setColor,
+    isDisplayed,
+    setIsDisplayed
   } = props;
 
   var newTaskId = taskId;
@@ -61,6 +76,9 @@ function TaskManagerAddTask(props) {
   const classes = useStyles();
 
   const modArray = Array.from(modules);
+
+  console.log(JSON.stringify(taskGrids));
+  console.log(taskGrids.length);
 
   const taskModValidate = (taskMod) => {
     if (modules.length === 0) {
@@ -181,6 +199,7 @@ function TaskManagerAddTask(props) {
   setTaskId(newTaskId);
   setTaskRank(arrayLength + 1);
   useEffect(() => {}, [tasks]);
+  useEffect(() => {}, [taskGrids]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -195,6 +214,14 @@ function TaskManagerAddTask(props) {
   const [newTaskText, setNewTaskText] = useState("");
 
   const [selectedDate, handleDateChange] = useState(new Date());
+
+  // check if a task is within the display range of Calendar
+  function isWithinCalendarRange(taskStart, taskEnd) {
+    return (
+      taskStart > calendarStart &&
+      taskEnd < calendarStart.setDate(calendarStart.getDate() + 6)
+    );
+  }
 
   //handle submit
   function handleAddTask(event) {
@@ -245,6 +272,18 @@ function TaskManagerAddTask(props) {
         taskComplete,
         firebase
       );
+      const newTaskGridColor = modules.find(
+        (module) => module.modName === newTaskMod
+      ).modColor;
+      const booDisplayed = isWithinCalendarRange(newTaskStart, newTaskEnd);
+      addTaskGrid(
+        newTaskId,
+        newTaskName,
+        newTaskStart,
+        newTaskEnd,
+        newTaskGridColor,
+        booDisplayed
+      );
       setOpen(false);
     }
   }
@@ -274,6 +313,31 @@ function TaskManagerAddTask(props) {
     ];
     setTasks(newTasks);
   }
+
+  function addTaskGrid(
+    taskGridId,
+    taskGridName,
+    startTime,
+    endTime,
+    color,
+    isDisplayed
+  ) {
+    const newTaskGrids = [
+      ...taskGrids,
+      {
+        taskGridId: taskId,
+        taskGridName: taskGridName,
+        startTime: startTime,
+        endTime: endTime,
+        color: color,
+        isDisplayed: isDisplayed
+      }
+    ];
+    setTaskGrids(newTaskGrids, () => {
+      addTaskGridCallback();
+    });
+  }
+  function addTaskGridCallback() {}
 
   const handleBlur = (evt) => {
     const { name, value } = evt.target;

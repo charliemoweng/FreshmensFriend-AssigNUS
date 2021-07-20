@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
+import styles from "./HourGrid.module.css";
 
 function HourGrid(props) {
   const {
@@ -23,7 +24,6 @@ function HourGrid(props) {
       flexGrow: 1
     },
     paper: {
-      padding: theme.spacing(1),
       textAlign: "center",
       color: theme.palette.text.secondary
     }
@@ -34,8 +34,7 @@ function HourGrid(props) {
 
   return (
     <Grid>
-      HourGrid No. {hourGridId}
-      <Paper className={useStyles.paper}>.</Paper>
+      <Paper className={useStyles.paper}>HG {hourGridId}</Paper>
     </Grid>
   );
 }

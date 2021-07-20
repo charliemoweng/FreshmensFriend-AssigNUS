@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
+import { format } from "date-fns";
 
 function DayHeader(props) {
   const {
@@ -16,7 +17,8 @@ function DayHeader(props) {
     gridStart,
     setGridStart,
     gridEnd,
-    setGridEnd
+    setGridEnd,
+    dateStyle
   } = props;
 
   const useStyles = makeStyles((theme) => ({
@@ -24,7 +26,6 @@ function DayHeader(props) {
       flexGrow: 1
     },
     paper: {
-      padding: theme.spacing(1),
       textAlign: "center",
       color: theme.palette.text.secondary
     }
@@ -33,11 +34,22 @@ function DayHeader(props) {
   // const [gridStart, setGridStart] = useState("");
   // const [gridEnd, setGridEnd] = useState("");
 
+  const d = format(dayGridDate, "d");
+  const MMM = format(dayGridDate, "MMM");
+  const displayDate = d.concat(" " + MMM);
+
   return (
     <div>
       <Grid>
         <Paper className={useStyles.paper}>
-          DayGrid No. {dayGridId} {dayGridDay}
+          {dateStyle === 0 ? (
+            <div>
+              {displayDate} {dayGridDay}
+            </div>
+          ) : (
+            <div>{displayDate}</div>
+          )}
+          {/* {displayDate} {dayGridDay} */}
         </Paper>
       </Grid>
     </div>

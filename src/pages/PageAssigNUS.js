@@ -8,6 +8,22 @@ import { firebase } from "@firebase/app";
 function PageAssigNUS() {
   //console.log("page assignus called");
 
+  // Starting date in Calendar
+  const [calendarStart, setCalendarStart] = useStateWithCallbackLazy(
+    new Date()
+  );
+
+  // TaskGrid Array
+  const [taskGrids, setTaskGrids] = useStateWithCallbackLazy([]);
+
+  //States for a TaskGrid: taskGridName, startTime, endTime, color, isDisplayed
+  const [taskGridId, setTaskGridId] = useState(0);
+  const [taskGridName, setTaskGridName] = useState("");
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+  const [color, setColor] = useState("#ff6900");
+  const [isDisplayed, setIsDisplayed] = useState(false);
+
   // Modules Array
   const [modules, setModulesState] = useState([]);
 
@@ -87,13 +103,31 @@ function PageAssigNUS() {
       <main>
         <div style={{ display: "flex", flexFlow: "row nowrap" }}>
           <Calendar
+            calendarStart={calendarStart}
+            setCalendarStart={setCalendarStart}
             tasks={tasks}
             setTasks={setTasks}
             modules={modules}
             setModules={setModules}
+            taskGrids={taskGrids}
+            setTaskGrids={setTaskGrids}
+            taskGridId={taskGridId}
+            setTaskGridId={setTaskGridId}
+            taskGridName={taskGridName}
+            setTaskGridName={setTaskGridName}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+            color={color}
+            setColor={setColor}
+            isDisplayed={isDisplayed}
+            setIsDisplayed={setIsDisplayed}
           />
 
           <TaskManager
+            calendarStart={calendarStart}
+            setCalendarStart={setCalendarStart}
             modules={modules}
             setModules={setModules}
             moduleId={moduleId}
@@ -124,6 +158,20 @@ function PageAssigNUS() {
             setTaskComplete={setTaskComplete}
             taskRank={taskRank}
             setTaskRank={setTaskRank}
+            taskGrids={taskGrids}
+            setTaskGrids={setTaskGrids}
+            taskGridId={taskGridId}
+            setTaskGridId={setTaskGridId}
+            taskGridName={taskGridName}
+            setTaskGridName={setTaskGridName}
+            startTime={startTime}
+            setStartTime={setStartTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+            color={color}
+            setColor={setColor}
+            isDisplayed={isDisplayed}
+            setIsDisplayed={setIsDisplayed}
           />
         </div>
       </main>

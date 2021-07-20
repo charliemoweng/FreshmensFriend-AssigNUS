@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,6 +14,8 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import DateFnsUtils from "@date-io/date-fns";
+import { format, addDays, subDays, getDay } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 function CalendarToolbar(props) {
   const classes = useStyles();
   const {
+    calendarStart,
+    setCalendarStart,
     dateStyle,
     setDateStyle,
     timeStyle,
@@ -44,41 +48,107 @@ function CalendarToolbar(props) {
     setModeStyle
   } = props;
 
+  // modify calendarStart based on value of modeStyle
+  // 0: no change
+  // 1: set to this week's Sunday
+  // 2: set to this week's Monday
+  const calendarStartDayInWeek = getDay(calendarStart);
+
+  if (modeStyle === 0 && calendarStartDayInWeek !== getDay(new Date())) {
+    setCalendarStart(new Date());
+  } else if (modeStyle === 1 && calendarStartDayInWeek !== 0) {
+    setCalendarStart(subDays(calendarStart, calendarStartDayInWeek));
+  } else if (modeStyle === 2 && calendarStartDayInWeek !== 1) {
+    if (calendarStartDayInWeek === 0) {
+      setCalendarStart(addDays(calendarStart, 1));
+    } else {
+      setCalendarStart(subDays(calendarStart, calendarStartDayInWeek - 1));
+    }
+  }
+
+  // console.log("calendarStart is: " + calendarStart);
+  const calendarEnd = addDays(calendarStart, 6);
+  // useEffect(() => {}, [calendarStart]);
+
+  // console.log("calendarStart: " + calendarStart);
+
+  const displayStartDate = format(calendarStart, "d").concat(
+    " " + format(calendarStart, "MMM")
+  );
+  const displayEndDate = format(calendarEnd, "d").concat(
+    " " + format(calendarEnd, "MMM")
+  );
+  const calendarDisplayRange = displayStartDate.concat(" - " + displayEndDate);
+  const calendarMonthYearDisplay = format(calendarStart, "MMMM").concat(
+    " " + format(calendarStart, "yyyy")
+  );
+
+  // console.log("dateStyle is: " + dateStyle);
   const handleClickDate = () => {
     // handles the clicking of date button to display / hide the dates
-    console.log("Date button has been clicked");
+    // console.log("Date button has been clicked");
     if (dateStyle === 0) {
-      setDateStyle(1);
-      console.log("new dateStyle is: " + dateStyle);
+      setDateStyle(1, () => {
+        handleClickDateCallback();
+      });
     } else {
-      setDateStyle(0);
-      console.log("new dateStyle is: " + dateStyle);
+      setDateStyle(0, () => {
+        handleClickDateCallback();
+      });
     }
   };
+  const handleClickDateCallback = () => {};
 
+  // console.log("timeStyle is: " + timeStyle);
   const handleClickTime = () => {
     // handles the clicking of time button to change display between 12hr and 24hr time
-    console.log("Time button has been clicked");
+    // console.log("Time button has been clicked");
     if (timeStyle === 0) {
-      setTimeStyle(1);
-      console.log("new timeStyle: " + timeStyle);
+      setTimeStyle(1, () => {
+        handleClickTimeCallback();
+      });
     } else {
-      setTimeStyle(0);
-      console.log("new timeStyle: " + timeStyle);
+      setTimeStyle(0, () => {
+        handleClickTimeCallback();
+      });
     }
   };
+  const handleClickTimeCallback = () => {};
 
+  console.log("modeStyle is: " + modeStyle);
   const handleClickMode = () => {
-    // handles the clicking of mode button to swap horizontal and vertical modes
-    console.log("Mode button has been clicked");
+    // console.log("Mode button has been clicked");
     if (modeStyle === 0) {
-      setModeStyle(1);
-      console.log("new modeStyle is: " + modeStyle);
+      setModeStyle(1, () => {
+        handleClickModeCallback();
+      });
+    } else if (modeStyle === 1) {
+      setModeStyle(2, () => {
+        handleClickModeCallback();
+      });
     } else {
-      setModeStyle(0);
-      console.log("new modeStyle is: " + modeStyle);
+      setModeStyle(0, () => {
+        handleClickModeCallback();
+      });
     }
   };
+  const handleClickModeCallback = () => {};
+
+  const handleClickPrevWeek = () => {
+    console.log("PrevWeek button clicked");
+    setCalendarStart(subDays(calendarStart, 7), () => {
+      handleClickPrevWeekCallBack();
+    });
+  };
+  const handleClickPrevWeekCallBack = () => {};
+
+  const handleClickNextWeek = () => {
+    console.log("NextWeek button clicked");
+    setCalendarStart(addDays(calendarStart, 7), () => {
+      handleClickNextWeekCallBack();
+    });
+  };
+  const handleClickNextWeekCallBack = () => {};
 
   return (
     <div className={classes.root}>
@@ -95,22 +165,24 @@ function CalendarToolbar(props) {
           <IconButton
             edge="start"
             className={classes.leftButton}
+            onClick={handleClickPrevWeek}
             color="inherit"
             aria-label="left"
           >
             <NavigateBeforeIcon fontSize="large" />
           </IconButton>
-          <Typography variant="h6">16/7 - 22/7</Typography>
+          <Typography variant="h6">{calendarDisplayRange}</Typography>
           <IconButton
             edge="start"
             className={classes.rightButton}
+            onClick={handleClickNextWeek}
             color="inherit"
             aria-label="right"
           >
             <NavigateNextIcon fontSize="large" />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            July 2021 (Month - Year)
+            {calendarMonthYearDisplay}
           </Typography>
           <div className={classes.buttons}>
             {/* <Accordion>
@@ -132,13 +204,20 @@ function CalendarToolbar(props) {
         </AccordionDetails>
       </Accordion> */}
             <Button onClick={handleClickDate} color="inherit">
-              Date
+              {dateStyle === 0 ? <div>Date/Day</div> : <div>Date</div>}
             </Button>
             <Button onClick={handleClickTime} color="inherit">
-              Time
+              {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
             </Button>
             <Button onClick={handleClickMode} color="inherit">
-              Mode
+              Start:
+              {modeStyle === 0 ? (
+                <div> Today</div>
+              ) : modeStyle === 1 ? (
+                <div> Sun</div>
+              ) : (
+                <div> Mon</div>
+              )}
             </Button>
           </div>
         </Toolbar>

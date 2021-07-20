@@ -1,17 +1,15 @@
-.calendarGrid {
-  flex-grow: 1;
-}
-
 .dayGridParent {
   display: flex;
   flex-direction: row;
-  border-style: solid;
-  flex-basis: auto;
+  /* border-style: solid; */
 }
 
 .dayGridChild {
   flex-grow: 1;
-  border-style: dotted;
-  flex-basis: auto;
-  margin: auto;
+  height: 100%;
+}
+
+.dayGridChildTime {
+  flex-grow: 0.1;
+  height: 100%;
 }

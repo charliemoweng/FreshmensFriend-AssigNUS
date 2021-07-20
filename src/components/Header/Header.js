@@ -25,7 +25,7 @@ function Header(props) {
   return (
     <header>
       <div className={Header}>
-        <h1>Welcome to AssigNUS v0.9.0</h1>
+        <h1>Welcome to AssigNUS v0.9.1</h1>
       </div>
     </header>
   );

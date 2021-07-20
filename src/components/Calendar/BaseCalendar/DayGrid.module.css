@@ -1,9 +1,11 @@
 .dayGrid {
-  flex-grow: 1;
-  border-style: dotted;
+  flex-grow: 3;
+  /* border-style: dotted; */
+  width: 100%;
 }
 
 .dayGridTime {
   flex-grow: 1;
-  border-style: solid;
+  height: 100%;
+  /* border-style: dotted; */
 }

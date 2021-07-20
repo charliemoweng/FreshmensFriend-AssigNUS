@@ -13,6 +13,8 @@ import TaskManagerRankTasks from "../TaskManagerRankTasks/TaskManagerRankTasks";
 function TaskManager(props) {
   //console.log("task manager called");
   const {
+    calendarStart,
+    setCalendarStart,
     modules,
     setModules,
     moduleId,
@@ -42,7 +44,21 @@ function TaskManager(props) {
     taskComplete,
     setTaskComplete,
     taskRank,
-    setTaskRank
+    setTaskRank,
+    taskGrids,
+    setTaskGrids,
+    taskGridId,
+    setTaskGridId,
+    taskGridName,
+    setTaskGridName,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    color,
+    setColor,
+    isDisplayed,
+    setIsDisplayed
   } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
@@ -121,6 +137,8 @@ function TaskManager(props) {
             </div>
             <div className={styles.TMButtonMiddle}>
               <TaskManagerAddTask
+                calendarStart={calendarStart}
+                setCalendarStart={setCalendarStart}
                 modules={modules}
                 setModuless={setModules}
                 tasks={tasks}
@@ -143,6 +161,20 @@ function TaskManager(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                taskGrids={taskGrids}
+                setTaskGrids={setTaskGrids}
+                taskGridId={taskGridId}
+                setTaskGridId={setTaskGridId}
+                taskGridName={taskGridName}
+                setTaskGridName={setTaskGridName}
+                startTime={startTime}
+                setStartTime={setStartTime}
+                endTime={endTime}
+                setEndTime={setEndTime}
+                color={color}
+                setColor={setColor}
+                isDisplayed={isDisplayed}
+                setIsDisplayed={setIsDisplayed}
               />
             </div>
             <div className={styles.TMButtonRight}>
@@ -214,6 +246,20 @@ function TaskManager(props) {
               setTaskComplete={setTaskComplete}
               taskRank={taskRank}
               setTaskRank={setTaskRank}
+              taskGrids={taskGrids}
+              setTaskGrids={setTaskGrids}
+              taskGridId={taskGridId}
+              setTaskGridId={setTaskGridId}
+              taskGridName={taskGridName}
+              setTaskGridName={setTaskGridName}
+              startTime={startTime}
+              setStartTime={setStartTime}
+              endTime={endTime}
+              setEndTime={setEndTime}
+              color={color}
+              setColor={setColor}
+              isDisplayed={isDisplayed}
+              setIsDisplayed={setIsDisplayed}
             />
 
             {/*<table
