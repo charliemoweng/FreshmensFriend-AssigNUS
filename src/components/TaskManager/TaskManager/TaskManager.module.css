@@ -27,6 +27,8 @@
   display: flex;
   height: 40px;
   justify-content: space-around;
+  /* white-space: wrap;
+  flex-wrap: wrap; */
 }
 
 .TMButtonLeft {
@@ -45,6 +47,7 @@
   flex-grow: 1;
   width: 30%;
   white-space: nowrap;
+  /* flex-wrap: wrap; */
 }
 
 .TaskList {
@@ -59,4 +62,5 @@
   min-width: 5%;
   max-width: 5%;
   white-space: nowrap;
+  /* flex-wrap: wrap; */
 }

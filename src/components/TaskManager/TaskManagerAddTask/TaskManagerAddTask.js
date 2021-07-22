@@ -77,8 +77,8 @@ function TaskManagerAddTask(props) {
 
   const modArray = Array.from(modules);
 
-  console.log(JSON.stringify(taskGrids));
-  console.log(taskGrids.length);
+  // console.log(JSON.stringify(taskGrids));
+  // console.log(taskGrids.length);
 
   const taskModValidate = (taskMod) => {
     if (modules.length === 0) {
@@ -226,9 +226,9 @@ function TaskManagerAddTask(props) {
   //handle submit
   function handleAddTask(event) {
     event.preventDefault();
-    console.log(
-      "New Task(id,mod,name): " + newTaskId + newTaskMod + newTaskName
-    );
+    // console.log(
+    //   "New Task(id,mod,name): " + newTaskId + newTaskMod + newTaskName
+    // );
 
     // validate the form
     const formValidation = Object.keys(values).reduce(
@@ -325,7 +325,7 @@ function TaskManagerAddTask(props) {
     const newTaskGrids = [
       ...taskGrids,
       {
-        taskGridId: taskId,
+        taskGridId: taskGridId,
         taskGridName: taskGridName,
         startTime: startTime,
         endTime: endTime,

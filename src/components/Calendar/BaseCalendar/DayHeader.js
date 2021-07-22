@@ -40,18 +40,16 @@ function DayHeader(props) {
 
   return (
     <div>
-      <Grid>
-        <Paper className={useStyles.paper}>
-          {dateStyle === 0 ? (
-            <div>
-              {displayDate} {dayGridDay}
-            </div>
-          ) : (
-            <div>{displayDate}</div>
-          )}
-          {/* {displayDate} {dayGridDay} */}
-        </Paper>
-      </Grid>
+      <Paper className={useStyles.paper}>
+        {dateStyle === 0 ? (
+          <div>
+            {displayDate} {dayGridDay}
+          </div>
+        ) : (
+          <div>{displayDate}</div>
+        )}
+        {/* {displayDate} {dayGridDay} */}
+      </Paper>
     </div>
   );
 }

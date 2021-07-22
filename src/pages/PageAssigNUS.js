@@ -59,6 +59,7 @@ function PageAssigNUS() {
     setModulesState(newModules);
     window.localStorage.setItem("modules", JSON.stringify(newModules));
   }
+
   useEffect(() => {
     const savedModules = JSON.parse(window.localStorage.getItem("modules"));
     setModulesState(savedModules ?? []);

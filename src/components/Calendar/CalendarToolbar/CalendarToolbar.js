@@ -115,7 +115,7 @@ function CalendarToolbar(props) {
   };
   const handleClickTimeCallback = () => {};
 
-  console.log("modeStyle is: " + modeStyle);
+  // console.log("modeStyle is: " + modeStyle);
   const handleClickMode = () => {
     // console.log("Mode button has been clicked");
     if (modeStyle === 0) {
@@ -135,7 +135,6 @@ function CalendarToolbar(props) {
   const handleClickModeCallback = () => {};
 
   const handleClickPrevWeek = () => {
-    console.log("PrevWeek button clicked");
     setCalendarStart(subDays(calendarStart, 7), () => {
       handleClickPrevWeekCallBack();
     });
@@ -143,7 +142,6 @@ function CalendarToolbar(props) {
   const handleClickPrevWeekCallBack = () => {};
 
   const handleClickNextWeek = () => {
-    console.log("NextWeek button clicked");
     setCalendarStart(addDays(calendarStart, 7), () => {
       handleClickNextWeekCallBack();
     });
@@ -204,13 +202,12 @@ function CalendarToolbar(props) {
         </AccordionDetails>
       </Accordion> */}
             <Button onClick={handleClickDate} color="inherit">
-              {dateStyle === 0 ? <div>Date/Day</div> : <div>Date</div>}
+              {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
             </Button>
             <Button onClick={handleClickTime} color="inherit">
               {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
             </Button>
             <Button onClick={handleClickMode} color="inherit">
-              Start:
               {modeStyle === 0 ? (
                 <div> Today</div>
               ) : modeStyle === 1 ? (
