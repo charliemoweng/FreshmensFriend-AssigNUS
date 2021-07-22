@@ -8,6 +8,7 @@ import CalendarTimeCol from "./CalendarTimeCol";
 import DayGrid from "./DayGrid";
 import TaskGrid from "./TaskGrid";
 import styles from "./CalendarGrid.module.css";
+import { sizing, height } from "@material-ui/system";
 
 function CalendarGrid(props) {
   const {
@@ -108,6 +109,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="0"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[0]}
           gridDay={dayArray[0]}
           dateStyle={dateStyle}
@@ -116,6 +119,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="1"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[1]}
           gridDay={dayArray[1]}
           dateStyle={dateStyle}
@@ -124,6 +129,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="2"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[2]}
           gridDay={dayArray[2]}
           dateStyle={dateStyle}
@@ -132,6 +139,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="3"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[3]}
           gridDay={dayArray[3]}
           dateStyle={dateStyle}
@@ -140,6 +149,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="4"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[4]}
           gridDay={dayArray[4]}
           dateStyle={dateStyle}
@@ -148,6 +159,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="5"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[5]}
           gridDay={dayArray[5]}
           dateStyle={dateStyle}
@@ -156,6 +169,8 @@ function CalendarGrid(props) {
       <Grid className={styles.dayGridChild}>
         <DayGrid
           dayGridId="6"
+          tasks={tasks}
+          modules={modules}
           gridDate={dateArray[6]}
           gridDay={dayArray[6]}
           dateStyle={dateStyle}

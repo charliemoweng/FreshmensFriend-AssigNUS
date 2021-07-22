@@ -9,3 +9,18 @@
   height: 100%;
   /* border-style: dotted; */
 }
+
+.hourGrid {
+  display: flex;
+  flex-grow: 1;
+
+  background: #add8e5;
+  height: 1/25;
+}
+
+.taskGrid {
+  display: flex;
+  flex-grow: 1;
+
+  background: #add8e5;
+}

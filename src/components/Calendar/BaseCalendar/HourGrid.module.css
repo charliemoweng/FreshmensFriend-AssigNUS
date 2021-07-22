@@ -3,4 +3,13 @@
   flex-grow: 1;
   border-style: dotted;
   background: #add8e5;
+  height: 1/25;
+}
+
+.taskGrid {
+  display: flex;
+  flex-grow: 1;
+  border-style: dotted;
+  background: #add8e5;
+  height: 1/25;
 }

@@ -316,9 +316,10 @@ function TaskManagerRankTasks(props) {
           >
             <SwapVertIcon />
           </Button>
+          <Typography variant="subtitle1">By: {selectedValue}</Typography>
         </div>
       </div>
-      <Typography variant="subtitle1">By: {selectedValue}</Typography>
+      {/* <Typography variant="subtitle1">By: {selectedValue}</Typography> */}
       <div />
       <SimpleDialog
         selectedValue={selectedValue}
