@@ -142,7 +142,7 @@ function DayGrid(props) {
       }
 
       // finally, update i using taskEnd
-      // i += taskDuration - 1;
+      i += taskDuration - 1;
     } else {
       // there isn't a task starting at hour i, add a default HourGrid with hour being i.
       // console.log("no tasks found for current dayGrid at hour" + i);
