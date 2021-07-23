@@ -43,6 +43,11 @@ function Calendar(props) {
   // modeStyle 2: display calendarStart as Monday of current week
   const [modeStyle, setModeStyle] = useStateWithCallbackLazy(0);
 
+  // taskNameStyle 0: display taskName at the top of the taskGrid
+  // taskNameStyle 1: display taskName at the center of the taskGrid (top skew if tied)
+  // taskNameStyle 2: display taskName at the bottom of the taskGrid
+  const [taskNameStyle, setTaskNameStyle] = useStateWithCallbackLazy(0);
+
   return (
     <div className={styles.BoxCalendar}>
       <Paper elevation={3}>
@@ -57,6 +62,8 @@ function Calendar(props) {
             setTimeStyle={setTimeStyle}
             modeStyle={modeStyle}
             setModeStyle={setModeStyle}
+            taskNameStyle={taskNameStyle}
+            setTaskNameStyle={setTaskNameStyle}
           />
           <BaseCalendar
             calendarStart={calendarStart}
@@ -82,6 +89,7 @@ function Calendar(props) {
             dateStyle={dateStyle}
             timeStyle={timeStyle}
             modeStyle={modeStyle}
+            taskNameStyle={taskNameStyle}
           />
         </div>
       </Paper>

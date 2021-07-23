@@ -10,6 +10,7 @@ import styles from "./DayGrid.module.css";
 import { DateFnsUtils } from "@date-io/date-fns";
 import { format } from "date-fns";
 import { sizing, height } from "@material-ui/system";
+import { GridList } from "material-ui";
 
 function DayGrid(props) {
   // field: day, date
@@ -22,7 +23,8 @@ function DayGrid(props) {
     setTasks,
     modules,
     setModules,
-    dateStyle
+    dateStyle,
+    taskNameStyle
   } = props;
 
   // logic for checking tasks happening at this date to be done here
@@ -34,9 +36,9 @@ function DayGrid(props) {
       format(new Date(gridDate), "P")
   );
 
-  console.log(
-    "todayTasks for DG" + dayGridId + " is: " + JSON.stringify(todayTasks)
-  );
+  // console.log(
+  //   "todayTasks for DG" + dayGridId + " is: " + JSON.stringify(todayTasks)
+  // );
 
   // dafult time array contains all integers from 0 to 23, represeting the hours in the day
   const displayArray = [];
@@ -48,11 +50,12 @@ function DayGrid(props) {
         (element) => format(new Date(element.taskStart), "H") === iStringified
       )
     ) {
-      console.log("task found for current DayGrid");
-      // get taskName and color of element from taskToAdd
+      // console.log("task found for current DayGrid");
+      // get taskName from taskToAdd
       const taskNameToAdd = todayTasks.find(
         (element) => format(new Date(element.taskStart), "H") === iStringified
       ).taskName;
+      // get taskColor (actually modColor of taskMod) from taskToAdd
       const taskColorToAdd = modules.find(
         (module) =>
           module.modName ===
@@ -61,12 +64,10 @@ function DayGrid(props) {
               format(new Date(element.taskStart), "H") === iStringified
           ).taskMod
       ).modColor;
-
-      // update i using taskEnd
-      const endOfTaskAdded = todayTasks.find(
+      // get taskComplete from taskToAdd
+      const taskCompleteToAdd = todayTasks.find(
         (element) => format(new Date(element.taskStart), "H") === iStringified
-      ).taskEnd;
-      i = format(new Date(endOfTaskAdded), "H");
+      ).taskComplete;
 
       const taskDuration =
         format(
@@ -88,18 +89,60 @@ function DayGrid(props) {
           "H"
         );
 
-      console.log("taskDuration is: " + taskDuration);
+      // console.log("taskDuration is: " + taskDuration);
 
-      // there is a task starting at hour i, create taskGrid here and update i to be taskEnd
-      displayArray.push(
-        <Box>
+      // when adding task grid, add first taskGrid with name and rest with no name
+      // i.e. first taskGrid will have nameDisplayed true and others will have that state as false
+
+      // // there is a task starting at hour i, create taskGrid here and update i to be taskEnd
+      // displayArray.push(
+      //   <TaskGrid
+      //     //class={"grid-xs-10"}
+      //     taskName={taskNameToAdd}
+      //     color={taskColorToAdd}
+      //     nameDisplayed={true}
+      //     isComplete={taskCompleteToAdd}
+      //   />
+      // );
+
+      // // first taskGrid contained the name, rest will not display taskName
+      // for (var j = 1; j < taskDuration; j++) {
+      //   displayArray.push(
+      //     <TaskGrid
+      //       //class={"grid-xs-10"}
+      //       taskName={taskNameToAdd}
+      //       color={taskColorToAdd}
+      //       nameDisplayed={false}
+      //       isComplete={taskCompleteToAdd}
+      //     />
+      //   );
+      // }
+
+      // check taskNameStyle
+      // if 0: first taskGrid gets nameDisplayed set to true
+      // if 1: center (skewed top) taskGrid gets nameDisplayed set to true
+      // if 2: last taskGrid gets nameDisplayed set to true
+      var nameDisplayedPos = 0;
+      if (taskNameStyle === 0) {
+        nameDisplayedPos = 0;
+      } else if (taskNameStyle === 1) {
+        nameDisplayedPos = Math.floor((taskDuration - 1) / 2);
+      } else {
+        nameDisplayedPos = taskDuration - 1;
+      }
+      for (var t = 0; t < taskDuration; t++) {
+        displayArray.push(
           <TaskGrid
-            //class={"grid-xs-10"}
             taskName={taskNameToAdd}
             color={taskColorToAdd}
+            nameDisplayed={t === nameDisplayedPos}
+            isComplete={taskCompleteToAdd}
           />
-        </Box>
-      );
+        );
+      }
+
+      // finally, update i using taskEnd
+      // i += taskDuration - 1;
     } else {
       // there isn't a task starting at hour i, add a default HourGrid with hour being i.
       // console.log("no tasks found for current dayGrid at hour" + i);
@@ -109,24 +152,27 @@ function DayGrid(props) {
         </Box>
       );
     }
+    // console.log("displayArray length is: " + displayArray.length);
   }
 
   return (
     <div>
-      <Grid
+      {/* <Grid
         container
         direction="column"
         justifyContent="space-between"
         alignItems="stretch"
-      >
+      > */}
+      <Box>
         <DayHeader
           dayGridId={dayGridId}
           dayGridDate={gridDate}
           dayGridDay={gridDay}
           dateStyle={dateStyle}
         />
-      </Grid>
-      {displayArray}
+        {/* </Grid> */}
+        {displayArray}
+      </Box>
     </div>
   );
 }

@@ -79,6 +79,9 @@ function TaskManagerAddTask(props) {
 
   // console.log(JSON.stringify(taskGrids));
   // console.log(taskGrids.length);
+  // console.log("startTime is: " + taskStart);
+  // console.log("endTime is: " + taskEnd);
+  // console.log(taskEnd < taskStart);
 
   const taskModValidate = (taskMod) => {
     if (modules.length === 0) {
@@ -108,14 +111,28 @@ function TaskManagerAddTask(props) {
     return null;
   };
 
+  // const taskEndValidate = (taskEnd) => {
+  //   if (!taskEnd) {
+  //     return "End time is required";
+  //   }
+  //   if (taskEnd < taskStart) {
+  //     console.log("startTime is: " + taskStart);
+  //     console.log("endTime is: " + taskEnd);
+  //     return "Invalid time range";
+  //   }
+  //   return null;
+  // };
+
   const validate = {
     taskMod: taskModValidate,
     taskName: taskNameValidate
+    //taskEnd: taskEndValidate
   };
 
   const initialValues = {
     taskMod: "",
     taskName: ""
+    //taskEnd: new Date()
   };
 
   const [values, setValues] = React.useState(initialValues);
@@ -172,6 +189,27 @@ function TaskManagerAddTask(props) {
     });
   };
 
+  // const handleTaskEndChange = (event) => {
+  //   setTaskEnd(event.target.value);
+
+  //   const { name, value: newValue, type } = event.target;
+
+  //   // keep number fields as numbers
+  //   const value = type === "number" ? +newValue : newValue;
+
+  //   // save field values
+  //   setValues({
+  //     ...values,
+  //     [name]: value
+  //   });
+
+  //   // was the field modified
+  //   setTouched({
+  //     ...touched,
+  //     [name]: true
+  //   });
+  // };
+
   function hashCode(str) {
     var hash = 0,
       i,
@@ -200,6 +238,8 @@ function TaskManagerAddTask(props) {
   setTaskRank(arrayLength + 1);
   useEffect(() => {}, [tasks]);
   useEffect(() => {}, [taskGrids]);
+  useEffect(() => {}, [taskStart]);
+  useEffect(() => {}, [taskEnd]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -254,11 +294,17 @@ function TaskManagerAddTask(props) {
     setErrors(formValidation.errors);
     setTouched(formValidation.touched);
 
+    if (taskEnd < taskStart) {
+      // throw error
+      alert("Task End cannot be before Task Start!");
+    }
+
     if (
       !Object.values(formValidation.errors).length && // errors object is empty
       Object.values(formValidation.touched).length ===
         Object.values(values).length && // all fields were touched
-      Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+      Object.values(formValidation.touched).every((t) => t === true) &&
+      taskEnd >= taskStart // every touched field is true
     ) {
       //alert(JSON.stringify(values, null, 2));
       addTask(
@@ -399,8 +445,7 @@ function TaskManagerAddTask(props) {
         <form onSubmit={handleAddTask} autoComplete="off">
           <DialogContent>
             <DialogContentText>
-              Add a Task! This can also be done by dragging out an area on your
-              Calendar (upcoming feature)
+              Add a Task to your To-do list!
             </DialogContentText>
 
             <div className={classes.root}>
@@ -453,6 +498,7 @@ function TaskManagerAddTask(props) {
                 margin="dense"
                 onChange={setTaskDue}
                 fullWidth
+                required
               />
             </MuiPickersUtilsProvider>
 
@@ -465,6 +511,7 @@ function TaskManagerAddTask(props) {
                 format="yyyy/MM/dd hh:mm a"
                 margin="dense"
                 onChange={setTaskStart}
+                required
               />
             </MuiPickersUtilsProvider>
 
@@ -473,12 +520,20 @@ function TaskManagerAddTask(props) {
                 value={taskEnd}
                 label="End at"
                 onError={console.log}
-                minDate={new Date("2021-01-01T00:00")}
+                minDate={taskStart}
                 format="yyyy/MM/dd hh:mm a"
                 margin="dense"
+                //onChange={handleTaskEndChange}
                 onChange={setTaskEnd}
+                name="taskEnd"
+                //onBlur={handleBlur}
+                //value={values.taskEnd}
+                required
               />
             </MuiPickersUtilsProvider>
+            {/* <div style={{ color: "red" }}>
+              {touched.taskEnd && errors.taskEnd}
+            </div> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

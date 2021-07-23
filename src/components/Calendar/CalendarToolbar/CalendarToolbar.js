@@ -45,10 +45,12 @@ function CalendarToolbar(props) {
     timeStyle,
     setTimeStyle,
     modeStyle,
-    setModeStyle
+    setModeStyle,
+    taskNameStyle,
+    setTaskNameStyle
   } = props;
 
-  // modify calendarStart based on value of modeStyle
+  // modify calendarStart based on value of modeStyle => modeStyle handled in toolbar instead of CalendarGrid
   // 0: no change
   // 1: set to this week's Sunday
   // 2: set to this week's Monday
@@ -83,6 +85,22 @@ function CalendarToolbar(props) {
     " " + format(calendarStart, "yyyy")
   );
 
+  // handlers for clicking the change week buttons
+  const handleClickPrevWeek = () => {
+    setCalendarStart(subDays(calendarStart, 7), () => {
+      handleClickPrevWeekCallBack();
+    });
+  };
+  const handleClickPrevWeekCallBack = () => {};
+
+  const handleClickNextWeek = () => {
+    setCalendarStart(addDays(calendarStart, 7), () => {
+      handleClickNextWeekCallBack();
+    });
+  };
+  const handleClickNextWeekCallBack = () => {};
+
+  // handler for clicking the date button
   // console.log("dateStyle is: " + dateStyle);
   const handleClickDate = () => {
     // handles the clicking of date button to display / hide the dates
@@ -99,6 +117,7 @@ function CalendarToolbar(props) {
   };
   const handleClickDateCallback = () => {};
 
+  // handler for clicking the time button
   // console.log("timeStyle is: " + timeStyle);
   const handleClickTime = () => {
     // handles the clicking of time button to change display between 12hr and 24hr time
@@ -115,6 +134,7 @@ function CalendarToolbar(props) {
   };
   const handleClickTimeCallback = () => {};
 
+  // handler for clicking the mode button
   // console.log("modeStyle is: " + modeStyle);
   const handleClickMode = () => {
     // console.log("Mode button has been clicked");
@@ -134,32 +154,38 @@ function CalendarToolbar(props) {
   };
   const handleClickModeCallback = () => {};
 
-  const handleClickPrevWeek = () => {
-    setCalendarStart(subDays(calendarStart, 7), () => {
-      handleClickPrevWeekCallBack();
-    });
+  // handler for clicking the taskName button
+  // console.log("taskNameStyle is: " + taskNameStyle);
+  const handleClickTaskName = () => {
+    // console.log("TaskName button has been clicked");
+    if (taskNameStyle === 0) {
+      setTaskNameStyle(1, () => {
+        handleClickTaskNameCallback();
+      });
+    } else if (taskNameStyle === 1) {
+      setTaskNameStyle(2, () => {
+        handleClickTaskNameCallback();
+      });
+    } else {
+      setTaskNameStyle(0, () => {
+        handleClickTaskNameCallback();
+      });
+    }
   };
-  const handleClickPrevWeekCallBack = () => {};
-
-  const handleClickNextWeek = () => {
-    setCalendarStart(addDays(calendarStart, 7), () => {
-      handleClickNextWeekCallBack();
-    });
-  };
-  const handleClickNextWeekCallBack = () => {};
+  const handleClickTaskNameCallback = () => {};
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             edge="start"
             className={classes.leftButton}
@@ -201,6 +227,7 @@ function CalendarToolbar(props) {
           </div>
         </AccordionDetails>
       </Accordion> */}
+
             <Button onClick={handleClickDate} color="inherit">
               {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
             </Button>
@@ -214,6 +241,15 @@ function CalendarToolbar(props) {
                 <div> Sun</div>
               ) : (
                 <div> Mon</div>
+              )}
+            </Button>
+            <Button onClick={handleClickTaskName} color="inherit">
+              {taskNameStyle === 0 ? (
+                <div> Top</div>
+              ) : taskNameStyle === 1 ? (
+                <div> Center</div>
+              ) : (
+                <div> Bottom</div>
               )}
             </Button>
           </div>

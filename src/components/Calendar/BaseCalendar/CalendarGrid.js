@@ -34,7 +34,8 @@ function CalendarGrid(props) {
     setIsDisplayed,
     dateStyle,
     timeStyle,
-    modeStyle
+    modeStyle,
+    taskNameStyle
   } = props;
 
   useEffect(() => {}, [calendarStart]);
@@ -114,6 +115,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[0]}
           gridDay={dayArray[0]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -124,6 +126,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[1]}
           gridDay={dayArray[1]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -134,6 +137,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[2]}
           gridDay={dayArray[2]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -144,6 +148,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[3]}
           gridDay={dayArray[3]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -154,6 +159,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[4]}
           gridDay={dayArray[4]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -164,6 +170,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[5]}
           gridDay={dayArray[5]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
       <Grid className={styles.dayGridChild}>
@@ -174,6 +181,7 @@ function CalendarGrid(props) {
           gridDate={dateArray[6]}
           gridDay={dayArray[6]}
           dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
         />
       </Grid>
     </Grid>

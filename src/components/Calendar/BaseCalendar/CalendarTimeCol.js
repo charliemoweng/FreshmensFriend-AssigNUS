@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import DayHeader from "./DayHeader";
 import HourGrid from "./HourGrid";
 import styles from "./DayGrid.module.css";
+import { AccountBoxRounded } from "@material-ui/icons";
+import { borders } from "@material-ui/system";
+import { grey, white } from "@material-ui/core/colors";
 
 function CalendarTimeCol(props) {
   // field: day, date
@@ -30,8 +34,80 @@ function CalendarTimeCol(props) {
     }
   }));
 
+  const timeArray12HRS = [
+    "12 AM",
+    "1 AM",
+    "2 AM",
+    "3 AM",
+    "4 AM",
+    "5 AM",
+    "6 AM",
+    "7 AM",
+    "8 AM",
+    "9 AM",
+    "10 AM",
+    "11 AM",
+    "12 PM",
+    "1 PM",
+    "2 PM",
+    "3 PM",
+    "4 PM",
+    "5 PM",
+    "6 PM",
+    "7 PM",
+    "8 PM",
+    "9 PM",
+    "10 PM",
+    "11 PM"
+  ];
+  const timeArray24HRS = [
+    "0000",
+    "0100",
+    "0200",
+    "0300",
+    "0400",
+    "0500",
+    "0600",
+    "0700",
+    "0800",
+    "0900",
+    "1000",
+    "1100",
+    "1200",
+    "1300",
+    "1400",
+    "1500",
+    "1600",
+    "1700",
+    "1800",
+    "1900",
+    "2000",
+    "2100",
+    "2200",
+    "2300"
+  ];
+  const timeColArray = [];
+  for (var i = 0; i < 24; i++) {
+    timeColArray.push(
+      <Box border={1} borderColor="grey.100">
+        {timeStyle === 0 ? timeArray12HRS[i] : timeArray24HRS[i]}
+      </Box>
+    );
+  }
+
   return (
-    <Grid
+    <div>
+      <Box border={1} borderColor="grey.100">
+        {timeStyle === 0 ? <div>12HRS</div> : <div>24HRS</div>}
+      </Box>
+      {timeColArray}
+    </div>
+  );
+}
+
+export default CalendarTimeCol;
+
+/* <Grid
       className={styles.dayGridTime}
       container
       direction="column"
@@ -288,8 +364,4 @@ function CalendarTimeCol(props) {
           {timeStyle === 0 ? <div>11 PM</div> : <div>2300</div>}
         </Paper>
       </Grid>
-    </Grid>
-  );
-}
-
-export default CalendarTimeCol;
+    </Grid> */

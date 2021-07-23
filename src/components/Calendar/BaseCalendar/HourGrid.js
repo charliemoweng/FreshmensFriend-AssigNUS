@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import DateFnsUtils from "@date-io/date-fns";
 import styles from "./HourGrid.module.css";
+import { borders } from "@material-ui/system";
+import { grey, white } from "@material-ui/core/colors";
 
 function HourGrid(props) {
   const {
@@ -32,13 +34,19 @@ function HourGrid(props) {
     }
   }));
 
+  //test test
+
   // const [gridStart, setGridStart] = useState("");
   // const [gridEnd, setGridEnd] = useState("");
 
   // check tasks array for any tasks that is at current hour slot
   // local copy
 
-  return <Box>HG {hourGridId}</Box>;
+  return (
+    <Box border={1} borderColor="grey.300">
+      &nbsp;
+    </Box>
+  );
 }
 
 export default HourGrid;
