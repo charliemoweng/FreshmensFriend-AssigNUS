@@ -1,5 +1,7 @@
 import { Button } from "@material-ui/core";
 import { FirebaseAuthConsumer } from "@react-firebase/auth";
+import assigNUSPoster from "../../public/images/assigNUSPoster.jpg";
+import styles from "./PageLogin.module.css";
 
 function PageLogin() {
   //console.log("page login called");
@@ -9,9 +11,9 @@ function PageLogin() {
   };
 
   return (
-    <>
-      <div className="PageLogin">
-        <h1>Login to AssigNUS v0.9.3</h1>
+    <div className="PageLogin">
+      <h1>Login to AssigNUS v1.0.0</h1>
+      <div className={styles.pageChild}>
         <FirebaseAuthConsumer>
           {({ firebase }) => (
             <Button
@@ -24,7 +26,10 @@ function PageLogin() {
           )}
         </FirebaseAuthConsumer>
       </div>
-    </>
+      <div className={styles.pageChild}>
+        <img alt="poster" src={assigNUSPoster} />
+      </div>
+    </div>
   );
 }
 

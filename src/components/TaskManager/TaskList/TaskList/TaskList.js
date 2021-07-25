@@ -50,6 +50,8 @@ export default function TaskList(props) {
     setTaskComplete,
     taskRank,
     setTaskRank,
+    taskReminder,
+    setTaskReminder,
     taskGrids,
     setTaskGrids,
     taskGridId,
@@ -104,6 +106,8 @@ export default function TaskList(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                taskReminder={taskReminder}
+                setTaskReminder={setTaskReminder}
                 taskGrids={taskGrids}
                 setTaskGrids={setTaskGrids}
                 taskGridId={taskGridId}

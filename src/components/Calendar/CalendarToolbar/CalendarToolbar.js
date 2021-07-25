@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider
+} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -16,6 +20,8 @@ import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DateFnsUtils from "@date-io/date-fns";
 import { format, addDays, subDays, getDay } from "date-fns";
+
+import { purple, lightBlue, blue, indigo, red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +40,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end"
   }
 }));
+
+const toolbarTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: lightBlue[600],
+      contrastText: "#fff"
+    },
+    secondary: {
+      main: red[500]
+    }
+  }
+});
 
 function CalendarToolbar(props) {
   const classes = useStyles();
@@ -176,9 +194,10 @@ function CalendarToolbar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          {/* <IconButton
+      <ThemeProvider theme={toolbarTheme}>
+        <AppBar position="static" color={toolbarTheme.primary}>
+          <Toolbar>
+            {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
@@ -186,30 +205,30 @@ function CalendarToolbar(props) {
           >
             <MenuIcon />
           </IconButton> */}
-          <IconButton
-            edge="start"
-            className={classes.leftButton}
-            onClick={handleClickPrevWeek}
-            color="inherit"
-            aria-label="left"
-          >
-            <NavigateBeforeIcon fontSize="large" />
-          </IconButton>
-          <Typography variant="h6">{calendarDisplayRange}</Typography>
-          <IconButton
-            edge="start"
-            className={classes.rightButton}
-            onClick={handleClickNextWeek}
-            color="inherit"
-            aria-label="right"
-          >
-            <NavigateNextIcon fontSize="large" />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            {calendarMonthYearDisplay}
-          </Typography>
-          <div className={classes.buttons}>
-            {/* <Accordion>
+            <IconButton
+              edge="start"
+              className={classes.leftButton}
+              onClick={handleClickPrevWeek}
+              color="inherit"
+              aria-label="left"
+            >
+              <NavigateBeforeIcon fontSize="large" />
+            </IconButton>
+            <Typography variant="h6">{calendarDisplayRange}</Typography>
+            <IconButton
+              edge="start"
+              className={classes.rightButton}
+              onClick={handleClickNextWeek}
+              color="inherit"
+              aria-label="right"
+            >
+              <NavigateNextIcon fontSize="large" />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {calendarMonthYearDisplay}
+            </Typography>
+            <div className={classes.buttons}>
+              {/* <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -228,33 +247,34 @@ function CalendarToolbar(props) {
         </AccordionDetails>
       </Accordion> */}
 
-            <Button onClick={handleClickDate} color="inherit">
-              {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
-            </Button>
-            <Button onClick={handleClickTime} color="inherit">
-              {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
-            </Button>
-            <Button onClick={handleClickMode} color="inherit">
-              {modeStyle === 0 ? (
-                <div> Today</div>
-              ) : modeStyle === 1 ? (
-                <div> Sun</div>
-              ) : (
-                <div> Mon</div>
-              )}
-            </Button>
-            <Button onClick={handleClickTaskName} color="inherit">
-              {taskNameStyle === 0 ? (
-                <div> Top</div>
-              ) : taskNameStyle === 1 ? (
-                <div> Center</div>
-              ) : (
-                <div> Bottom</div>
-              )}
-            </Button>
-          </div>
-        </Toolbar>
-      </AppBar>
+              <Button onClick={handleClickDate} color="inherit">
+                {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
+              </Button>
+              <Button onClick={handleClickTime} color="inherit">
+                {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
+              </Button>
+              <Button onClick={handleClickMode} color="inherit">
+                {modeStyle === 0 ? (
+                  <div> Today</div>
+                ) : modeStyle === 1 ? (
+                  <div> Sun</div>
+                ) : (
+                  <div> Mon</div>
+                )}
+              </Button>
+              <Button onClick={handleClickTaskName} color="inherit">
+                {taskNameStyle === 0 ? (
+                  <div> Top</div>
+                ) : taskNameStyle === 1 ? (
+                  <div> Center</div>
+                ) : (
+                  <div> Bottom</div>
+                )}
+              </Button>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
     </div>
   );
 }

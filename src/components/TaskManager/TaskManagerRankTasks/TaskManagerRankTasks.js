@@ -52,6 +52,11 @@ function TaskManagerRankTasks(props) {
     }
   });
 
+  function clearLocal(event) {
+    event.preventDefault();
+    window.localStorage.clear();
+  }
+
   function SimpleDialog(props) {
     const classes = useStyles();
     const { onClose, selectedValue, open } = props;
@@ -303,24 +308,20 @@ function TaskManagerRankTasks(props) {
 
   return (
     <div>
-      <div className={styles.TMButtonParent}>
-        <div className={styles.TMButtonRight}>
-          <Button variant="contained" color="primary" onClick={handleClickOpen}>
-            Rank Tasks
-          </Button>
-          <Button
-            className={styles.reverseButton}
-            variant="contained"
-            color="default"
-            onClick={handleClickReverse}
-          >
-            <SwapVertIcon />
-          </Button>
-          <Typography variant="subtitle1">By: {selectedValue}</Typography>
-        </div>
-      </div>
-      {/* <Typography variant="subtitle1">By: {selectedValue}</Typography> */}
-      <div />
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        Rank
+      </Button>
+      <Button
+        className={styles.reverseButton}
+        variant="contained"
+        color="default"
+        onClick={handleClickReverse}
+      >
+        <SwapVertIcon />
+      </Button>
+
+      <Typography variant="subtitle1">By: {selectedValue}</Typography>
+
       <SimpleDialog
         selectedValue={selectedValue}
         open={open}

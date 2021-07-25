@@ -4,6 +4,9 @@ import Header from "../components/Header/Header";
 import Calendar from "../components/Calendar/Calendar/Calendar";
 import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
 import { firebase } from "@firebase/app";
+import addNotification from "react-push-notification";
+import DateFnsUtils from "@date-io/date-fns";
+import { subHours, parseISO, format } from "date-fns";
 
 function PageAssigNUS() {
   //console.log("page assignus called");
@@ -86,11 +89,84 @@ function PageAssigNUS() {
   const [taskComplete, setTaskComplete] = useState(false);
   // Rank
   const [taskRank, setTaskRank] = useState(1);
+  // Reminder
+  const [taskReminder, setTaskReminder] = useState(0);
 
-  function setTasks(newTasks) {
-    setTasksState(newTasks);
-    window.localStorage.setItem("tasks", JSON.stringify(newTasks));
-  }
+  // clock displaying current time
+  const [currTime, setCurrTime] = useState(new Date().toLocaleString());
+
+  useEffect(() => {
+    let secTimer = setInterval(() => {
+      setCurrTime(new Date().toString());
+    }, 1000);
+
+    return () => clearInterval(secTimer);
+  }, []);
+
+  // Sending push notification to remind user of task here
+  // const sendNotif = () => {
+  //   addNotification({
+  //     title: "Reminder",
+  //     subtitle: "Friendly reminder from AssigNUS",
+  //     message:
+  //       "Your task " +
+  //       tasks[0].taskName +
+  //       " from module " +
+  //       tasks[0].taskMod +
+  //       " is due in " +
+  //       tasks[0].taskReminder +
+  //       ` hour${tasks[0].taskReminder === 1 ? null : `s`}`,
+  //     theme: "darkblue",
+  //     duration: 3500,
+  //     native: true // when using native, your OS will handle theming.
+  //   });
+  // };
+
+  // console.log(new Date(currTime));
+  const currTasks = [...tasks];
+  currTasks.forEach((element) => {
+    const taskReminderTime = subHours(
+      new Date(element.taskDue),
+      element.taskReminder
+    );
+    // test test
+    // console.log(subHours(new Date(element.taskDue), element.taskReminder));
+    // console.log("currTime is: " + currTime);
+    // console.log("taskReminderTime is: " + taskReminderTime);
+
+    const currTimeDate = new Date(currTime);
+    const currTimeSeconds = format(currTimeDate, "t");
+    const reminderTimeSeconds = format(new Date(taskReminderTime), "t");
+
+    // test
+    // console.log("currTimeSeconds is: " + currTimeSeconds);
+    // console.log("reminderTimeSeconds is: " + reminderTimeSeconds);
+
+    if (currTimeSeconds === reminderTimeSeconds) {
+      // send reminder here
+      const sendNotif = () => {
+        addNotification({
+          title: "Reminder",
+          subtitle: "Friendly reminder from AssigNUS",
+          message:
+            "Your task " +
+            tasks[0].taskName +
+            " from module " +
+            tasks[0].taskMod +
+            " is due in " +
+            tasks[0].taskReminder +
+            ` hour${tasks[0].taskReminder === 1 ? `` : `s`}`,
+          theme: "darkblue",
+          duration: 3500,
+          native: true // when using native, your OS will handle theming.
+        });
+      };
+      sendNotif();
+      console.log("Push notification sent");
+    }
+    // test test
+    // console.log("checking" + currTime);
+  });
 
   useEffect(() => {
     const savedTasks = JSON.parse(window.localStorage.getItem("tasks"));
@@ -100,14 +176,14 @@ function PageAssigNUS() {
   return (
     <>
       <Header modules={modules} setModulesState={setModulesState} />
-
+      <div>{currTime}</div>
       <main>
         <div style={{ display: "flex", flexFlow: "row nowrap" }}>
           <Calendar
             calendarStart={calendarStart}
             setCalendarStart={setCalendarStart}
             tasks={tasks}
-            setTasks={setTasks}
+            setTasks={setTasksState}
             modules={modules}
             setModules={setModules}
             taskGrids={taskGrids}
@@ -126,6 +202,11 @@ function PageAssigNUS() {
             setIsDisplayed={setIsDisplayed}
           />
 
+          {/* <div>
+            {" "}
+            <button onClick={sendNotif}> hello </button>{" "}
+          </div> */}
+
           <TaskManager
             calendarStart={calendarStart}
             setCalendarStart={setCalendarStart}
@@ -140,7 +221,7 @@ function PageAssigNUS() {
             moduleRank={moduleRank}
             setModuleRank={setModuleRank}
             tasks={tasks}
-            setTasks={setTasks}
+            setTasks={setTasksState}
             taskId={taskId}
             setTaskId={setTaskId}
             taskMod={taskMod}
@@ -159,6 +240,8 @@ function PageAssigNUS() {
             setTaskComplete={setTaskComplete}
             taskRank={taskRank}
             setTaskRank={setTaskRank}
+            taskReminder={taskReminder}
+            setTaskReminder={setTaskReminder}
             taskGrids={taskGrids}
             setTaskGrids={setTaskGrids}
             taskGridId={taskGridId}

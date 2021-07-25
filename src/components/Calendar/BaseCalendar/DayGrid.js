@@ -48,6 +48,14 @@ function DayGrid(props) {
     if (
       todayTasks.find(
         (element) => format(new Date(element.taskStart), "H") === iStringified
+      ) &&
+      modules.some(
+        (element) =>
+          element.modName ===
+          todayTasks.find(
+            (element) =>
+              format(new Date(element.taskStart), "H") === iStringified
+          ).taskMod
       )
     ) {
       // console.log("task found for current DayGrid");
@@ -87,7 +95,8 @@ function DayGrid(props) {
             ).taskStart
           ),
           "H"
-        );
+        ) +
+        1;
 
       // console.log("taskDuration is: " + taskDuration);
 

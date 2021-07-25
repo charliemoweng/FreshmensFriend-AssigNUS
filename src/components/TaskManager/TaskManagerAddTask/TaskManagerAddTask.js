@@ -43,6 +43,8 @@ function TaskManagerAddTask(props) {
     setTaskComplete,
     taskRank,
     setTaskRank,
+    taskReminder,
+    setTaskReminder,
     taskGrids,
     setTaskGrids,
     taskGridName,
@@ -76,6 +78,24 @@ function TaskManagerAddTask(props) {
   const classes = useStyles();
 
   const modArray = Array.from(modules);
+
+  var hourArray = [];
+  const currTime = new Date();
+  if (taskDue > currTime) {
+    var hours = (taskDue - currTime) / 36e5;
+    // console.log(hours);
+    if (hours >= 24) {
+      // console.log("more than 24 hrs");
+      for (var i = 0; i <= 23; i++) {
+        hourArray.push({ value: i + 1 });
+      }
+    } else {
+      // console.log("less than 24 hrs");
+      for (var j = 0; j <= hours - 1; j++) {
+        hourArray.push({ value: j + 1 });
+      }
+    }
+  }
 
   // console.log(JSON.stringify(taskGrids));
   // console.log(taskGrids.length);
@@ -189,6 +209,10 @@ function TaskManagerAddTask(props) {
     });
   };
 
+  const handleTaskReminderChange = (event) => {
+    setTaskReminder(event.target.value);
+  };
+
   // const handleTaskEndChange = (event) => {
   //   setTaskEnd(event.target.value);
 
@@ -240,6 +264,7 @@ function TaskManagerAddTask(props) {
   useEffect(() => {}, [taskGrids]);
   useEffect(() => {}, [taskStart]);
   useEffect(() => {}, [taskEnd]);
+  useEffect(() => {}, [taskReminder]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -316,6 +341,7 @@ function TaskManagerAddTask(props) {
         newTaskStart,
         newTaskEnd,
         taskComplete,
+        taskReminder,
         firebase
       );
       const newTaskGridColor = modules.find(
@@ -342,7 +368,8 @@ function TaskManagerAddTask(props) {
     taskDue,
     taskStart,
     taskEnd,
-    taskComplete
+    taskComplete,
+    taskReminder
   ) {
     const newTasks = [
       ...tasks,
@@ -354,7 +381,8 @@ function TaskManagerAddTask(props) {
         taskDue: taskDue,
         taskStart: taskStart,
         taskEnd: taskEnd,
-        taskComplete: taskComplete
+        taskComplete: taskComplete,
+        taskReminder: taskReminder
       }
     ];
     setTasks(newTasks);
@@ -488,20 +516,40 @@ function TaskManagerAddTask(props) {
               {touched.taskName && errors.taskName}
             </div>
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDateTimePicker
-                value={taskDue}
-                label="Due Date and Time"
-                onError={console.log}
-                minDate={new Date("2021-01-01T00:00")}
-                format="yyyy/MM/dd hh:mm a"
-                margin="dense"
-                onChange={setTaskDue}
-                fullWidth
-                required
-              />
-            </MuiPickersUtilsProvider>
-
+            <div className={styles.rowFoo}>
+              <MuiPickersUtilsProvider
+                className={styles.rowFooChild}
+                utils={DateFnsUtils}
+              >
+                <KeyboardDateTimePicker
+                  value={taskDue}
+                  label="Due Date and Time"
+                  onError={console.log}
+                  minDate={new Date("2021-01-01T00:00")}
+                  format="yyyy/MM/dd hh:mm a"
+                  margin="dense"
+                  onChange={setTaskDue}
+                  required
+                />
+              </MuiPickersUtilsProvider>
+              <div className={classes.root}>
+                <TextField
+                  id="standard-select-reminder"
+                  select
+                  label="Set your reminder"
+                  value={taskReminder}
+                  variant="outlined"
+                  onChange={handleTaskReminderChange}
+                  helperText="hours before deadline"
+                >
+                  {hourArray.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDateTimePicker
                 value={taskStart}

@@ -45,6 +45,8 @@ function TaskManager(props) {
     setTaskComplete,
     taskRank,
     setTaskRank,
+    taskReminder,
+    setTaskReminder,
     taskGrids,
     setTaskGrids,
     taskGridId,
@@ -121,7 +123,7 @@ function TaskManager(props) {
 */}
 
           <div className={styles.TMButtonParent}>
-            <div className={styles.TMButtonLeft}>
+            <div className={styles.TMButtonChild}>
               <TaskManagerAddMod
                 modules={modules}
                 setModules={setModules}
@@ -135,7 +137,7 @@ function TaskManager(props) {
                 setModuleRank={setModuleRank}
               />
             </div>
-            <div className={styles.TMButtonMiddle}>
+            <div className={styles.TMButtonChild}>
               <TaskManagerAddTask
                 calendarStart={calendarStart}
                 setCalendarStart={setCalendarStart}
@@ -161,6 +163,8 @@ function TaskManager(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                taskReminder={taskReminder}
+                setTaskReminder={setTaskReminder}
                 taskGrids={taskGrids}
                 setTaskGrids={setTaskGrids}
                 taskGridId={taskGridId}
@@ -177,7 +181,7 @@ function TaskManager(props) {
                 setIsDisplayed={setIsDisplayed}
               />
             </div>
-            <div className={styles.TMButtonRight}>
+            <div className={styles.TMButtonChild}>
               <TaskManagerRankTasks
                 modules={modules}
                 setModuless={setModules}
@@ -246,6 +250,8 @@ function TaskManager(props) {
               setTaskComplete={setTaskComplete}
               taskRank={taskRank}
               setTaskRank={setTaskRank}
+              taskReminder={taskReminder}
+              setTaskReminder={taskReminder}
               taskGrids={taskGrids}
               setTaskGrids={setTaskGrids}
               taskGridId={taskGridId}

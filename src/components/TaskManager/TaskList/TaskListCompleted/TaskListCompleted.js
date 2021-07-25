@@ -160,17 +160,17 @@ function TaskListCompleted(props) {
 
   return (
     <table
-      className={styles.paddingBetweenCols}
+      className={styles.cmTable}
       style={{ margin: "0 auto", width: "100%" }}
     >
-      {/* <thead>
+      <thead>
         <tr>
-          <th>No.</th>
+          <th></th>
+          <th>Mod</th>
           <th>Task</th>
-          <th>Completed</th>
-          <th>Add to Calendar</th>
+          <th>Delete</th>
         </tr>
-      </thead> */}
+      </thead>
       <tbody className={styles.tableContent}>
         {tasks.map((task, index) =>
           task.taskComplete ? (

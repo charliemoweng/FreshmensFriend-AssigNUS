@@ -19,8 +19,8 @@
   margin-left: 1%;
   margin-right: 1%;
   height: 100%;
-  min-width: 30%;
-  max-width: 30%;
+  min-width: 40%;
+  max-width: 40%;
 }
 
 .TMButtonParent {
@@ -31,21 +31,28 @@
   flex-wrap: wrap; */
 }
 
+.TMButtonChild {
+  flex-grow: 1;
+  width: 25%;
+  white-space: nowrap;
+  /* flex-wrap: wrap; */
+}
+
 .TMButtonLeft {
   flex-grow: 1;
-  width: 30%;
+  width: 25%;
   white-space: nowrap;
 }
 
 .TMButtonMiddle {
   flex-grow: 1;
-  width: 30%;
+  width: 25%;
   white-space: nowrap;
 }
 
 .TMButtonRight {
   flex-grow: 1;
-  width: 30%;
+  width: 40%;
   white-space: nowrap;
   /* flex-wrap: wrap; */
 }
@@ -63,4 +70,9 @@
   max-width: 5%;
   white-space: nowrap;
   /* flex-wrap: wrap; */
+}
+
+.rowFoo {
+  display: flex;
+  margin-top: 2rem;
 }

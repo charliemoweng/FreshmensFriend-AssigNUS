@@ -156,17 +156,15 @@ function CurrentModules(props) {
         className={styles.cmTable}
         style={{ margin: "0 auto", width: "100%" }}
       >
-        {/* <thead> */}
-        {/* <tr> */}
-        {/* <th>No.</th> */}
-        {/* <th>Rank</th> */}
-        {/* <th>Module</th> */}
-        {
-          // <th>ID</th> uncomment only for debugging
-        }
-        {/* <th>Color</th> */}
-        {/* </tr> */}
-        {/* </thead> */}
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th></th>
+            <th>Module</th>
+            <th></th>
+            <th>Color</th>
+          </tr>
+        </thead>
 
         <tbody className={styles.tableContent}>
           {modules.map((module, index) => (

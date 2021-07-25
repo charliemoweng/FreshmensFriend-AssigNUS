@@ -14,6 +14,8 @@ import {
   KeyboardDateTimePicker
 } from "@material-ui/pickers";
 import styles from "./TaskListToDo.module.css";
+// import addNotification from "react-push-notification";
+// import AddAlertIcon from "@material-ui/icons/AddAlert";
 
 {
   /* Tasks will only appear in this TaskList after being added from the AddTask, 
@@ -55,6 +57,8 @@ function TaskListToDo(props) {
     setTaskComplete,
     taskRank,
     setTaskRank,
+    taskReminder,
+    setTaskReminder,
     taskGridId,
     setTaskGridId,
     taskGridName,
@@ -191,25 +195,36 @@ function TaskListToDo(props) {
     setTasks(arrayForDueChange);
   }
 
+  // const buttonClick = () => {
+  //   addNotification({
+  //     title: "Warning",
+  //     subtitle: "This is a subtitle",
+  //     message: "This is a very long message",
+  //     theme: "darkblue",
+  //     native: true // when using native, your OS will handle theming.
+  //   });
+  // };
+
   return (
     <table
-      className={styles.paddingBetweenCols}
+      className={styles.cmTable}
       style={{ margin: "0 auto", width: "100%" }}
     >
-      {/* <thead>
+      <thead>
         <tr>
-          <th>No.</th>
+          <th></th>
           <th>Rank</th>
           <th>Mod</th>
           <th>Task</th>
-          <th>Completed</th>
+          <th></th>
+          <th>Due</th>
         </tr>
-      </thead> */}
+      </thead>
       <tbody className={styles.tableContent}>
         {tasks.map((task, index) =>
           !task.taskComplete ? (
             <tr key={index}>
-              <td>
+              <td className={styles.taskCheckbox}>
                 <Checkbox
                   color="primary"
                   checked={task.taskComplete}
@@ -221,7 +236,7 @@ function TaskListToDo(props) {
               </td>
               {/* <td>{index + 1}</td> */}
               <td className={styles.rankCol}>
-                <div className={styles.rankColObj}>{task.taskRank}</div>
+                <td className={styles.rankColObj}>{task.taskRank}</td>
                 <TaskReranker
                   className={styles.rankColObj}
                   taskId={task.taskId}
@@ -237,6 +252,8 @@ function TaskListToDo(props) {
                   taskId={task.taskId}
                   taskName={task.taskName}
                   taskMod={task.taskMod}
+                  taskDue={task.taskDue}
+                  taskReminder={task.taskReminder}
                   tasks={tasks}
                   setTasks={setTasks}
                   modules={modules}
@@ -268,6 +285,11 @@ function TaskListToDo(props) {
                   />
                 </IconButton>
               </td>
+              {/* <td>
+                <IconButton aria-label="add alert">
+                  <AddAlertIcon fontSize="small" onClick={buttonClick} />
+                </IconButton>
+              </td> */}
             </tr>
           ) : null
         )}

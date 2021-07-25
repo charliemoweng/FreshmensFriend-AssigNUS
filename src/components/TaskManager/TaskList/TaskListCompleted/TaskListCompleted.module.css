@@ -1,5 +1,11 @@
-.paddingBetweenCols th {
-  padding: 0 5%;
-  margin-left: auto;
-  margin-right: auto;
+.cmTable {
+  padding: 0 1%;
+  /* margin: auto; */
+  /* border-style: solid; */
+  justify-content: space-between;
+}
+
+.tableContent {
+  border-style: solid;
+  margin: auto;
 }

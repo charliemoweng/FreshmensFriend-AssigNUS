@@ -42,7 +42,9 @@ function TaskRenamer(props) {
     taskComplete,
     setTaskComplete,
     taskRank,
-    setTaskRank
+    setTaskRank,
+    taskReminder,
+    setTaskReminder
   } = props;
 
   //console.log("taskMod: " + taskMod + ", taskName: " + taskName);
@@ -63,11 +65,30 @@ function TaskRenamer(props) {
   const [newTaskModEdited, setNewTaskModEdited] = useStateWithCallbackLazy(
     taskMod
   );
+  const [newTaskReminder, setNewTaskReminder] = useState(taskReminder);
 
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const tasksArray = [...tasks];
   const modArray = [...modules];
+
+  var hourArray = [];
+  const currTime = new Date();
+  if (taskDue > currTime) {
+    var hours = (taskDue - currTime) / 36e5;
+    // console.log(hours);
+    if (hours >= 24) {
+      // console.log("more than 24 hrs");
+      for (var i = 0; i <= 23; i++) {
+        hourArray.push({ value: i + 1 });
+      }
+    } else {
+      // console.log("less than 24 hrs");
+      for (var j = 0; j <= hours - 1; j++) {
+        hourArray.push({ value: j + 1 });
+      }
+    }
+  }
 
   const handleRenameOpen = () => {
     setOpen(true);
@@ -94,7 +115,9 @@ function TaskRenamer(props) {
     if (
       tasksArray.some(
         (task) =>
-          task.taskMod === newTaskModEdited && task.taskName === taskName
+          task.taskMod === newTaskModEdited &&
+          task.taskName === taskName &&
+          task.taskReminder === newTaskReminder
       )
     ) {
       return "This Task is already present";
@@ -158,6 +181,11 @@ function TaskRenamer(props) {
     });
   };
 
+  // handle change in task reminder
+  const handleRenameInputReminder = (event) => {
+    setNewTaskReminder(event.target.value);
+  };
+
   // handle submit
   function handleRename(event, taskId) {
     event.preventDefault();
@@ -192,6 +220,7 @@ function TaskRenamer(props) {
         Object.values(values).length && // all fields were touched
       Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
     ) {
+      console.log("all pass can submit");
       // local copy of modules array for renaming module with modId
       const arrayForRenaming = [...tasks];
       // if undefined, throw error
@@ -203,6 +232,7 @@ function TaskRenamer(props) {
       );
       currTask.taskMod = newTaskModEdited;
       currTask.taskName = newTaskName;
+      currTask.taskReminder = newTaskReminder;
       setTasks(arrayForRenaming);
       setOpen(false);
     }
@@ -249,7 +279,7 @@ function TaskRenamer(props) {
             dividers={scroll === "paper"}
           >
             <DialogContentText>
-              Rename Your Task and/or change its module!
+              Edit your task name/module/reminder time. Please touch all fields.
             </DialogContentText>
 
             <TextField
@@ -289,10 +319,28 @@ function TaskRenamer(props) {
               onBlur={handleBlur}
               value={values.taskName}
               required
+              style={{ marginTop: "1rem" }}
             />
             <div style={{ color: "red" }}>
               {touched.taskName && errors.taskName}
             </div>
+
+            <TextField
+              id="standard-select-reminder"
+              select
+              label="Set your reminder"
+              value={newTaskReminder}
+              variant="outlined"
+              onChange={handleRenameInputReminder}
+              helperText="hours before deadline"
+              style={{ marginTop: "1.5rem" }}
+            >
+              {hourArray.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

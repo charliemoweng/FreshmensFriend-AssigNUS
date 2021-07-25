@@ -2,6 +2,13 @@
   font-family: sans-serif;
   text-align: center;
   max-width: 64rem;
-  margin: 0 auto;
+  margin: auto;
   /* border-style: solid; */
+  display: flex;
+}
+
+.PageChild {
+  flex-grow: 1;
+  margin: 1rem;
+  border-style: solid;
 }
