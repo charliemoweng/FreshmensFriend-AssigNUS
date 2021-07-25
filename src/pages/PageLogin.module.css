@@ -10,5 +10,5 @@
 .PageChild {
   flex-grow: 1;
   margin: 1rem;
-  border-style: solid;
+  /* border-style: solid; */
 }
