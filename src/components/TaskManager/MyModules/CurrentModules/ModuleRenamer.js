@@ -45,12 +45,12 @@ function ModuleRenamer(props) {
     }
     // module naming convention:
     // 2/3/4 capitalised letters + 4 numerals + 0/1/2/3/4 capitalised letters
-    // if (/[A-Z]{2,4}[0-9]{4}[A-Z]{0,4}/.test(modName)) {
-    //   return null;
-    // }
-    if (/[a-zA-Z0-9]/.test(modName)) {
+    if (/[A-Z]{2,4}[0-9]{4}[A-Z]{0,4}/.test(modName)) {
       return null;
     }
+    // if (/[a-zA-Z0-9]/.test(modName)) {
+    //   return null;
+    // }
     return "Not a valid Module name";
   };
 
