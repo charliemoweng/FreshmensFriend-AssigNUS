@@ -60,7 +60,9 @@ function TaskManager(props) {
     color,
     setColor,
     isDisplayed,
-    setIsDisplayed
+    setIsDisplayed,
+    rankIsOpen,
+    setRankIsOpen
   } = props;
 
   const [newTaskText, setNewTaskText] = useState("");
@@ -205,6 +207,8 @@ function TaskManager(props) {
                 setTaskComplete={setTaskComplete}
                 taskRank={taskRank}
                 setTaskRank={setTaskRank}
+                rankIsOpen={rankIsOpen}
+                setRankIsOpen={setRankIsOpen}
               />
             </div>
           </div>

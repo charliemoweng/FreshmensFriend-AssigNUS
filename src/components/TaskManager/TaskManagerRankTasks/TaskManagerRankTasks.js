@@ -29,9 +29,16 @@ import styles from "../TaskManager/TaskManager.module.css";
 function TaskManagerRankTasks(props) {
   //console.log("RankTasks called");
 
-  const { modules, setModules, tasks, setTasks } = props;
-  useEffect(() => {}, []);
-  useEffect(() => {}, [modules]);
+  const {
+    modules,
+    setModules,
+    tasks,
+    setTasks,
+    rankIsOpen,
+    setRankIsOpen
+  } = props;
+  // useEffect(() => {}, []);
+  // useEffect(() => {}, [modules]);
   const categories = ["Due Date", "Name", "Importance"];
   const useStyles = makeStyles({
     due: {
@@ -51,11 +58,6 @@ function TaskManagerRankTasks(props) {
       color: yellow[600]
     }
   });
-
-  function clearLocal(event) {
-    event.preventDefault();
-    window.localStorage.clear();
-  }
 
   function SimpleDialog(props) {
     const classes = useStyles();
@@ -282,10 +284,12 @@ function TaskManagerRankTasks(props) {
   const [selectedValue, setSelectedValue] = React.useState(categories[1]);
 
   const handleClickOpen = () => {
+    setRankIsOpen(true);
     setOpen(true);
   };
 
   const handleClose = (value) => {
+    setRankIsOpen(false);
     setOpen(false);
     setSelectedValue(value);
   };

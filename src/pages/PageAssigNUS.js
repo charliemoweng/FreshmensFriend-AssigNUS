@@ -95,13 +95,18 @@ function PageAssigNUS() {
   // clock displaying current time
   const [currTime, setCurrTime] = useState(new Date().toLocaleString());
 
-  useEffect(() => {
-    let secTimer = setInterval(() => {
-      setCurrTime(new Date().toString());
-    }, 1000);
+  // prop checking if rankTasks window is open
+  const [rankIsOpen, setRankIsOpen] = useState(false);
 
-    return () => clearInterval(secTimer);
-  }, []);
+  useEffect(() => {
+    if (!rankIsOpen) {
+      let secTimer = setInterval(() => {
+        setCurrTime(new Date().toString());
+      }, 1000);
+
+      return () => clearInterval(secTimer);
+    }
+  }, [rankIsOpen]);
 
   // Sending push notification to remind user of task here
   // const sendNotif = () => {
@@ -162,7 +167,7 @@ function PageAssigNUS() {
         });
       };
       sendNotif();
-      console.log("Push notification sent");
+      // console.log("Push notification sent");
     }
     // test test
     // console.log("checking" + currTime);
@@ -256,6 +261,8 @@ function PageAssigNUS() {
             setColor={setColor}
             isDisplayed={isDisplayed}
             setIsDisplayed={setIsDisplayed}
+            rankIsOpen={rankIsOpen}
+            setRankIsOpen={setRankIsOpen}
           />
         </div>
       </main>
