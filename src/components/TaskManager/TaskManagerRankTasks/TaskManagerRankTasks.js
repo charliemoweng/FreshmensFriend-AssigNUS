@@ -25,6 +25,7 @@ import {
   orange
 } from "@material-ui/core/colors";
 import styles from "../TaskManager/TaskManager.module.css";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function TaskManagerRankTasks(props) {
   //console.log("RankTasks called");
@@ -315,14 +316,17 @@ function TaskManagerRankTasks(props) {
       <Button variant="contained" color="primary" onClick={handleClickOpen}>
         Rank
       </Button>
-      <Button
-        className={styles.reverseButton}
-        variant="contained"
-        color="default"
-        onClick={handleClickReverse}
-      >
-        <SwapVertIcon />
-      </Button>
+
+      <Tooltip title="Reverse current rank">
+        <Button
+          className={styles.reverseButton}
+          variant="contained"
+          color="default"
+          onClick={handleClickReverse}
+        >
+          <SwapVertIcon />
+        </Button>
+      </Tooltip>
 
       <Typography variant="subtitle1">By: {selectedValue}</Typography>
 

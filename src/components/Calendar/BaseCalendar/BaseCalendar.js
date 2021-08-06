@@ -30,7 +30,8 @@ function BaseCalendar(props) {
     dateStyle,
     timeStyle,
     modeStyle,
-    taskNameStyle
+    taskNameStyle,
+    intervalStyle
   } = props;
 
   return (
@@ -60,6 +61,7 @@ function BaseCalendar(props) {
         timeStyle={timeStyle}
         modeStyle={modeStyle}
         taskNameStyle={taskNameStyle}
+        intervalStyle={intervalStyle}
         alignItems="stretch"
       />
     </div>

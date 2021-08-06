@@ -48,7 +48,6 @@ function PageAssigNUS() {
   // }, []);
 
   // States of a Module: ID, Name, Color, Rank
-
   // ID
   const [moduleId, setModuleId] = useState(0);
   // Name
@@ -89,8 +88,20 @@ function PageAssigNUS() {
   const [taskComplete, setTaskComplete] = useState(false);
   // Rank
   const [taskRank, setTaskRank] = useState(1);
-  // Reminder
+  // Reminder (relative to taskDue)
   const [taskReminder, setTaskReminder] = useState(0);
+  // Reminder (absolute time)
+  const [taskReminderExact, setTaskReminderExact] = useState(null);
+
+  function setTasks(newTasks) {
+    setTasksState(newTasks);
+    window.localStorage.setItem("tasks", JSON.stringify(newTasks));
+  }
+
+  useEffect(() => {
+    const savedTasks = JSON.parse(window.localStorage.getItem("tasks"));
+    setTasksState(savedTasks ?? []);
+  }, []);
 
   // clock displaying current time
   const [currTime, setCurrTime] = useState(new Date().toLocaleString());
@@ -108,32 +119,55 @@ function PageAssigNUS() {
     }
   }, [rankIsOpen]);
 
-  // Sending push notification to remind user of task here
-  // const sendNotif = () => {
-  //   addNotification({
-  //     title: "Reminder",
-  //     subtitle: "Friendly reminder from AssigNUS",
-  //     message:
-  //       "Your task " +
-  //       tasks[0].taskName +
-  //       " from module " +
-  //       tasks[0].taskMod +
-  //       " is due in " +
-  //       tasks[0].taskReminder +
-  //       ` hour${tasks[0].taskReminder === 1 ? null : `s`}`,
-  //     theme: "darkblue",
-  //     duration: 3500,
-  //     native: true // when using native, your OS will handle theming.
-  //   });
-  // };
+  // logic for setting reminder relative to deadline (relative reminder)
+  // const currTasks = [...tasks];
+  // currTasks.forEach((element) => {
+  //   const taskReminderTime = subHours(
+  //     new Date(element.taskDue),
+  //     element.taskReminder
+  //   );
+  //   // test test
+  //   // console.log(subHours(new Date(element.taskDue), element.taskReminder));
+  //   // console.log("currTime is: " + currTime);
+  //   // console.log("taskReminderTime is: " + taskReminderTime);
 
-  // console.log(new Date(currTime));
+  //   const currTimeDate = new Date(currTime);
+  //   const currTimeSeconds = format(currTimeDate, "t");
+  //   const reminderTimeSeconds = format(new Date(taskReminderTime), "t");
+
+  //   // test
+  //   // console.log("currTimeSeconds is: " + currTimeSeconds);
+  //   // console.log("reminderTimeSeconds is: " + reminderTimeSeconds);
+
+  //   if (currTimeSeconds === reminderTimeSeconds) {
+  //     // send reminder here
+  //     const sendNotif = () => {
+  //       addNotification({
+  //         title: "Reminder",
+  //         subtitle: "Friendly reminder from AssigNUS",
+  //         message:
+  //           "Your task " +
+  //           element.taskName +
+  //           " from module " +
+  //           element.taskMod +
+  //           " is due in " +
+  //           element.taskReminder +
+  //           ` hour${element.taskReminder === 1 ? `` : `s`}`,
+  //         theme: "darkblue",
+  //         duration: 3500,
+  //         native: true // when using native, your OS will handle theming.
+  //       });
+  //     };
+  //     sendNotif();
+  //     // console.log("Push notification sent");
+  //   }
+  //   // console.log("checking" + currTime);
+  // });
+
+  // logic for setting reminder at a specific time (absolute reminder)
   const currTasks = [...tasks];
   currTasks.forEach((element) => {
-    const taskReminderTime = subHours(
-      new Date(element.taskDue),
-      element.taskReminder
-    );
+    const taskReminderTime = element.taskReminderExact;
     // test test
     // console.log(subHours(new Date(element.taskDue), element.taskReminder));
     // console.log("currTime is: " + currTime);
@@ -155,28 +189,20 @@ function PageAssigNUS() {
           subtitle: "Friendly reminder from AssigNUS",
           message:
             "Your task " +
-            tasks[0].taskName +
+            element.taskName +
             " from module " +
-            tasks[0].taskMod +
-            " is due in " +
-            tasks[0].taskReminder +
-            ` hour${tasks[0].taskReminder === 1 ? `` : `s`}`,
+            element.taskMod +
+            " is due soon.",
           theme: "darkblue",
           duration: 3500,
           native: true // when using native, your OS will handle theming.
         });
       };
       sendNotif();
-      // console.log("Push notification sent");
+      console.log("Push notification sent");
     }
-    // test test
     // console.log("checking" + currTime);
   });
-
-  useEffect(() => {
-    const savedTasks = JSON.parse(window.localStorage.getItem("tasks"));
-    setTasksState(savedTasks ?? []);
-  }, []);
 
   return (
     <>
@@ -188,7 +214,7 @@ function PageAssigNUS() {
             calendarStart={calendarStart}
             setCalendarStart={setCalendarStart}
             tasks={tasks}
-            setTasks={setTasksState}
+            setTasks={setTasks}
             modules={modules}
             setModules={setModules}
             taskGrids={taskGrids}
@@ -207,11 +233,6 @@ function PageAssigNUS() {
             setIsDisplayed={setIsDisplayed}
           />
 
-          {/* <div>
-            {" "}
-            <button onClick={sendNotif}> hello </button>{" "}
-          </div> */}
-
           <TaskManager
             calendarStart={calendarStart}
             setCalendarStart={setCalendarStart}
@@ -226,7 +247,7 @@ function PageAssigNUS() {
             moduleRank={moduleRank}
             setModuleRank={setModuleRank}
             tasks={tasks}
-            setTasks={setTasksState}
+            setTasks={setTasks}
             taskId={taskId}
             setTaskId={setTaskId}
             taskMod={taskMod}
@@ -247,6 +268,8 @@ function PageAssigNUS() {
             setTaskRank={setTaskRank}
             taskReminder={taskReminder}
             setTaskReminder={setTaskReminder}
+            taskReminderExact={taskReminderExact}
+            setTaskReminderExact={setTaskReminderExact}
             taskGrids={taskGrids}
             setTaskGrids={setTaskGrids}
             taskGridId={taskGridId}

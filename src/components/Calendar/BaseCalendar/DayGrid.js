@@ -24,7 +24,8 @@ function DayGrid(props) {
     modules,
     setModules,
     dateStyle,
-    taskNameStyle
+    taskNameStyle,
+    intervalStyle
   } = props;
 
   // logic for checking tasks happening at this date to be done here
@@ -41,63 +42,35 @@ function DayGrid(props) {
   // );
 
   // dafult time array contains all integers from 0 to 23, represeting the hours in the day
-  const displayArray = [];
+  const displayArray1h = [];
   for (var i = 0; i < 24; i++) {
     // first check if todayTasks has a task that starts at hour i
     const iStringified = JSON.stringify(i);
-    if (
-      todayTasks.find(
-        (element) => format(new Date(element.taskStart), "H") === iStringified
-      ) &&
-      modules.some(
-        (element) =>
-          element.modName ===
-          todayTasks.find(
-            (element) =>
-              format(new Date(element.taskStart), "H") === iStringified
-          ).taskMod
-      )
-    ) {
+    // reference to the task being found
+    const task = todayTasks.find(
+      (element) => format(new Date(element.taskStart), "H") === iStringified
+    );
+    if (task && modules.some((element) => element.modName === task.taskMod)) {
       // console.log("task found for current DayGrid");
       // get taskName from taskToAdd
-      const taskNameToAdd = todayTasks.find(
-        (element) => format(new Date(element.taskStart), "H") === iStringified
-      ).taskName;
+      const taskNameToAdd = task.taskName;
       // get taskColor (actually modColor of taskMod) from taskToAdd
       const taskColorToAdd = modules.find(
-        (module) =>
-          module.modName ===
-          todayTasks.find(
-            (element) =>
-              format(new Date(element.taskStart), "H") === iStringified
-          ).taskMod
+        (module) => module.modName === task.taskMod
       ).modColor;
       // get taskComplete from taskToAdd
-      const taskCompleteToAdd = todayTasks.find(
-        (element) => format(new Date(element.taskStart), "H") === iStringified
-      ).taskComplete;
+      const taskCompleteToAdd = task.taskComplete;
 
-      const taskDuration =
-        format(
-          new Date(
-            todayTasks.find(
-              (element) =>
-                format(new Date(element.taskStart), "H") === iStringified
-            ).taskEnd
-          ),
-          "H"
-        ) -
-        format(
-          new Date(
-            todayTasks.find(
-              (element) =>
-                format(new Date(element.taskStart), "H") === iStringified
-            ).taskStart
-          ),
-          "H"
-        ) +
+      var taskDuration1h =
+        format(new Date(task.taskEnd), "H") -
+        format(new Date(task.taskStart), "H") +
         1;
-
+      // console.log("taskDuration is: " + taskDuration);
+      // check minutes of taskEnd, if 0, dont add 1, else, add 1
+      if (format(new Date(task.taskEnd), "m") === "0") {
+        taskDuration1h--;
+        // console.log("taskEnd has min0, subtracted 1 from duration");
+      }
       // console.log("taskDuration is: " + taskDuration);
 
       // when adding task grid, add first taskGrid with name and rest with no name
@@ -131,31 +104,31 @@ function DayGrid(props) {
       // if 0: first taskGrid gets nameDisplayed set to true
       // if 1: center (skewed top) taskGrid gets nameDisplayed set to true
       // if 2: last taskGrid gets nameDisplayed set to true
-      var nameDisplayedPos = 0;
-      if (taskNameStyle === 0) {
-        nameDisplayedPos = 0;
-      } else if (taskNameStyle === 1) {
-        nameDisplayedPos = Math.floor((taskDuration - 1) / 2);
+      var nameDisplayedPos1h = 0;
+      if (taskNameStyle === "0") {
+        nameDisplayedPos1h = 0;
+      } else if (taskNameStyle === "1") {
+        nameDisplayedPos1h = Math.floor((taskDuration1h - 1) / 2);
       } else {
-        nameDisplayedPos = taskDuration - 1;
+        nameDisplayedPos1h = taskDuration1h - 1;
       }
-      for (var t = 0; t < taskDuration; t++) {
-        displayArray.push(
+      for (var t = 0; t < taskDuration1h; t++) {
+        displayArray1h.push(
           <TaskGrid
             taskName={taskNameToAdd}
             color={taskColorToAdd}
-            nameDisplayed={t === nameDisplayedPos}
+            nameDisplayed={t === nameDisplayedPos1h}
             isComplete={taskCompleteToAdd}
           />
         );
       }
 
       // finally, update i using taskEnd
-      i += taskDuration - 1;
+      i += taskDuration1h - 1;
     } else {
       // there isn't a task starting at hour i, add a default HourGrid with hour being i.
       // console.log("no tasks found for current dayGrid at hour" + i);
-      displayArray.push(
+      displayArray1h.push(
         <Box>
           <HourGrid hourGridId={i} dayGridDate={gridDate} />
         </Box>
@@ -164,219 +137,197 @@ function DayGrid(props) {
     // console.log("displayArray length is: " + displayArray.length);
   }
 
+  // dafult time array contains all integers from 0 to 47,
+  // represeting the hours in the day split into half-hour intervals
+  const displayArray30m = [];
+  for (var j = 0; j < 48; j++) {
+    const jStringified = JSON.stringify(j);
+    // reference to task being found at this half-hour
+    const task = todayTasks.find(
+      (element) =>
+        format(new Date(element.taskStart), "H") ===
+        JSON.stringify(Math.floor(j / 2))
+    );
+
+    // j is even, minutes between 0 and 29
+    if (j % 2 === 0) {
+      // first check if todayTasks has a task that starts at half-hour j
+      if (
+        task &&
+        // minute less than 30
+        parseInt(format(new Date(task.taskStart), "m"), 10) < 30 &&
+        // task has module in modules array
+        modules.some((element) => element.modName === task.taskMod)
+      ) {
+        // console.log("task found for current DayGrid");
+        // get taskName from taskToAdd
+        const taskNameToAdd = task.taskName;
+        // get taskColor (actually modColor of taskMod) from taskToAdd
+        const taskColorToAdd = modules.find(
+          (module) => module.modName === task.taskMod
+        ).modColor;
+        // get taskComplete from taskToAdd
+        const taskCompleteToAdd = task.taskComplete;
+
+        // duration in increments of 30 minutes, hours * 2, then amend based on minutes
+        var taskDuration30m =
+          (format(new Date(task.taskEnd), "H") -
+            format(new Date(task.taskStart), "H")) *
+            2 +
+          1;
+        // since j%2===0, j is even, taskStart minutes is between 0 and 29, check taskEnd minutes
+        // if taskEnd minutes is greater than 30, add 1
+        if (parseInt(format(new Date(task.taskEnd), "m"), 10) < 30) {
+          taskDuration30m++;
+        }
+
+        // console.log("taskDuration is: " + taskDuration);
+        // check minutes of taskEnd, if 0, subtract 1, else, do nothing
+        if (format(new Date(task.taskEnd), "m") === "0") {
+          taskDuration30m--;
+          // console.log("taskEnd has min0, subtracted 1 from duration");
+        }
+        // console.log("taskDuration is: " + taskDuration);
+
+        // check taskNameStyle
+        // if 0: first taskGrid gets nameDisplayed set to true
+        // if 1: center (skewed top) taskGrid gets nameDisplayed set to true
+        // if 2: last taskGrid gets nameDisplayed set to true
+        var nameDisplayedPos30m = 0;
+        if (taskNameStyle === "0") {
+          nameDisplayedPos30m = 0;
+        } else if (taskNameStyle === "1") {
+          nameDisplayedPos30m = Math.floor((taskDuration30m - 1) / 2);
+        } else {
+          nameDisplayedPos30m = taskDuration30m - 1;
+        }
+        for (var u = 0; u < taskDuration30m; u++) {
+          displayArray30m.push(
+            <TaskGrid
+              taskName={taskNameToAdd}
+              color={taskColorToAdd}
+              nameDisplayed={u === nameDisplayedPos30m}
+              isComplete={taskCompleteToAdd}
+            />
+          );
+        }
+
+        // finally, update i using taskEnd
+        j += taskDuration30m - 1;
+      } else {
+        // there isn't a task starting at hour i, add a default HourGrid with hour being i.
+        // console.log("no tasks found for current dayGrid at hour" + i);
+        displayArray30m.push(
+          <Box>
+            <HourGrid hourGridId={j} dayGridDate={gridDate} />
+          </Box>
+        );
+      }
+      // console.log("displayArray length is: " + displayArray.length);
+    } else {
+      // j is odd, minutes between 30 and 59
+      // first check if todayTasks has a task that starts at half-hour j
+      if (
+        task &&
+        // minute >= 30
+        parseInt(format(new Date(task.taskStart), "m"), 10) >= 30 &&
+        // task has module in modules array
+        modules.some((element) => element.modName === task.taskMod)
+      ) {
+        // console.log("task found for current DayGrid");
+        // get taskName from taskToAdd
+        const taskNameToAdd = task.taskName;
+        // get taskColor (actually modColor of taskMod) from taskToAdd
+        const taskColorToAdd = modules.find(
+          (module) => module.modName === task.taskMod
+        ).modColor;
+        // get taskComplete from taskToAdd
+        const taskCompleteToAdd = task.taskComplete;
+
+        // duration in increments of 30 minutes, hours * 2, then amend based on minutes
+        taskDuration30m =
+          (format(new Date(task.taskEnd), "H") -
+            format(new Date(task.taskStart), "H")) *
+            2 +
+          1; //>??? 1 not added here since j is odd, 2nd half of the hour
+        // since j%2!==0, j is odd, taskStart minutes is between 30 and 59, check taskEnd minutes
+        // if taskEnd minutes is smaller than 30, subtract 1
+        if (parseInt(format(new Date(task.taskEnd), "m"), 10) < 30) {
+          taskDuration30m--;
+        }
+
+        // console.log("taskDuration is: " + taskDuration);
+        // check minutes of taskEnd, if 30, subtract 1, else, do nothing
+        if (format(new Date(task.taskEnd), "m") === "30") {
+          taskDuration30m--;
+          // console.log("taskEnd has min0, subtracted 1 from duration");
+        }
+        // console.log("taskDuration is: " + taskDuration);
+
+        // check taskNameStyle
+        // if 0: first taskGrid gets nameDisplayed set to true
+        // if 1: center (skewed top) taskGrid gets nameDisplayed set to true
+        // if 2: last taskGrid gets nameDisplayed set to true
+        nameDisplayedPos30m = 0;
+        if (taskNameStyle === "0") {
+          nameDisplayedPos30m = 0;
+        } else if (taskNameStyle === "1") {
+          nameDisplayedPos30m = Math.floor((taskDuration30m - 1) / 2);
+        } else {
+          nameDisplayedPos30m = taskDuration30m - 1;
+        }
+        for (u = 0; u < taskDuration30m; u++) {
+          displayArray30m.push(
+            <TaskGrid
+              taskName={taskNameToAdd}
+              color={taskColorToAdd}
+              nameDisplayed={u === nameDisplayedPos30m}
+              isComplete={taskCompleteToAdd}
+            />
+          );
+        }
+
+        // finally, update i using taskEnd
+        j += taskDuration30m - 1;
+      } else {
+        // there isn't a task starting at hour i, add a default HourGrid with hour being i.
+        // console.log("no tasks found for current dayGrid at hour" + i);
+        displayArray30m.push(
+          <Box>
+            <HourGrid hourGridId={j} dayGridDate={gridDate} />
+          </Box>
+        );
+      }
+    }
+  }
+
   return (
     <div>
-      {/* <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      > */}
-      <Box>
-        <DayHeader
-          dayGridId={dayGridId}
-          dayGridDate={gridDate}
-          dayGridDay={gridDay}
-          dateStyle={dateStyle}
-        />
-        {/* </Grid> */}
-        {displayArray}
-      </Box>
+      {intervalStyle === "0" ? (
+        <Box>
+          <DayHeader
+            dayGridId={dayGridId}
+            dayGridDate={gridDate}
+            dayGridDay={gridDay}
+            dateStyle={dateStyle}
+          />
+          {/* </Grid> */}
+          {displayArray1h}
+        </Box>
+      ) : (
+        <Box>
+          <DayHeader
+            dayGridId={dayGridId}
+            dayGridDate={gridDate}
+            dayGridDay={gridDay}
+            dateStyle={dateStyle}
+          />
+          {/* </Grid> */}
+          {displayArray30m}
+        </Box>
+      )}
     </div>
   );
 }
 
 export default DayGrid;
-
-/* <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="0" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="1" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="2" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="3" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="4" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="5" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="6" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="7" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="8" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="9" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="10" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="11" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="12" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="13" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="14" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="15" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="16" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="17" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="18" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="19" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="20" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="21" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="22" dayGridDate={gridDate} />
-      </Grid>
-      <Grid
-        container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
-      >
-        <HourGrid hourGridId="23" dayGridDate={gridDate} />
-      </Grid> */

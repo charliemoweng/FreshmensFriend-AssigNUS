@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function ModuleRenamer(props) {
   const {
@@ -179,10 +180,11 @@ function ModuleRenamer(props) {
 
   return (
     <div>
-      <IconButton aria-label="rename">
-        <CreateIcon fontSize="small" onClick={handleRenameOpen} />
-      </IconButton>
-
+      <Tooltip title="Rename module">
+        <IconButton aria-label="rename">
+          <CreateIcon fontSize="small" onClick={handleRenameOpen} />
+        </IconButton>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}

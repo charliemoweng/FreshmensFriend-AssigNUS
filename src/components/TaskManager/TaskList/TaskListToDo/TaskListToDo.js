@@ -14,6 +14,7 @@ import {
   KeyboardDateTimePicker
 } from "@material-ui/pickers";
 import styles from "./TaskListToDo.module.css";
+import Tooltip from "@material-ui/core/Tooltip";
 // import addNotification from "react-push-notification";
 // import AddAlertIcon from "@material-ui/icons/AddAlert";
 
@@ -59,6 +60,8 @@ function TaskListToDo(props) {
     setTaskRank,
     taskReminder,
     setTaskReminder,
+    taskReminderExact,
+    setTaskReminderExact,
     taskGridId,
     setTaskGridId,
     taskGridName,
@@ -254,6 +257,9 @@ function TaskListToDo(props) {
                   taskMod={task.taskMod}
                   taskDue={task.taskDue}
                   taskReminder={task.taskReminder}
+                  taskReminderExact={task.taskReminderExact}
+                  taskStart={task.taskStart}
+                  taskEnd={task.taskEnd}
                   tasks={tasks}
                   setTasks={setTasks}
                   modules={modules}
@@ -276,14 +282,16 @@ function TaskListToDo(props) {
                 </MuiPickersUtilsProvider>
               </td>
               <td>
-                <IconButton aria-label="delete">
-                  <DeleteIcon
-                    fontSize="small"
-                    onClick={() => {
-                      handleDelete(task);
-                    }}
-                  />
-                </IconButton>
+                <Tooltip title="Delete task">
+                  <IconButton aria-label="delete">
+                    <DeleteIcon
+                      fontSize="small"
+                      onClick={() => {
+                        handleDelete(task);
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
               </td>
               {/* <td>
                 <IconButton aria-label="add alert">

@@ -47,6 +47,8 @@ function TaskManager(props) {
     setTaskRank,
     taskReminder,
     setTaskReminder,
+    taskReminderExact,
+    setTaskReminderExact,
     taskGrids,
     setTaskGrids,
     taskGridId,
@@ -167,6 +169,8 @@ function TaskManager(props) {
                 setTaskRank={setTaskRank}
                 taskReminder={taskReminder}
                 setTaskReminder={setTaskReminder}
+                taskReminderExact={taskReminderExact}
+                setTaskReminderExact={setTaskReminderExact}
                 taskGrids={taskGrids}
                 setTaskGrids={setTaskGrids}
                 taskGridId={taskGridId}
@@ -256,6 +260,8 @@ function TaskManager(props) {
               setTaskRank={setTaskRank}
               taskReminder={taskReminder}
               setTaskReminder={taskReminder}
+              taskReminderExact={taskReminderExact}
+              setTaskReminderExact={setTaskReminderExact}
               taskGrids={taskGrids}
               setTaskGrids={setTaskGrids}
               taskGridId={taskGridId}

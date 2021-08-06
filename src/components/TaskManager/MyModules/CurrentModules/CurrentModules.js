@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "./CurrentModules.module.css";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function CurrentModules(props) {
   // console.log("current modules called");
@@ -209,12 +210,14 @@ function CurrentModules(props) {
                 }
               </td>
               <td>
-                <IconButton aria-label="delete">
-                  <DeleteIcon
-                    fontSize="small"
-                    onClick={() => handleClickDelete(module)}
-                  />
-                </IconButton>
+                <Tooltip title="Delete module">
+                  <IconButton aria-label="delete">
+                    <DeleteIcon
+                      fontSize="small"
+                      onClick={() => handleClickDelete(module)}
+                    />
+                  </IconButton>
+                </Tooltip>
               </td>
             </tr>
           ))}

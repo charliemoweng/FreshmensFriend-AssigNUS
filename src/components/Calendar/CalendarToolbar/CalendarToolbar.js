@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 import {
   makeStyles,
+  withStyles,
   createMuiTheme,
   ThemeProvider
 } from "@material-ui/core/styles";
@@ -9,19 +11,29 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import SettingsIcon from "@material-ui/icons/Settings";
 import DateFnsUtils from "@date-io/date-fns";
 import { format, addDays, subDays, getDay } from "date-fns";
-
-import { purple, lightBlue, blue, indigo, red } from "@material-ui/core/colors";
+import {
+  purple,
+  lightBlue,
+  blue,
+  indigo,
+  red,
+  green
+} from "@material-ui/core/colors";
+import CustomSettingsGroup from "./CustomSettingsGroup";
+import ExampleSettingsGroup from "./ExampleSettingsGroup";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,8 +77,17 @@ function CalendarToolbar(props) {
     modeStyle,
     setModeStyle,
     taskNameStyle,
-    setTaskNameStyle
+    setTaskNameStyle,
+    intervalStyle,
+    setIntervalStyle
   } = props;
+  const [anchorEl, setAnchorEl] = useState();
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {}, [dateStyle]);
+
+  // hooks used for handling setting changes
+  const [test, setTest] = useState("0");
 
   // modify calendarStart based on value of modeStyle => modeStyle handled in toolbar instead of CalendarGrid
   // 0: no change
@@ -74,12 +95,12 @@ function CalendarToolbar(props) {
   // 2: set to this week's Monday
   const calendarStartDayInWeek = getDay(calendarStart);
 
-  if (modeStyle === 0 && calendarStartDayInWeek !== getDay(new Date())) {
+  if (modeStyle === "0" && calendarStartDayInWeek !== getDay(new Date())) {
     setCalendarStart(new Date());
-  } else if (modeStyle === 1 && calendarStartDayInWeek !== 0) {
+  } else if (modeStyle === "1" && calendarStartDayInWeek !== 0) {
     setCalendarStart(subDays(calendarStart, calendarStartDayInWeek));
-  } else if (modeStyle === 2 && calendarStartDayInWeek !== 1) {
-    if (calendarStartDayInWeek === 0) {
+  } else if (modeStyle === "2" && calendarStartDayInWeek !== 1) {
+    if (calendarStartDayInWeek === "0") {
       setCalendarStart(addDays(calendarStart, 1));
     } else {
       setCalendarStart(subDays(calendarStart, calendarStartDayInWeek - 1));
@@ -102,6 +123,20 @@ function CalendarToolbar(props) {
   const calendarMonthYearDisplay = format(calendarStart, "MMMM").concat(
     " " + format(calendarStart, "yyyy")
   );
+
+  // handling opening settings
+  const handleClickCalendarSettings = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseCalendarSettings = () => {
+    setAnchorEl(null);
+  };
+
+  // handling checking of options
+  const handleCheck = (event) => {
+    setChecked(event.target.checked);
+  };
 
   // handlers for clicking the change week buttons
   const handleClickPrevWeek = () => {
@@ -192,62 +227,159 @@ function CalendarToolbar(props) {
   };
   const handleClickTaskNameCallback = () => {};
 
+  const handleToggleToday = () => {
+    setCalendarStart(new Date());
+  };
+
+  // function ExampleSettingsGroup() {
+  //   const [valueEx, setValueEx] = useState("female");
+  //   const handleChangeEx = (event) => {
+  //     setValueEx(event.target.value);
+  //     console.log("event.target.value for valueEx is: " + event.target.value);
+
+  //     console.log("valueEx is: " + valueEx);
+  //   };
+  //   // useEffect(() => {
+  //   //   console.log("hook value is: " + valueEx);
+  //   // }, [valueEx]);
+  //   return (
+  //     <FormControl component="fieldset">
+  //       <FormLabel component="legend">Gender</FormLabel>
+  //       <RadioGroup
+  //         row
+  //         aria-label="gender"
+  //         name="gender1"
+  //         value={valueEx}
+  //         onChange={handleChangeEx}
+  //       >
+  //         <FormControlLabel value="female" control={<Radio />} label="Female" />
+  //         <FormControlLabel value="male" control={<Radio />} label="Male" />
+  //         <FormControlLabel value="other" control={<Radio />} label="Other" />
+  //         <FormControlLabel
+  //           value="disabled"
+  //           disabled
+  //           control={<Radio />}
+  //           label="(Disabled option)"
+  //         />
+  //       </RadioGroup>
+  //     </FormControl>
+  //   );
+  // }
+
+  // function CustomSettingsGroup(props) {
+  //   // Name, Number of settings (an integer), names of options (an array of strings), setter of hook
+  //   const {
+  //     settingName,
+  //     settingNumber,
+  //     settingOptions,
+  //     settingValue,
+  //     setSettingValue
+  //   } = props;
+
+  //   // useState hooks here? for storing local and changing value of setting
+  //   const [local, setLocal] = useState(settingValue);
+
+  //   // does smth only when local changes
+  //   useEffect(() => {
+  //     console.log("local is: " + local);
+  //   }, [local]);
+
+  //   // const handleSetTestCallback = () => {};
+
+  //   // suspected that handleChange is unable to access individual FormControl components withint the radioArray
+  //   const handleChange = (event) => {
+  //     setLocal(event.target.value);
+  //   };
+
+  //   var radioArray = [];
+
+  //   for (var i = 0; i < settingNumber; i++) {
+  //     var iStringified = i.toString();
+  //     radioArray.push(
+  //       <FormControlLabel
+  //         value={iStringified}
+  //         control={<Radio />}
+  //         label={settingOptions[i]}
+  //       />
+  //     );
+  //   }
+
+  //   return (
+  //     <FormControl component="fieldset">
+  //       <FormLabel component="legend">{settingName}</FormLabel>
+  //       <RadioGroup
+  //         row
+  //         aria-label={settingName}
+  //         name={settingName}
+  //         value={local}
+  //         onChange={handleChange}
+  //       >
+  //         {radioArray}
+  //       </RadioGroup>
+  //     </FormControl>
+  //   );
+  // }
+
+  // helper function to turn an integer to a day of the week, to be used for Calendar Start
+  function toDayOfWeek(int) {
+    if (int === 0) {
+      return "Sunday";
+    }
+    if (int === 1) {
+      return "Monday";
+    }
+    if (int === 2) {
+      return "Tuesday";
+    }
+    if (int === 3) {
+      return "Wednesday";
+    }
+    if (int === 4) {
+      return "Thursday";
+    }
+    if (int === 5) {
+      return "Friday";
+    }
+    if (int === 6) {
+      return "Saturday";
+    }
+  }
+
   return (
     <div className={classes.root}>
       <ThemeProvider theme={toolbarTheme}>
         <AppBar position="static" color={toolbarTheme.primary}>
           <Toolbar>
-            {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton> */}
-            <IconButton
-              edge="start"
-              className={classes.leftButton}
-              onClick={handleClickPrevWeek}
-              color="inherit"
-              aria-label="left"
-            >
-              <NavigateBeforeIcon fontSize="large" />
-            </IconButton>
+            <Tooltip title="Previous week">
+              <IconButton
+                edge="start"
+                className={classes.leftButton}
+                onClick={handleClickPrevWeek}
+                color="inherit"
+                aria-label="left"
+              >
+                <NavigateBeforeIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
+
             <Typography variant="h6">{calendarDisplayRange}</Typography>
-            <IconButton
-              edge="start"
-              className={classes.rightButton}
-              onClick={handleClickNextWeek}
-              color="inherit"
-              aria-label="right"
-            >
-              <NavigateNextIcon fontSize="large" />
-            </IconButton>
+
+            <Tooltip title="Next week">
+              <IconButton
+                edge="start"
+                className={classes.rightButton}
+                onClick={handleClickNextWeek}
+                color="inherit"
+                aria-label="right"
+              >
+                <NavigateNextIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
+
             <Typography variant="h6" className={classes.title}>
               {calendarMonthYearDisplay}
             </Typography>
-            <div className={classes.buttons}>
-              {/* <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>
-            <b>To-do</b>
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className={styles.TaskTables}>
-            <Typography>
-              <TaskListToDo tasks={tasks} setTasks={setTasks} />
-            </Typography>
-          </div>
-        </AccordionDetails>
-      </Accordion> */}
-
-              <Button onClick={handleClickDate} color="inherit">
+            {/* <Button onClick={handleClickDate} color="inherit">
                 {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
               </Button>
               <Button onClick={handleClickTime} color="inherit">
@@ -270,8 +402,119 @@ function CalendarToolbar(props) {
                 ) : (
                   <div> Bottom</div>
                 )}
+              </Button> */}
+
+            <Button onClick={handleToggleToday} color="inherit">
+              Go to Today
+            </Button>
+
+            <Tooltip title="Calendar Settings">
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClickCalendarSettings}
+                color="inherit"
+              >
+                <SettingsIcon />
               </Button>
-            </div>
+            </Tooltip>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              color="inherit"
+              open={Boolean(anchorEl)}
+              onClose={handleCloseCalendarSettings}
+            >
+              {/* <MenuItem>
+                <ExampleSettingsGroup test={test} setTest={setTest} />
+              </MenuItem> */}
+              <MenuItem>
+                <CustomSettingsGroup
+                  settingName={"Date"}
+                  settingNumber={2}
+                  settingOptions={["Date and Day", "Date only"]}
+                  settingValue={dateStyle}
+                  setSettingValue={setDateStyle}
+                />
+              </MenuItem>
+              <MenuItem>
+                <CustomSettingsGroup
+                  settingName={"Time"}
+                  settingNumber={2}
+                  settingOptions={["12-Hrs", "24-Hrs"]}
+                  settingValue={timeStyle}
+                  setSettingValue={setTimeStyle}
+                />
+              </MenuItem>
+              <MenuItem>
+                <CustomSettingsGroup
+                  settingName={"Calendar Start"}
+                  settingNumber={3}
+                  settingOptions={[
+                    `Today's day (${toDayOfWeek(getDay(new Date()))})`,
+                    "Sunday",
+                    "Monday"
+                  ]}
+                  settingValue={modeStyle}
+                  setSettingValue={setModeStyle}
+                />
+              </MenuItem>
+              <MenuItem>
+                <CustomSettingsGroup
+                  settingName={"Task Name Display"}
+                  settingNumber={3}
+                  settingOptions={["Top", "Center", "Bottom"]}
+                  settingValue={taskNameStyle}
+                  setSettingValue={setTaskNameStyle}
+                />
+              </MenuItem>
+              <MenuItem>
+                <CustomSettingsGroup
+                  settingName={"Smallest Interval"}
+                  settingNumber={2}
+                  settingOptions={["1 Hour", "30 Minutes"]}
+                  settingValue={intervalStyle}
+                  setSettingValue={setIntervalStyle}
+                />
+              </MenuItem>
+              {/* <MenuItem onClick={handleClickDate}>
+                Date display:&nbsp;
+                {dateStyle === "0" ? (
+                  <div>Date and Day</div>
+                ) : (
+                  <div>Date Only</div>
+                )}
+              </MenuItem>
+              <MenuItem onClick={handleClickTime}>
+                Time display:&nbsp;
+                {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
+              </MenuItem>
+              <MenuItem onClick={handleClickMode}>
+                Calendar start:&nbsp;
+                {modeStyle === 0 ? (
+                  <div> Today</div>
+                ) : modeStyle === 1 ? (
+                  <div> Sun</div>
+                ) : (
+                  <div> Mon</div>
+                )}
+              </MenuItem>
+              <MenuItem onClick={handleClickTaskName}>
+                Task name display:&nbsp;
+                {taskNameStyle === 0 ? (
+                  <div> Top of grid</div>
+                ) : taskNameStyle === 1 ? (
+                  <div> Center of grid</div>
+                ) : (
+                  <div> Bottom of grid</div>
+                )}
+              </MenuItem>
+              <MenuItem onClick={handleCloseCalendarSettings}>
+                Min Interval: lorem ipsum lorem ispum
+              </MenuItem> */}
+            </Menu>
           </Toolbar>
         </AppBar>
       </ThemeProvider>

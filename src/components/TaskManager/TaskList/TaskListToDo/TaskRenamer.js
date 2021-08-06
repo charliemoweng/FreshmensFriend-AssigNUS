@@ -10,6 +10,12 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function TaskRenamer(props) {
   const {
@@ -44,7 +50,9 @@ function TaskRenamer(props) {
     taskRank,
     setTaskRank,
     taskReminder,
-    setTaskReminder
+    setTaskReminder,
+    taskReminderExact,
+    setTaskReminderExact
   } = props;
 
   //console.log("taskMod: " + taskMod + ", taskName: " + taskName);
@@ -66,6 +74,11 @@ function TaskRenamer(props) {
     taskMod
   );
   const [newTaskReminder, setNewTaskReminder] = useState(taskReminder);
+  const [newTaskReminderExact, setNewTaskReminderExact] = useState(
+    taskReminderExact
+  );
+  const [newTaskStart, setNewTaskStart] = useState(taskStart);
+  const [newTaskEnd, setNewTaskEnd] = useState(taskEnd);
 
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
@@ -117,7 +130,10 @@ function TaskRenamer(props) {
         (task) =>
           task.taskMod === newTaskModEdited &&
           task.taskName === taskName &&
-          task.taskReminder === newTaskReminder
+          // task.taskReminder === newTaskReminder &&
+          task.taskReminderExact === newTaskReminderExact &&
+          task.taskStart === newTaskStart &&
+          task.taskEnd === newTaskEnd
       )
     ) {
       return "This Task is already present";
@@ -214,13 +230,36 @@ function TaskRenamer(props) {
     setErrors(formValidation.errors);
     setTouched(formValidation.touched);
 
+    if (newTaskEnd < newTaskStart) {
+      // throw error
+      alert(
+        "Task End cannot be before Task Start! Please select a valid Start and End time."
+      );
+    }
+
+    if (
+      tasks.some(
+        (task) => newTaskStart >= task.taskStart && newTaskStart < task.taskEnd
+      )
+    ) {
+      // console.log("task slot clash");
+      alert(
+        "Task Start clashes with existing task! Please select another time."
+      );
+    }
+
     if (
       !Object.values(formValidation.errors).length && // errors object is empty
       Object.values(formValidation.touched).length ===
         Object.values(values).length && // all fields were touched
-      Object.values(formValidation.touched).every((t) => t === true) // every touched field is true
+      Object.values(formValidation.touched).every((t) => t === true) && // every touched field is true
+      newTaskEnd >= newTaskStart && // taskEnd cannot be before taskStart
+      !tasks.some(
+        (task) => newTaskStart >= task.taskStart && newTaskStart < task.taskEnd // taskStart cannot clash with existing task slots
+      )
     ) {
-      console.log("all pass can submit");
+      // console.log("all pass can submit");
+
       // local copy of modules array for renaming module with modId
       const arrayForRenaming = [...tasks];
       // if undefined, throw error
@@ -233,6 +272,9 @@ function TaskRenamer(props) {
       currTask.taskMod = newTaskModEdited;
       currTask.taskName = newTaskName;
       currTask.taskReminder = newTaskReminder;
+      currTask.taskReminderExact = newTaskReminderExact;
+      currTask.taskStart = newTaskStart;
+      currTask.taskEnd = newTaskEnd;
       setTasks(arrayForRenaming);
       setOpen(false);
     }
@@ -256,9 +298,11 @@ function TaskRenamer(props) {
 
   return (
     <div>
-      <IconButton aria-label="rename">
-        <CreateIcon fontSize="small" onClick={handleRenameOpen} />
-      </IconButton>
+      <Tooltip title="Edit task">
+        <IconButton aria-label="rename">
+          <CreateIcon fontSize="small" onClick={handleRenameOpen} />
+        </IconButton>
+      </Tooltip>
 
       <Dialog
         open={open}
@@ -279,7 +323,8 @@ function TaskRenamer(props) {
             dividers={scroll === "paper"}
           >
             <DialogContentText>
-              Edit your task name/module/reminder time. Please touch all fields.
+              <p>Edit your task name/module/reminder time. </p>
+              <p> Please touch all fields. </p>
             </DialogContentText>
 
             <TextField
@@ -295,6 +340,7 @@ function TaskRenamer(props) {
               name="taskMod"
               onBlur={handleBlur}
               required
+              style={{ marginTop: "1rem" }}
             >
               {modArray.map((option) => (
                 <MenuItem key={option.modId} value={option.modName}>
@@ -325,7 +371,7 @@ function TaskRenamer(props) {
               {touched.taskName && errors.taskName}
             </div>
 
-            <TextField
+            {/* <TextField
               id="standard-select-reminder"
               select
               label="Set your reminder"
@@ -340,7 +386,57 @@ function TaskRenamer(props) {
                   {option.value}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextField> */}
+
+            <MuiPickersUtilsProvider
+              //className={styles.rowFooChild}
+              utils={DateFnsUtils}
+              autoComplete="off"
+            >
+              <KeyboardDateTimePicker
+                value={newTaskReminderExact}
+                label="Set your reminder"
+                onError={console.log}
+                minDate={new Date(new Date().toLocaleString())}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setNewTaskReminderExact}
+                disablePast
+                //disabled={taskReminder !== 0}
+                //defaultValue={null}
+                autoComplete="off"
+                fullWidth
+              />
+            </MuiPickersUtilsProvider>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                value={newTaskStart}
+                label="Start at"
+                onError={console.log}
+                minDate={new Date("2021-01-01T00:00")}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setNewTaskStart}
+                required
+                style={{ marginRight: "1rem", marginTop: "1rem" }}
+              />
+            </MuiPickersUtilsProvider>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDateTimePicker
+                value={newTaskEnd}
+                label="End at"
+                onError={console.log}
+                minDate={taskStart}
+                format="yyyy/MM/dd hh:mm a"
+                margin="dense"
+                onChange={setNewTaskEnd}
+                name="taskEnd"
+                required
+                style={{ marginLeft: "1rem", marginTop: "1rem" }}
+              />
+            </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

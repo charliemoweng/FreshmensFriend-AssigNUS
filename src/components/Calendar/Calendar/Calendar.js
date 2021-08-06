@@ -4,6 +4,9 @@ import BaseCalendar from "../BaseCalendar/BaseCalendar";
 import styles from "./Calendar.module.css";
 import { Paper } from "@material-ui/core";
 import CalendarToolbar from "../CalendarToolbar/CalendarToolbar";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function Calendar(props) {
   //console.log("calendar called");
@@ -30,29 +33,44 @@ function Calendar(props) {
     setIsDisplayed
   } = props;
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   // datestyle 0: display both date and day (i.e. 20 Jul Tue)
   // datestyle 1: display only date (i.e. 20 Jul)
-  const [dateStyle, setDateStyle] = useStateWithCallbackLazy(0);
+  const [dateStyle, setDateStyle] = useStateWithCallbackLazy("0");
 
   // timestyle 0: display time in 12hrs format (i.e. 5AM)
   // timstyle 1: display time in 24hrs format (i.e. 0500)
-  const [timeStyle, setTimeStyle] = useStateWithCallbackLazy(0);
+  const [timeStyle, setTimeStyle] = useStateWithCallbackLazy("0");
 
   // modeStyle 0: display calendarStart as current day
   // modeStyle 1: display calendarStart as Sunday of current week
   // modeStyle 2: display calendarStart as Monday of current week
-  const [modeStyle, setModeStyle] = useStateWithCallbackLazy(0);
+  const [modeStyle, setModeStyle] = useStateWithCallbackLazy("0");
 
   // taskNameStyle 0: display taskName at the top of the taskGrid
   // taskNameStyle 1: display taskName at the center of the taskGrid (top skew if tied)
   // taskNameStyle 2: display taskName at the bottom of the taskGrid
-  const [taskNameStyle, setTaskNameStyle] = useStateWithCallbackLazy(0);
+  const [taskNameStyle, setTaskNameStyle] = useStateWithCallbackLazy("0");
+
+  // intervalStyle 0: 1 hours intervals
+  // intervalStyle 1: hald hour intervals
+  const [intervalStyle, setIntervalStyle] = useStateWithCallbackLazy("0");
 
   return (
     <div className={styles.BoxCalendar}>
       <Paper elevation={3}>
         <div className={styles.Calendar}>
           <h2>Calendar</h2>
+
           <CalendarToolbar
             calendarStart={calendarStart}
             setCalendarStart={setCalendarStart}
@@ -64,6 +82,8 @@ function Calendar(props) {
             setModeStyle={setModeStyle}
             taskNameStyle={taskNameStyle}
             setTaskNameStyle={setTaskNameStyle}
+            intervalStyle={intervalStyle}
+            setIntervalStyle={setIntervalStyle}
           />
           <BaseCalendar
             calendarStart={calendarStart}
@@ -90,6 +110,7 @@ function Calendar(props) {
             timeStyle={timeStyle}
             modeStyle={modeStyle}
             taskNameStyle={taskNameStyle}
+            intervalStyle={intervalStyle}
           />
         </div>
       </Paper>

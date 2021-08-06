@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import styles from "./ModuleReranker.module.css";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function ModuleReranker(props) {
   const {
@@ -85,24 +86,28 @@ function ModuleReranker(props) {
   return (
     <div className={styles.rerankButtons}>
       <div>
-        <IconButton aria-label="uprankMod">
-          <KeyboardArrowUpIcon
-            fontSize="small"
-            onClick={() => {
-              handleUprankMod(modId);
-            }}
-          />
-        </IconButton>
+        <Tooltip title="Increase rank">
+          <IconButton aria-label="uprankMod">
+            <KeyboardArrowUpIcon
+              fontSize="small"
+              onClick={() => {
+                handleUprankMod(modId);
+              }}
+            />
+          </IconButton>
+        </Tooltip>
       </div>
       <div>
-        <IconButton aria-label="downrankMod">
-          <KeyboardArrowDownIcon
-            fontSize="small"
-            onClick={() => {
-              handleDownrankMod(modId);
-            }}
-          />
-        </IconButton>
+        <Tooltip title="Decrease rank">
+          <IconButton aria-label="downrankMod">
+            <KeyboardArrowDownIcon
+              fontSize="small"
+              onClick={() => {
+                handleDownrankMod(modId);
+              }}
+            />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );

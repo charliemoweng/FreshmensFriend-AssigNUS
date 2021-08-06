@@ -3,6 +3,7 @@ import { Button, Checkbox } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function TaskReranker(props) {
   const {
@@ -109,24 +110,28 @@ function TaskReranker(props) {
   return (
     <div>
       <div>
-        <IconButton aria-label="uprankTask">
-          <KeyboardArrowUpIcon
-            fontSize="small"
-            onClick={() => {
-              handleUprankTask(taskId);
-            }}
-          />
-        </IconButton>
+        <Tooltip title="Increase rank">
+          <IconButton aria-label="uprankTask">
+            <KeyboardArrowUpIcon
+              fontSize="small"
+              onClick={() => {
+                handleUprankTask(taskId);
+              }}
+            />
+          </IconButton>
+        </Tooltip>
       </div>
       <div>
-        <IconButton aria-label="downrankTask">
-          <KeyboardArrowDownIcon
-            fontSize="small"
-            onClick={() => {
-              handleDownrankTask(taskId);
-            }}
-          />
-        </IconButton>
+        <Tooltip title="Decrease rank">
+          <IconButton aria-label="downrankTask">
+            <KeyboardArrowDownIcon
+              fontSize="small"
+              onClick={() => {
+                handleDownrankTask(taskId);
+              }}
+            />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );

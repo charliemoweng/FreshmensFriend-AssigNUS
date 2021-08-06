@@ -45,6 +45,8 @@ function TaskManagerAddTask(props) {
     setTaskRank,
     taskReminder,
     setTaskReminder,
+    taskReminderExact,
+    setTaskReminderExact,
     taskGrids,
     setTaskGrids,
     taskGridName,
@@ -79,6 +81,7 @@ function TaskManagerAddTask(props) {
 
   const modArray = Array.from(modules);
 
+  // option of number of hours for reminder
   var hourArray = [];
   const currTime = new Date();
   if (taskDue > currTime) {
@@ -209,29 +212,13 @@ function TaskManagerAddTask(props) {
     });
   };
 
-  const handleTaskReminderChange = (event) => {
-    setTaskReminder(event.target.value);
-  };
-
-  // const handleTaskEndChange = (event) => {
-  //   setTaskEnd(event.target.value);
-
-  //   const { name, value: newValue, type } = event.target;
-
-  //   // keep number fields as numbers
-  //   const value = type === "number" ? +newValue : newValue;
-
-  //   // save field values
-  //   setValues({
-  //     ...values,
-  //     [name]: value
-  //   });
-
-  //   // was the field modified
-  //   setTouched({
-  //     ...touched,
-  //     [name]: true
-  //   });
+  //console.log("task:" + taskName + " exact reminder is: " + taskReminderExact);
+  // const handleTaskReminderChange = (event) => {
+  //   if (!taskReminderExact) {
+  //     setTaskReminder(event.target.value);
+  //   } else {
+  //     alert("Please select only one way to set your reminder.");
+  //   }
   // };
 
   function hashCode(str) {
@@ -321,15 +308,31 @@ function TaskManagerAddTask(props) {
 
     if (taskEnd < taskStart) {
       // throw error
-      alert("Task End cannot be before Task Start!");
+      alert(
+        "Task End cannot be before Task Start! Please select a valid Start and End time."
+      );
+    }
+
+    if (
+      tasks.some(
+        (task) => taskStart >= task.taskStart && taskStart < task.taskEnd
+      )
+    ) {
+      // console.log("task slot clash");
+      alert(
+        "Task Start clashes with existing task! Please select another time."
+      );
     }
 
     if (
       !Object.values(formValidation.errors).length && // errors object is empty
       Object.values(formValidation.touched).length ===
         Object.values(values).length && // all fields were touched
-      Object.values(formValidation.touched).every((t) => t === true) &&
-      taskEnd >= taskStart // every touched field is true
+      Object.values(formValidation.touched).every((t) => t === true) && // every touched field is true
+      taskEnd >= taskStart && // taskEnd cannot be before taskStart
+      !tasks.some(
+        (task) => taskStart >= task.taskStart && taskStart < task.taskEnd // taskStart cannot clash with existing task slots
+      )
     ) {
       //alert(JSON.stringify(values, null, 2));
       addTask(
@@ -342,6 +345,7 @@ function TaskManagerAddTask(props) {
         newTaskEnd,
         taskComplete,
         taskReminder,
+        taskReminderExact,
         firebase
       );
       const newTaskGridColor = modules.find(
@@ -369,8 +373,12 @@ function TaskManagerAddTask(props) {
     taskStart,
     taskEnd,
     taskComplete,
-    taskReminder
+    taskReminder,
+    taskReminderExact
   ) {
+    // console.log(
+    //   "task: " + taskName + " task reminder exact is: " + taskReminderExact
+    // );
     const newTasks = [
       ...tasks,
       {
@@ -382,7 +390,8 @@ function TaskManagerAddTask(props) {
         taskStart: taskStart,
         taskEnd: taskEnd,
         taskComplete: taskComplete,
-        taskReminder: taskReminder
+        taskReminder: taskReminder,
+        taskReminderExact: taskReminderExact
       }
     ];
     setTasks(newTasks);
@@ -435,19 +444,6 @@ function TaskManagerAddTask(props) {
   //   db.collection("/tasks").doc(uid).set({ tasks: tasks });
   // }, [tasks]);
 
-  // function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-  //   const newTasks = [
-  //     ...tasks.slice(0, toToggleTaskIndex),
-  //     {
-  //       description: toToggleTask.description,
-  //       isComplete: !toToggleTask.isComplete
-  //     },
-  //     ...tasks.slice(toToggleTaskIndex + 1)
-  //   ];
-
-  //   setTasks(newTasks);
-  // }
-
   return (
     <div>
       <div className={styles.TMButtonParent}>
@@ -487,6 +483,7 @@ function TaskManagerAddTask(props) {
                 name="taskMod"
                 onBlur={handleBlur}
                 required
+                autoComplete="off"
               >
                 {modArray.map((option) => (
                   <MenuItem key={option.modId} value={option.modName}>
@@ -511,15 +508,23 @@ function TaskManagerAddTask(props) {
               onBlur={handleBlur}
               value={values.taskName}
               required
+              autoComplete="off"
             />
             <div style={{ color: "red" }}>
               {touched.taskName && errors.taskName}
             </div>
 
-            <div className={styles.rowFoo}>
+            {/* <input
+              autoComplete="on"
+              style={{ display: "none" }}
+              id="fake-hidden-input-to-stop-google-address-lookup"
+            /> */}
+
+            <div className={styles.rowBar}>
               <MuiPickersUtilsProvider
                 className={styles.rowFooChild}
                 utils={DateFnsUtils}
+                autoComplete="off"
               >
                 <KeyboardDateTimePicker
                   value={taskDue}
@@ -529,9 +534,35 @@ function TaskManagerAddTask(props) {
                   format="yyyy/MM/dd hh:mm a"
                   margin="dense"
                   onChange={setTaskDue}
+                  fullWidth
                   required
+                  autoComplete="off"
                 />
               </MuiPickersUtilsProvider>
+            </div>
+
+            <div className={styles.rowFoo}>
+              <MuiPickersUtilsProvider
+                //className={styles.rowFooChild}
+                utils={DateFnsUtils}
+                autoComplete="off"
+              >
+                <KeyboardDateTimePicker
+                  value={taskReminderExact}
+                  label="Set your reminder"
+                  onError={console.log}
+                  minDate={new Date(new Date().toLocaleString())}
+                  format="yyyy/MM/dd hh:mm a"
+                  margin="dense"
+                  onChange={setTaskReminderExact}
+                  disablePast
+                  //disabled={taskReminder !== 0}
+                  //defaultValue={null}
+                  autoComplete="off"
+                  fullWidth
+                />
+              </MuiPickersUtilsProvider>
+              {/* <div className={styles.text}> or </div>
               <div className={classes.root}>
                 <TextField
                   id="standard-select-reminder"
@@ -541,6 +572,7 @@ function TaskManagerAddTask(props) {
                   variant="outlined"
                   onChange={handleTaskReminderChange}
                   helperText="hours before deadline"
+                  autoComplete="off"
                 >
                   {hourArray.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -548,8 +580,9 @@ function TaskManagerAddTask(props) {
                     </MenuItem>
                   ))}
                 </TextField>
-              </div>
+              </div> */}
             </div>
+
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDateTimePicker
                 value={taskStart}
@@ -560,6 +593,7 @@ function TaskManagerAddTask(props) {
                 margin="dense"
                 onChange={setTaskStart}
                 required
+                style={{ marginRight: "1rem", marginTop: "1rem" }}
               />
             </MuiPickersUtilsProvider>
 
@@ -571,17 +605,12 @@ function TaskManagerAddTask(props) {
                 minDate={taskStart}
                 format="yyyy/MM/dd hh:mm a"
                 margin="dense"
-                //onChange={handleTaskEndChange}
                 onChange={setTaskEnd}
                 name="taskEnd"
-                //onBlur={handleBlur}
-                //value={values.taskEnd}
                 required
+                style={{ marginLeft: "1rem", marginTop: "1rem" }}
               />
             </MuiPickersUtilsProvider>
-            {/* <div style={{ color: "red" }}>
-              {touched.taskEnd && errors.taskEnd}
-            </div> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">

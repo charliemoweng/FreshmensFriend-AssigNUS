@@ -9,6 +9,7 @@ import DayGrid from "./DayGrid";
 import TaskGrid from "./TaskGrid";
 import styles from "./CalendarGrid.module.css";
 import { sizing, height } from "@material-ui/system";
+import { ka } from "date-fns/locale";
 
 function CalendarGrid(props) {
   const {
@@ -35,7 +36,8 @@ function CalendarGrid(props) {
     dateStyle,
     timeStyle,
     modeStyle,
-    taskNameStyle
+    taskNameStyle,
+    intervalStyle
   } = props;
 
   useEffect(() => {}, [calendarStart]);
@@ -96,6 +98,34 @@ function CalendarGrid(props) {
 
   useEffect(() => {}, [tasks]);
 
+  // handles adding of days into the display array
+  var displayArray = [];
+  // time col added
+  displayArray.push(
+    <Grid className={styles.dayGridChildTime}>
+      <CalendarTimeCol timeStyle={timeStyle} intervalStyle={intervalStyle} />
+    </Grid>
+  );
+
+  // for loop to add 7 days
+  for (var k = 0; k < 7; k++) {
+    const kStringified = k.toString();
+    displayArray.push(
+      <Grid className={styles.dayGridChild}>
+        <DayGrid
+          dayGridId={kStringified}
+          tasks={tasks}
+          modules={modules}
+          gridDate={dateArray[k]}
+          gridDay={dayArray[k]}
+          dateStyle={dateStyle}
+          taskNameStyle={taskNameStyle}
+          intervalStyle={intervalStyle}
+        />
+      </Grid>
+    );
+  }
+
   return (
     <Grid
       className={styles.dayGridParent}
@@ -104,86 +134,7 @@ function CalendarGrid(props) {
       justifyContent="space-between"
       alignItems="stretch"
     >
-      <Grid className={styles.dayGridChildTime}>
-        <CalendarTimeCol timeStyle={timeStyle} />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="0"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[0]}
-          gridDay={dayArray[0]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="1"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[1]}
-          gridDay={dayArray[1]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="2"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[2]}
-          gridDay={dayArray[2]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="3"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[3]}
-          gridDay={dayArray[3]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="4"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[4]}
-          gridDay={dayArray[4]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="5"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[5]}
-          gridDay={dayArray[5]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
-      <Grid className={styles.dayGridChild}>
-        <DayGrid
-          dayGridId="6"
-          tasks={tasks}
-          modules={modules}
-          gridDate={dateArray[6]}
-          gridDay={dayArray[6]}
-          dateStyle={dateStyle}
-          taskNameStyle={taskNameStyle}
-        />
-      </Grid>
+      {displayArray}
     </Grid>
   );
 }

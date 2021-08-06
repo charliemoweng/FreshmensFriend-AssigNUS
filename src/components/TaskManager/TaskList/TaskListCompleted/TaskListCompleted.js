@@ -8,10 +8,7 @@ import {
   KeyboardDateTimePicker
 } from "@material-ui/pickers";
 import styles from "./TaskListCompleted.module.css";
-
-{
-  /* checking the Completed box in TaskListToDo lead to this place */
-}
+import Tooltip from "@material-ui/core/Tooltip";
 
 function TaskListCompleted(props) {
   //console.log("task list completed called");
@@ -191,14 +188,16 @@ function TaskListCompleted(props) {
               <td>{task.taskName}</td>
 
               <td>
-                <IconButton aria-label="delete">
-                  <DeleteIcon
-                    fontSize="small"
-                    onClick={() => {
-                      handleDelete(task);
-                    }}
-                  />
-                </IconButton>
+                <Tooltip title="Delete task">
+                  <IconButton aria-label="delete">
+                    <DeleteIcon
+                      fontSize="small"
+                      onClick={() => {
+                        handleDelete(task);
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
               </td>
             </tr>
           ) : null
