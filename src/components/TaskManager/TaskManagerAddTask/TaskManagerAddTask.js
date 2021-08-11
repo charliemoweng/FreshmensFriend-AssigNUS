@@ -504,7 +504,7 @@ function TaskManagerAddTask(props) {
                   value={taskReminderExact}
                   label="Set your reminder"
                   onError={console.log}
-                  minDate={new Date(new Date().toLocaleString())}
+                  minDate={new Date()}
                   format="yyyy/MM/dd hh:mm a"
                   margin="dense"
                   onChange={setTaskReminderExact}
