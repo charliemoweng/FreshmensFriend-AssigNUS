@@ -30,23 +30,6 @@ function PageAssigNUS() {
   // Modules Array
   const [modules, setModulesState] = useState([]);
 
-  // useEffect(() => {
-  //   const uid = firebase.auth().currentUser?.uid;
-  //   const db = firebase.firestore();
-  //   const docRef = db.collection("/modules").doc(uid);
-
-  //   docRef.get().then((doc) => {
-  //     if (doc.exists) {
-  //       setModulesState(doc.data().modules);
-  //       console.log("old user data retrieved");
-  //       // Need to call this before Taskmanager Fires
-  //     } else {
-  //       setModulesState([]);
-  //       console.log("new user");
-  //     }
-  //   });
-  // }, []);
-
   // States of a Module: ID, Name, Color, Rank
   // ID
   const [moduleId, setModuleId] = useState(0);
@@ -165,10 +148,10 @@ function PageAssigNUS() {
   // });
 
   // logic for setting reminder at a specific time (absolute reminder)
+  // using this version as of AssigNUS v1.1.0
   const currTasks = [...tasks];
   currTasks.forEach((element) => {
     const taskReminderTime = element.taskReminderExact;
-    // test test
     // console.log(subHours(new Date(element.taskDue), element.taskReminder));
     // console.log("currTime is: " + currTime);
     // console.log("taskReminderTime is: " + taskReminderTime);
@@ -177,7 +160,6 @@ function PageAssigNUS() {
     const currTimeSeconds = format(currTimeDate, "t");
     const reminderTimeSeconds = format(new Date(taskReminderTime), "t");
 
-    // test
     // console.log("currTimeSeconds is: " + currTimeSeconds);
     // console.log("reminderTimeSeconds is: " + reminderTimeSeconds);
 
