@@ -66,9 +66,6 @@ function TaskRenamer(props) {
   const [values, setValues] = React.useState(initialValues);
   const [errors, setErrors] = React.useState({});
   const [touched, setTouched] = React.useState({});
-
-  const newTaskMod = taskMod;
-
   const [newTaskName, setNewTaskName] = useState(taskName);
   const [newTaskModEdited, setNewTaskModEdited] = useStateWithCallbackLazy(
     taskMod
@@ -79,7 +76,6 @@ function TaskRenamer(props) {
   );
   const [newTaskStart, setNewTaskStart] = useState(taskStart);
   const [newTaskEnd, setNewTaskEnd] = useState(taskEnd);
-
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const tasksArray = [...tasks];
@@ -289,7 +285,7 @@ function TaskRenamer(props) {
     // check for a new error
     const error = validate[name](value);
 
-    // // validate the field if the value has been touched
+    // validate the field if the value has been touched
     setErrors({
       ...rest,
       ...(error && { [name]: touched[name] && error })

@@ -34,11 +34,6 @@ function HourGrid(props) {
     }
   }));
 
-  //test test
-
-  // const [gridStart, setGridStart] = useState("");
-  // const [gridEnd, setGridEnd] = useState("");
-
   // check tasks array for any tasks that is at current hour slot
   // local copy
 
@@ -50,5 +45,3 @@ function HourGrid(props) {
 }
 
 export default HourGrid;
-
-//

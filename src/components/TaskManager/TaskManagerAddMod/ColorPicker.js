@@ -13,10 +13,6 @@ function ColorPicker(props) {
   } = props;
 
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  // const [color, setColor] = useState({ r: "241", g: "112", b: "19", a: "1" });
-  // const [color, setColor] = useState(hexToRgbA(moduleColor));
-  // const [open, setOpen] = React.useState(false);
-
   const handleClick = () => {
     setDisplayColorPicker(!displayColorPicker);
   };
@@ -24,25 +20,12 @@ function ColorPicker(props) {
     setDisplayColorPicker(false);
   };
 
-  // const handleChange = (color) => {
-  //   setColor({ color: color.rgb });
-  //   setModuleColor({
-  //     ...moduleColor,
-  //     color: {
-  //       r: color.r,
-  //       g: color.g,
-  //       b: color.b,
-  //       a: color.a
-  //     }
-  //   });
-  // };
-
   useEffect(() => {
     // action on update of modules
     // console.log("modules array changed");
     // console.log("modules: " + modules + "length: " + modules.length);
     // handleChange;
-  }, [modules]); // need modules?
+  }, [modules]);
 
   function hexToRgbA(hex) {
     var c, r, g, b;
@@ -115,14 +98,6 @@ function ColorPicker(props) {
     throw new Error("Bad Hex");
   }
 
-  // hexToRgbA('#fbafff')
-
-  /*  returned value: (String)
-    rgba(251,175,255,1)
-  */
-  const moduleColorRgbA = hexToRgbA(moduleColor);
-  // console.log("hex: " + moduleColor + " converted to rgba: " + moduleColorRgbA);
-  // const [color, setColor] = useState({ r: "247", g: "112", b: "19", a: "1" });
   const [color, setColor] = useState({
     r: hexToR(moduleColor),
     g: hexToG(moduleColor),
@@ -130,10 +105,6 @@ function ColorPicker(props) {
     a: "1"
   });
   // console.log("hexToR: " + hexToR(moduleColor));
-
-  const reRender = () => {
-    setColor(color.rgb);
-  };
 
   const handleChange = (color, event) => {
     setColor(color.rgb);
@@ -201,88 +172,3 @@ function ColorPicker(props) {
 }
 
 export default ColorPicker;
-
-// export default ColorPicker;
-
-// import React from "react";
-// import reactCSS from "reactcss";
-// import { TwitterPicker } from "react-color";
-
-// class ColorPicker extends React.Component {
-//   state = {
-//     displayColorPicker: false,
-//     // How to pass this color state up? Need to use same color for other components
-//     color: {
-//       r: "241",
-//       g: "112",
-//       b: "19",
-//       a: "1"
-//     }
-//   };
-
-//   handleClick = () => {
-//     this.setState({ displayColorPicker: !this.state.displayColorPicker });
-//   };
-
-//   handleClose = () => {
-//     this.setState({ displayColorPicker: false });
-//   };
-
-//   render() {
-//     const styles = reactCSS({
-//       default: {
-//         color: {
-//           width: "36px",
-//           height: "14px",
-//           borderRadius: "2px",
-//           background: `rgba(${this.state.color.r}, ${this.state.color.g}, ${this.state.color.b}, ${this.state.color.a})`
-//         },
-//         swatch: {
-//           padding: "5px",
-//           background: "#fff",
-//           borderRadius: "1px",
-//           boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
-//           display: "inline-block",
-//           cursor: "pointer"
-//         },
-//         popover: {
-//           position: "absolute",
-//           zIndex: "2"
-//         },
-//         cover: {
-//           position: "fixed",
-//           top: "0px",
-//           right: "0px",
-//           bottom: "0px",
-//           left: "0px"
-//         }
-//       }
-//     });
-
-//     const handleChange = (color, event) => {
-//       this.setState({ color: color.rgb });
-//       this.props.setModuleColor({ color: { hex: color.hex } });
-//       console.log("Color.rgb is: " + color.rgb);
-//       console.log("Color.hex is: " + color.hex);
-//     };
-
-//     return (
-//       <div>
-//         <div style={styles.swatch} onClick={this.handleClick}>
-//           <div style={styles.color} />
-//         </div>
-//         {this.state.displayColorPicker ? (
-//           <div style={styles.popover}>
-//             <div style={styles.cover} onClick={this.handleClose} />
-//             <TwitterPicker
-//               color={this.state.color}
-//               onChangeComplete={handleChange}
-//             />
-//           </div>
-//         ) : null}
-//       </div>
-//     );
-//   }
-// }
-
-// export default ColorPicker;

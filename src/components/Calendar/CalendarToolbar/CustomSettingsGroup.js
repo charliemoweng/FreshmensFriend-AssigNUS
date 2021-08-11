@@ -15,7 +15,7 @@ function CustomSettingsGroup(props) {
     setSettingValue
   } = props;
 
-  // useState hooks here? for storing local and changing value of setting
+  // useState hooks here for storing local and changing value of setting
   const [local, setLocal] = useState(settingValue.toString());
 
   // does smth only when local changes
@@ -63,61 +63,3 @@ function CustomSettingsGroup(props) {
 }
 
 export default CustomSettingsGroup;
-
-/** 
- *  function CustomSettingsGroup(props) {
-    // Name, Number of settings (an integer), names of options (an array of strings), setter of hook
-    const {
-      settingName,
-      settingNumber,
-      settingOptions,
-      settingValue,
-      setSettingValue
-    } = props;
-
-    // useState hooks here? for storing local and changing value of setting
-    const [local, setLocal] = useState(0);
-
-    // does smth only when local changes
-    // useEffect(() => {
-    //   console.log("local is: " + local);
-    // }, [local]);
-
-    // const handleSetTestCallback = () => {};
-
-    // suspected that handleChange is unable to access individual FormControl components withint the radioArray
-    const handleChange = (event) => {
-      setLocal(event.target.value);
-      console.log("event.target.value is: " + event.target.value);
-
-      console.log("settingValue is: " + settingValue);
-    };
-
-    var radioArray = [];
-
-    for (var i = 0; i < settingNumber; i++) {
-      radioArray.push(
-        <FormControlLabel
-          value={i}
-          control={<Radio />}
-          label={settingOptions[i]}
-        />
-      );
-    }
-
-    return (
-      <FormControl component="fieldset">
-        <FormLabel component="legend">{settingName}</FormLabel>
-        <RadioGroup
-          row
-          aria-label={settingName}
-          name={settingName}
-          value={settingValue}
-          onChange={handleChange}
-        >
-          {radioArray}
-        </RadioGroup>
-      </FormControl>
-    );
-  }
-*/

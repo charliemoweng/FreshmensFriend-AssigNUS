@@ -41,17 +41,6 @@ function CalendarGrid(props) {
   } = props;
 
   useEffect(() => {}, [calendarStart]);
-  // fields: start date, end date
-  // contains DayGrid
-  // check for all tasks, if task start time within its start date & end date, create TaskGrid for this task
-
-  // this is for the CalendarStart CalendarEnd display dates
-  // const [startDate, setStartDate] = useState(calendarStart);
-  // const [endDate, setEndDate] = useState(
-  //   new Date(new Date().setDate(new Date().getDate() + 6))
-  // );
-  // console.log(startDate);
-  // console.log(endDay);
 
   // date and day setter for DayGrids (date: 1/1/2021, day: "Monday")
   // the 'header' of the dayGrid to be displayed (DG 0 Sun)
@@ -87,14 +76,6 @@ function CalendarGrid(props) {
   numberedDayArray.forEach((element) => {
     dayArray.push(dayArrayShort[element]);
   });
-
-  // // filter out all tasks that are in the current week and make them a new array
-  // function generateTasksDisplayed(tasks, calendarStart, endDay) {
-  //   //var tasksDisplayed = [];
-  //   return tasks.filter(
-  //     (task) => task.startTime > calendarStart && task.endTime < endDay
-  //   );
-  // }
 
   useEffect(() => {}, [tasks]);
 

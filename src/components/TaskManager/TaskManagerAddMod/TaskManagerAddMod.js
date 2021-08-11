@@ -21,8 +21,6 @@ function TaskManagerAddMod(props) {
     setModuleRank
   } = props;
 
-  // const [newModName, setNewModName] = useState("");
-  // const [newModColor, setNewModColor] = useState();
   var newModId = moduleId;
 
   const newModName = moduleName;
@@ -119,11 +117,6 @@ function TaskManagerAddMod(props) {
 
   // handleSubmit
   function handleAddMod(event) {
-    // if (newModName == null) {
-    //   event.preventDefault();
-    //   alert("Module name cannot be empty.");
-    //   setOpen(false);
-    // }
     event.preventDefault();
 
     // validate the form
@@ -238,22 +231,6 @@ function TaskManagerAddMod(props) {
     }
   }, [open]);
 
-  //const [newTaskText, setNewTaskText] = useState("");
-
-  //const [selectedDate, handleDateChange] = useState(new Date());
-  /*
-  const actions = [
-    <Button label="Cancel" onClick={handleClose} color="primary" />,
-    <Button
-      label="Confirm"
-      onClick={handleClose}
-      color="primary"
-      type="submit"
-      form="modform"
-    />
-  ];
-*/
-
   return (
     <div>
       <div>
@@ -275,7 +252,6 @@ function TaskManagerAddMod(props) {
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-        //actions={actions}
       >
         <DialogTitle id="scroll-dialog-title">Module Details</DialogTitle>
 

@@ -44,9 +44,6 @@ function DayHeader(props) {
     }
   }));
 
-  // const [gridStart, setGridStart] = useState("");
-  // const [gridEnd, setGridEnd] = useState("");
-
   const d = format(dayGridDate, "d");
   const MMM = format(dayGridDate, "MMM");
   const displayDate = d.concat(" " + MMM);
@@ -63,7 +60,6 @@ function DayHeader(props) {
           ) : (
             <div>{displayDate}</div>
           )}
-          {/* {displayDate} {dayGridDay} */}
         </Paper>
       ) : (
         <Paper className={classes.paper}>
@@ -74,7 +70,6 @@ function DayHeader(props) {
           ) : (
             <div>{displayDate}</div>
           )}
-          {/* {displayDate} {dayGridDay} */}
         </Paper>
       )}
     </div>

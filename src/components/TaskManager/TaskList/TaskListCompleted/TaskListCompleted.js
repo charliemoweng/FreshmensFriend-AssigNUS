@@ -11,7 +11,7 @@ import styles from "./TaskListCompleted.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
 
 function TaskListCompleted(props) {
-  //console.log("task list completed called");
+  // console.log("task list completed called");
   const {
     modules,
     setModules,
@@ -59,11 +59,6 @@ function TaskListCompleted(props) {
     setIsDisplayed
   } = props;
 
-  const [newTaskText, setNewTaskText] = useState("");
-
-  // logic for showing and hiding tasks in completed and todo lists
-  const [showTask, setShowTask] = useState(true);
-
   useEffect(() => {}, [tasks]);
 
   function handleDelete(task) {
@@ -104,22 +99,7 @@ function TaskListCompleted(props) {
     setTaskGrids(newGridsArray);
   }
 
-  // function handleTaskCompletionToggled(toToggleTask, toToggleTaskIndex) {
-  //   const newTasks = [
-  //     ...tasks.slice(0, toToggleTaskIndex),
-  //     {
-  //       description: toToggleTask.description,
-  //       isComplete: !toToggleTask.isComplete
-  //     },
-  //     ...tasks.slice(toToggleTaskIndex + 1)
-  //   ];
-
-  //   setTasks(newTasks);
-  // }
-
   function handleTaskComplete(event, taskId) {
-    // event.preventDefault();
-
     const arrayForTaskComplete = [...tasks];
     if (arrayForTaskComplete.find((element) => element.taskId === undefined)) {
       alert("Error: taskId not found");
@@ -172,7 +152,6 @@ function TaskListCompleted(props) {
         {tasks.map((task, index) =>
           task.taskComplete ? (
             <tr key={index}>
-              {/* <td>{index + 1}</td> */}
               <td>
                 <Checkbox
                   color="primary"
@@ -183,10 +162,8 @@ function TaskListCompleted(props) {
                   }}
                 />
               </td>
-              {/* <td>{task.taskRank}</td> */}
               <td>{task.taskMod}</td>
               <td>{task.taskName}</td>
-
               <td>
                 <Tooltip title="Delete task">
                   <IconButton aria-label="delete">

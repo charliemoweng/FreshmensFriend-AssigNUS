@@ -15,13 +15,6 @@ import {
 } from "@material-ui/pickers";
 import styles from "./TaskListToDo.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
-// import addNotification from "react-push-notification";
-// import AddAlertIcon from "@material-ui/icons/AddAlert";
-
-{
-  /* Tasks will only appear in this TaskList after being added from the AddTask, 
-and Tasks will only be added to the TaskListCompleted after their checkbox has been checked*/
-}
 
 function TaskListToDo(props) {
   //console.log("task list todo called");
@@ -78,33 +71,6 @@ function TaskListToDo(props) {
 
   useEffect(() => {}, [tasks]);
   // console.log("tasks array is: " + JSON.stringify(tasks));
-
-  const tasksHardcode = [
-    {
-      taskId: 0,
-      taskRank: 1,
-      taskMod: "m1",
-      taskName: "t1",
-      taskDue: "2021-01-01T00:00"
-    },
-    {
-      taskId: 1,
-      taskRank: 2,
-      taskMod: "m1",
-      taskName: "t2",
-      taskDue: "2021-01-01T00:00"
-    },
-    {
-      taskId: 2,
-      taskRank: 3,
-      taskMod: "m2",
-      taskName: "t1",
-      taskDue: "2021-01-01T00:00"
-    }
-  ];
-  // useEffect(() => {}, [tasksHardcode]);
-
-  const [newTaskDue, setNewTaskDue] = useState(new Date());
 
   function handleDelete(task) {
     // Delete ALL for quick debugging
@@ -182,8 +148,6 @@ function TaskListToDo(props) {
   }
 
   function handleTaskDueChange(event, taskId) {
-    // event.preventDefault();
-
     const arrayForDueChange = [...tasks];
     if (arrayForDueChange.find((element) => element.taskId === undefined)) {
       alert("Error: taskId not found");
@@ -192,21 +156,11 @@ function TaskListToDo(props) {
     const currTask = arrayForDueChange.find(
       (element) => element.taskId === taskId
     );
-    //console.log("currTask is: " + JSON.stringify(currTask));
-    //console.log("event is:" + JSON.stringify(event));
+    // console.log("currTask is: " + JSON.stringify(currTask));
+    // console.log("event is:" + JSON.stringify(event));
     currTask.taskDue = event;
     setTasks(arrayForDueChange);
   }
-
-  // const buttonClick = () => {
-  //   addNotification({
-  //     title: "Warning",
-  //     subtitle: "This is a subtitle",
-  //     message: "This is a very long message",
-  //     theme: "darkblue",
-  //     native: true // when using native, your OS will handle theming.
-  //   });
-  // };
 
   return (
     <table
@@ -237,7 +191,6 @@ function TaskListToDo(props) {
                   }}
                 />
               </td>
-              {/* <td>{index + 1}</td> */}
               <td className={styles.rankCol}>
                 <td className={styles.rankColObj}>{task.taskRank}</td>
                 <TaskReranker
@@ -293,11 +246,6 @@ function TaskListToDo(props) {
                   </IconButton>
                 </Tooltip>
               </td>
-              {/* <td>
-                <IconButton aria-label="add alert">
-                  <AddAlertIcon fontSize="small" onClick={buttonClick} />
-                </IconButton>
-              </td> */}
             </tr>
           ) : null
         )}

@@ -29,9 +29,6 @@
   justify-content: space-evenly;
 }
 
-.functionButtonChild {
-}
-
 .modNameCol {
   display: flex;
   flex-direction: row;

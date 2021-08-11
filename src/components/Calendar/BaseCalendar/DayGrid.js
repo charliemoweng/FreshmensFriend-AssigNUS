@@ -13,8 +13,6 @@ import { sizing, height } from "@material-ui/system";
 import { GridList } from "material-ui";
 
 function DayGrid(props) {
-  // field: day, date
-  // contains HourGrid
   const {
     dayGridId,
     gridDate,
@@ -72,33 +70,6 @@ function DayGrid(props) {
         // console.log("taskEnd has min0, subtracted 1 from duration");
       }
       // console.log("taskDuration is: " + taskDuration);
-
-      // when adding task grid, add first taskGrid with name and rest with no name
-      // i.e. first taskGrid will have nameDisplayed true and others will have that state as false
-
-      // // there is a task starting at hour i, create taskGrid here and update i to be taskEnd
-      // displayArray.push(
-      //   <TaskGrid
-      //     //class={"grid-xs-10"}
-      //     taskName={taskNameToAdd}
-      //     color={taskColorToAdd}
-      //     nameDisplayed={true}
-      //     isComplete={taskCompleteToAdd}
-      //   />
-      // );
-
-      // // first taskGrid contained the name, rest will not display taskName
-      // for (var j = 1; j < taskDuration; j++) {
-      //   displayArray.push(
-      //     <TaskGrid
-      //       //class={"grid-xs-10"}
-      //       taskName={taskNameToAdd}
-      //       color={taskColorToAdd}
-      //       nameDisplayed={false}
-      //       isComplete={taskCompleteToAdd}
-      //     />
-      //   );
-      // }
 
       // check taskNameStyle
       // if 0: first taskGrid gets nameDisplayed set to true
@@ -249,7 +220,7 @@ function DayGrid(props) {
           (format(new Date(task.taskEnd), "H") -
             format(new Date(task.taskStart), "H")) *
             2 +
-          1; //>??? 1 not added here since j is odd, 2nd half of the hour
+          1;
         // since j%2!==0, j is odd, taskStart minutes is between 30 and 59, check taskEnd minutes
         // if taskEnd minutes is smaller than 30, subtract 1
         if (parseInt(format(new Date(task.taskEnd), "m"), 10) < 30) {

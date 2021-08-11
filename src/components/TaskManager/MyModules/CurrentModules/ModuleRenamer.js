@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Checkbox } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CreateIcon from "@material-ui/icons/Create";
 import TextField from "@material-ui/core/TextField";
@@ -135,7 +135,6 @@ function ModuleRenamer(props) {
       const currMod = arrayForRenaming.find(
         (element) => element.modId === modId
       );
-      //const copyForRenaming = { ...arrayForRenaming[modId] };
       //console.log("modId: " + modId + "local copy: " + arrayForRenaming);
 
       // stores a copy of old mod name that's being replaced
@@ -191,7 +190,6 @@ function ModuleRenamer(props) {
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
-        //actions={actions}
       >
         <DialogTitle id="scroll-dialog-title">Rename Module</DialogTitle>
         <form

@@ -16,10 +16,9 @@ import {
 } from "@material-ui/pickers";
 import AddIcon from "@material-ui/icons/Add";
 import { firebase } from "@firebase/app";
-import TaskGrid from "../../Calendar/BaseCalendar/TaskGrid";
 
 function TaskManagerAddTask(props) {
-  //console.log("AddTask called");
+  // console.log("AddTask called");
   const {
     calendarStart,
     setCalendarStart,
@@ -134,34 +133,18 @@ function TaskManagerAddTask(props) {
     return null;
   };
 
-  // const taskEndValidate = (taskEnd) => {
-  //   if (!taskEnd) {
-  //     return "End time is required";
-  //   }
-  //   if (taskEnd < taskStart) {
-  //     console.log("startTime is: " + taskStart);
-  //     console.log("endTime is: " + taskEnd);
-  //     return "Invalid time range";
-  //   }
-  //   return null;
-  // };
-
   const validate = {
     taskMod: taskModValidate,
     taskName: taskNameValidate
-    //taskEnd: taskEndValidate
   };
 
   const initialValues = {
     taskMod: "",
     taskName: ""
-    //taskEnd: new Date()
   };
 
   const [values, setValues] = React.useState(initialValues);
-
   const [errors, setErrors] = React.useState({});
-
   const [touched, setTouched] = React.useState({});
 
   // Handlers (handle change)
@@ -212,15 +195,6 @@ function TaskManagerAddTask(props) {
     });
   };
 
-  //console.log("task:" + taskName + " exact reminder is: " + taskReminderExact);
-  // const handleTaskReminderChange = (event) => {
-  //   if (!taskReminderExact) {
-  //     setTaskReminder(event.target.value);
-  //   } else {
-  //     alert("Please select only one way to set your reminder.");
-  //   }
-  // };
-
   function hashCode(str) {
     var hash = 0,
       i,
@@ -262,10 +236,6 @@ function TaskManagerAddTask(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const [newTaskText, setNewTaskText] = useState("");
-
-  const [selectedDate, handleDateChange] = useState(new Date());
 
   // check if a task is within the display range of Calendar
   function isWithinCalendarRange(taskStart, taskEnd) {
@@ -438,12 +408,6 @@ function TaskManagerAddTask(props) {
     });
   };
 
-  // useEffect(() => {
-  //   const uid = firebase.auth().currentUser?.uid;
-  //   const db = firebase.firestore();
-  //   db.collection("/tasks").doc(uid).set({ tasks: tasks });
-  // }, [tasks]);
-
   return (
     <div>
       <div className={styles.TMButtonParent}>
@@ -513,13 +477,6 @@ function TaskManagerAddTask(props) {
             <div style={{ color: "red" }}>
               {touched.taskName && errors.taskName}
             </div>
-
-            {/* <input
-              autoComplete="on"
-              style={{ display: "none" }}
-              id="fake-hidden-input-to-stop-google-address-lookup"
-            /> */}
-
             <div className={styles.rowBar}>
               <MuiPickersUtilsProvider
                 className={styles.rowFooChild}
@@ -542,11 +499,7 @@ function TaskManagerAddTask(props) {
             </div>
 
             <div className={styles.rowFoo}>
-              <MuiPickersUtilsProvider
-                //className={styles.rowFooChild}
-                utils={DateFnsUtils}
-                autoComplete="off"
-              >
+              <MuiPickersUtilsProvider utils={DateFnsUtils} autoComplete="off">
                 <KeyboardDateTimePicker
                   value={taskReminderExact}
                   label="Set your reminder"
@@ -562,25 +515,6 @@ function TaskManagerAddTask(props) {
                   fullWidth
                 />
               </MuiPickersUtilsProvider>
-              {/* <div className={styles.text}> or </div>
-              <div className={classes.root}>
-                <TextField
-                  id="standard-select-reminder"
-                  select
-                  label="Set your reminder"
-                  value={taskReminder}
-                  variant="outlined"
-                  onChange={handleTaskReminderChange}
-                  helperText="hours before deadline"
-                  autoComplete="off"
-                >
-                  {hourArray.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.value}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div> */}
             </div>
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Button, Checkbox } from "@material-ui/core";
+import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -35,7 +34,6 @@ function ModuleReranker(props) {
     currMod.modRank = swappedRank;
     swappedMod.modRank = currRank;
     // call sort here to resort entire array by modRank
-    // list.sort((a, b) => (a.color > b.color) ? 1 : -1)
     arrayForReranking.sort((a, b) => (a.modRank > b.modRank ? 1 : -1));
   }
 

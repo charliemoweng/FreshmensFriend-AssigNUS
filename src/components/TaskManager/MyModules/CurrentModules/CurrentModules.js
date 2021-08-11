@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, Checkbox } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import CreateIcon from "@material-ui/icons/Create";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import { firebase } from "@firebase/app";
 import ColorPicker from "../../TaskManagerAddMod/ColorPicker";
 import ModuleRenamer from "./ModuleRenamer";
 import ModuleReranker from "./ModuleReranker";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -17,6 +12,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styles from "./CurrentModules.module.css";
 import Tooltip from "@material-ui/core/Tooltip";
+//import { firebase } from "@firebase/app";
 
 function CurrentModules(props) {
   // console.log("current modules called");
@@ -173,7 +169,6 @@ function CurrentModules(props) {
             // what has updated
             // https://reactjs.org/docs/lists-and-keys.html#keys
             <tr key={index}>
-              {/* <td>{index + 1}</td> */}
               <td>{module.modRank}</td>
               <td>
                 <ModuleReranker
@@ -183,9 +178,6 @@ function CurrentModules(props) {
                 />
               </td>
               <td>{module.modName}</td>
-              {
-                // <td>{module.modId}</td> ID hidden from user
-              }
               <td>
                 <ModuleRenamer
                   tasks={tasks}
@@ -227,7 +219,6 @@ function CurrentModules(props) {
             scroll={scroll}
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
-            //actions={actions}
           >
             <DialogTitle id="scroll-dialog-title">Delete Module</DialogTitle>
 

@@ -25,11 +25,7 @@ function FormMod(props) {
 
   return (
     <>
-      <form
-        //id="modForm"
-        onSubmit={handleAddMod}
-        autoComplete="off"
-      >
+      <form onSubmit={handleAddMod} autoComplete="off">
         <DialogContent
           style={{ height: "400px" }}
           dividers={scroll === "paper"}
@@ -46,7 +42,6 @@ function FormMod(props) {
                 moduleColor={moduleColor}
                 setModuleColor={setModuleColor}
                 required
-                // onChange={handleColorInput}
               />
             </div>
             <TextField

@@ -62,7 +62,7 @@ function Calendar(props) {
   const [taskNameStyle, setTaskNameStyle] = useStateWithCallbackLazy("0");
 
   // intervalStyle 0: 1 hours intervals
-  // intervalStyle 1: hald hour intervals
+  // intervalStyle 1: half hour intervals
   const [intervalStyle, setIntervalStyle] = useStateWithCallbackLazy("0");
 
   return (

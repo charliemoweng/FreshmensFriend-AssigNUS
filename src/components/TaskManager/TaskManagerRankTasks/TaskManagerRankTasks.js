@@ -12,7 +12,6 @@ import Dialog from "@material-ui/core/Dialog";
 import Schedule from "@material-ui/icons/Schedule";
 import FontDownload from "@material-ui/icons/FontDownload";
 import Stars from "@material-ui/icons/Stars";
-import AddIcon from "@material-ui/icons/Add";
 import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import SwapVertIcon from "@material-ui/icons/SwapVert";
 import Typography from "@material-ui/core/Typography";
@@ -162,23 +161,6 @@ function TaskManagerRankTasks(props) {
       >
         <DialogTitle id="simple-dialog-title">Sort Tasks by</DialogTitle>
         <List>
-          {/*}
-          {categories.map((category) => (
-            <ListItem
-              button
-              onClick={() => handleListItemClick(category)}
-              key={category}
-            >
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={category} />
-            </ListItem>
-          ))}
-          */}
-
           <ListItem autoFocus button onClick={handleClickDue}>
             <ListItemAvatar>
               <Avatar className={classes.due}>

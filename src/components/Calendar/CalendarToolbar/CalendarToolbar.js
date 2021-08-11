@@ -32,7 +32,6 @@ import {
   green
 } from "@material-ui/core/colors";
 import CustomSettingsGroup from "./CustomSettingsGroup";
-import ExampleSettingsGroup from "./ExampleSettingsGroup";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,9 +85,6 @@ function CalendarToolbar(props) {
 
   useEffect(() => {}, [dateStyle]);
 
-  // hooks used for handling setting changes
-  const [test, setTest] = useState("0");
-
   // modify calendarStart based on value of modeStyle => modeStyle handled in toolbar instead of CalendarGrid
   // 0: no change
   // 1: set to this week's Sunday
@@ -109,7 +105,6 @@ function CalendarToolbar(props) {
 
   // console.log("calendarStart is: " + calendarStart);
   const calendarEnd = addDays(calendarStart, 6);
-  // useEffect(() => {}, [calendarStart]);
 
   // console.log("calendarStart: " + calendarStart);
 
@@ -133,11 +128,6 @@ function CalendarToolbar(props) {
     setAnchorEl(null);
   };
 
-  // handling checking of options
-  const handleCheck = (event) => {
-    setChecked(event.target.checked);
-  };
-
   // handlers for clicking the change week buttons
   const handleClickPrevWeek = () => {
     setCalendarStart(subDays(calendarStart, 7), () => {
@@ -153,172 +143,9 @@ function CalendarToolbar(props) {
   };
   const handleClickNextWeekCallBack = () => {};
 
-  // handler for clicking the date button
-  // console.log("dateStyle is: " + dateStyle);
-  const handleClickDate = () => {
-    // handles the clicking of date button to display / hide the dates
-    // console.log("Date button has been clicked");
-    if (dateStyle === 0) {
-      setDateStyle(1, () => {
-        handleClickDateCallback();
-      });
-    } else {
-      setDateStyle(0, () => {
-        handleClickDateCallback();
-      });
-    }
-  };
-  const handleClickDateCallback = () => {};
-
-  // handler for clicking the time button
-  // console.log("timeStyle is: " + timeStyle);
-  const handleClickTime = () => {
-    // handles the clicking of time button to change display between 12hr and 24hr time
-    // console.log("Time button has been clicked");
-    if (timeStyle === 0) {
-      setTimeStyle(1, () => {
-        handleClickTimeCallback();
-      });
-    } else {
-      setTimeStyle(0, () => {
-        handleClickTimeCallback();
-      });
-    }
-  };
-  const handleClickTimeCallback = () => {};
-
-  // handler for clicking the mode button
-  // console.log("modeStyle is: " + modeStyle);
-  const handleClickMode = () => {
-    // console.log("Mode button has been clicked");
-    if (modeStyle === 0) {
-      setModeStyle(1, () => {
-        handleClickModeCallback();
-      });
-    } else if (modeStyle === 1) {
-      setModeStyle(2, () => {
-        handleClickModeCallback();
-      });
-    } else {
-      setModeStyle(0, () => {
-        handleClickModeCallback();
-      });
-    }
-  };
-  const handleClickModeCallback = () => {};
-
-  // handler for clicking the taskName button
-  // console.log("taskNameStyle is: " + taskNameStyle);
-  const handleClickTaskName = () => {
-    // console.log("TaskName button has been clicked");
-    if (taskNameStyle === 0) {
-      setTaskNameStyle(1, () => {
-        handleClickTaskNameCallback();
-      });
-    } else if (taskNameStyle === 1) {
-      setTaskNameStyle(2, () => {
-        handleClickTaskNameCallback();
-      });
-    } else {
-      setTaskNameStyle(0, () => {
-        handleClickTaskNameCallback();
-      });
-    }
-  };
-  const handleClickTaskNameCallback = () => {};
-
   const handleToggleToday = () => {
     setCalendarStart(new Date());
   };
-
-  // function ExampleSettingsGroup() {
-  //   const [valueEx, setValueEx] = useState("female");
-  //   const handleChangeEx = (event) => {
-  //     setValueEx(event.target.value);
-  //     console.log("event.target.value for valueEx is: " + event.target.value);
-
-  //     console.log("valueEx is: " + valueEx);
-  //   };
-  //   // useEffect(() => {
-  //   //   console.log("hook value is: " + valueEx);
-  //   // }, [valueEx]);
-  //   return (
-  //     <FormControl component="fieldset">
-  //       <FormLabel component="legend">Gender</FormLabel>
-  //       <RadioGroup
-  //         row
-  //         aria-label="gender"
-  //         name="gender1"
-  //         value={valueEx}
-  //         onChange={handleChangeEx}
-  //       >
-  //         <FormControlLabel value="female" control={<Radio />} label="Female" />
-  //         <FormControlLabel value="male" control={<Radio />} label="Male" />
-  //         <FormControlLabel value="other" control={<Radio />} label="Other" />
-  //         <FormControlLabel
-  //           value="disabled"
-  //           disabled
-  //           control={<Radio />}
-  //           label="(Disabled option)"
-  //         />
-  //       </RadioGroup>
-  //     </FormControl>
-  //   );
-  // }
-
-  // function CustomSettingsGroup(props) {
-  //   // Name, Number of settings (an integer), names of options (an array of strings), setter of hook
-  //   const {
-  //     settingName,
-  //     settingNumber,
-  //     settingOptions,
-  //     settingValue,
-  //     setSettingValue
-  //   } = props;
-
-  //   // useState hooks here? for storing local and changing value of setting
-  //   const [local, setLocal] = useState(settingValue);
-
-  //   // does smth only when local changes
-  //   useEffect(() => {
-  //     console.log("local is: " + local);
-  //   }, [local]);
-
-  //   // const handleSetTestCallback = () => {};
-
-  //   // suspected that handleChange is unable to access individual FormControl components withint the radioArray
-  //   const handleChange = (event) => {
-  //     setLocal(event.target.value);
-  //   };
-
-  //   var radioArray = [];
-
-  //   for (var i = 0; i < settingNumber; i++) {
-  //     var iStringified = i.toString();
-  //     radioArray.push(
-  //       <FormControlLabel
-  //         value={iStringified}
-  //         control={<Radio />}
-  //         label={settingOptions[i]}
-  //       />
-  //     );
-  //   }
-
-  //   return (
-  //     <FormControl component="fieldset">
-  //       <FormLabel component="legend">{settingName}</FormLabel>
-  //       <RadioGroup
-  //         row
-  //         aria-label={settingName}
-  //         name={settingName}
-  //         value={local}
-  //         onChange={handleChange}
-  //       >
-  //         {radioArray}
-  //       </RadioGroup>
-  //     </FormControl>
-  //   );
-  // }
 
   // helper function to turn an integer to a day of the week, to be used for Calendar Start
   function toDayOfWeek(int) {
@@ -379,30 +206,6 @@ function CalendarToolbar(props) {
             <Typography variant="h6" className={classes.title}>
               {calendarMonthYearDisplay}
             </Typography>
-            {/* <Button onClick={handleClickDate} color="inherit">
-                {dateStyle === 0 ? <div>Date+Day</div> : <div>Date</div>}
-              </Button>
-              <Button onClick={handleClickTime} color="inherit">
-                {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
-              </Button>
-              <Button onClick={handleClickMode} color="inherit">
-                {modeStyle === 0 ? (
-                  <div> Today</div>
-                ) : modeStyle === 1 ? (
-                  <div> Sun</div>
-                ) : (
-                  <div> Mon</div>
-                )}
-              </Button>
-              <Button onClick={handleClickTaskName} color="inherit">
-                {taskNameStyle === 0 ? (
-                  <div> Top</div>
-                ) : taskNameStyle === 1 ? (
-                  <div> Center</div>
-                ) : (
-                  <div> Bottom</div>
-                )}
-              </Button> */}
 
             <Button onClick={handleToggleToday} color="inherit">
               Go to Today
@@ -427,9 +230,6 @@ function CalendarToolbar(props) {
               open={Boolean(anchorEl)}
               onClose={handleCloseCalendarSettings}
             >
-              {/* <MenuItem>
-                <ExampleSettingsGroup test={test} setTest={setTest} />
-              </MenuItem> */}
               <MenuItem>
                 <CustomSettingsGroup
                   settingName={"Date"}
@@ -479,41 +279,6 @@ function CalendarToolbar(props) {
                   setSettingValue={setIntervalStyle}
                 />
               </MenuItem>
-              {/* <MenuItem onClick={handleClickDate}>
-                Date display:&nbsp;
-                {dateStyle === "0" ? (
-                  <div>Date and Day</div>
-                ) : (
-                  <div>Date Only</div>
-                )}
-              </MenuItem>
-              <MenuItem onClick={handleClickTime}>
-                Time display:&nbsp;
-                {timeStyle === 0 ? <div>12hrs</div> : <div>24hrs</div>}
-              </MenuItem>
-              <MenuItem onClick={handleClickMode}>
-                Calendar start:&nbsp;
-                {modeStyle === 0 ? (
-                  <div> Today</div>
-                ) : modeStyle === 1 ? (
-                  <div> Sun</div>
-                ) : (
-                  <div> Mon</div>
-                )}
-              </MenuItem>
-              <MenuItem onClick={handleClickTaskName}>
-                Task name display:&nbsp;
-                {taskNameStyle === 0 ? (
-                  <div> Top of grid</div>
-                ) : taskNameStyle === 1 ? (
-                  <div> Center of grid</div>
-                ) : (
-                  <div> Bottom of grid</div>
-                )}
-              </MenuItem>
-              <MenuItem onClick={handleCloseCalendarSettings}>
-                Min Interval: lorem ipsum lorem ispum
-              </MenuItem> */}
             </Menu>
           </Toolbar>
         </AppBar>

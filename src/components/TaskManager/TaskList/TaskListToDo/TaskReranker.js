@@ -55,7 +55,7 @@ function TaskReranker(props) {
     currTask.taskRank = swappedRank;
     swappedTask.taskRank = currRank;
     // call sort here to resort entire array by taskRank
-    // list.sort((a, b) => (a.color > b.color) ? 1 : -1)
+    // example use of .sort(): list.sort((a, b) => (a.color > b.color) ? 1 : -1)
     arrayForRerankingTasks.sort((a, b) => (a.taskRank > b.taskRank ? 1 : -1));
   }
 

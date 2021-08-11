@@ -7,8 +7,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import grey from "@material-ui/core/colors/grey";
 
 function TaskGrid(props) {
-  // fields: start time, end time, color (passed in from CalendarGrid)
-
   const {
     taskName,
     startTime,
