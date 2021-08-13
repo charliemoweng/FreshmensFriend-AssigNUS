@@ -6,7 +6,10 @@ import TaskManager from "../components/TaskManager/TaskManager/TaskManager";
 import { firebase } from "@firebase/app";
 import addNotification from "react-push-notification";
 import DateFnsUtils from "@date-io/date-fns";
-import { subHours, parseISO, format } from "date-fns";
+import { subHours } from "date-fns";
+import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
+import parseJSON from "date-fns/parseJSON";
 
 function PageAssigNUS() {
   //console.log("page assignus called");
@@ -87,7 +90,7 @@ function PageAssigNUS() {
   }, []);
 
   // clock displaying current time
-  const [currTime, setCurrTime] = useState(new Date().toLocaleString());
+  const [currTime, setCurrTime] = useState(new Date().toString());
 
   // prop checking if rankTasks window is open
   const [rankIsOpen, setRankIsOpen] = useState(false);
