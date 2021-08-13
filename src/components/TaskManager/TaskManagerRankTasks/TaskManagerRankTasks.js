@@ -75,10 +75,23 @@ function TaskManagerRankTasks(props) {
       event.preventDefault();
 
       // local copy of tasks array
-      const tasksByDue = [...tasks];
+      const tasksCopy = [...tasks];
+      const tasksByDue = [];
+      tasksCopy.forEach((element) => {
+        if (!element.taskComplete) {
+          // only include incomplete tasks first
+          tasksByDue.push(element);
+        }
+      });
       const newArray = tasksByDue.sort((a, b) =>
         a.taskDue > b.taskDue ? 1 : -1
       );
+      // now include the completed tasks to the back of newArray
+      tasksCopy.forEach((element) => {
+        if (element.taskComplete) {
+          newArray.push(element);
+        }
+      });
       for (var i = 0; i < newArray.length; i++) {
         newArray[i].taskRank = i + 1;
       }
@@ -92,24 +105,33 @@ function TaskManagerRankTasks(props) {
       // local copy
       const tasksByMod = [...tasks];
       const modArray = [...modules];
-      const newTasksArray = [];
+      const newArray = [];
 
       // sorting tasks by their module
       modArray.forEach((elementMod) => {
-        // for each mod starting from first, look for tasks with that mod and add to newTasksArray
+        // for each mod starting from first, look for incomplete tasks with that mod and add to newTasksArray
         const currModName = elementMod.modName;
         tasksByMod.forEach((elementTask) => {
           if (elementTask.taskMod === currModName) {
-            newTasksArray.push(elementTask);
+            if (!elementTask.taskComplete) {
+              // task is not completed
+              newArray.push(elementTask);
+            }
           }
         });
       });
+      // then add all mods that are completed
+      tasksByMod.forEach((element) => {
+        if (element.taskComplete) {
+          newArray.push(element);
+        }
+      });
 
       // rerank tasks in newTasksArray
-      for (var i = 0; i < newTasksArray.length; i++) {
-        newTasksArray[i].taskRank = i + 1;
+      for (var i = 0; i < newArray.length; i++) {
+        newArray[i].taskRank = i + 1;
       }
-      setTasks(newTasksArray);
+      setTasks(newArray);
       onClose("Module");
     }
 
@@ -117,11 +139,24 @@ function TaskManagerRankTasks(props) {
       event.preventDefault();
 
       // local copy
-      const tasksByName = [...tasks];
+      const tasksCopy = [...tasks];
+      const tasksByName = [];
+      tasksCopy.forEach((element) => {
+        if (!element.taskComplete) {
+          // first include all incomplete tasks
+          tasksByName.push(element);
+        }
+      });
       const newArray = tasksByName.sort((a, b) =>
         a.taskName > b.taskName ? 1 : -1
       );
 
+      // then add all mods that are completed
+      tasksCopy.forEach((element) => {
+        if (element.taskComplete) {
+          newArray.push(element);
+        }
+      });
       // rerank tasks
       for (var i = 0; i < newArray.length; i++) {
         newArray[i].taskRank = i + 1;
@@ -134,8 +169,15 @@ function TaskManagerRankTasks(props) {
       event.preventDefault();
 
       // local copy of tasks array
-      const tasksByImpt = [...tasks];
+      const tasksCopy = [...tasks];
       const modArray = [...modules];
+      const tasksByImpt = [];
+      tasksCopy.forEach((element) => {
+        if (!element.taskComplete) {
+          // first add the incomplete tasks
+          tasksByImpt.push(element);
+        }
+      });
       const newArray = tasksByImpt.sort((a, b) =>
         a.taskDue > b.taskDue
           ? 1
@@ -146,6 +188,13 @@ function TaskManagerRankTasks(props) {
           ? 1
           : -1
       );
+      // then add all completed tasks to the end of newArray
+      tasksCopy.forEach((element) => {
+        if (element.taskComplete) {
+          newArray.push(element);
+        }
+      });
+      // reranking
       for (var i = 0; i < newArray.length; i++) {
         newArray[i].taskRank = i + 1;
       }
