@@ -2,6 +2,8 @@
 
 Hi, and welcome to AssigNUS by Freshmen's Friend, an NUS-focused platform for students to plan and manage their tasks.
 
+[Here](https://freshmens-friend-assignus.vercel.app/) is the webpage. Feel free to take a look and use it! 😄
+
 Functions supported:
 
 1. Input Modules that a student is currently taking;
